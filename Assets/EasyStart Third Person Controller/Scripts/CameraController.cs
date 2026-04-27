@@ -24,10 +24,13 @@ public class CameraController : MonoBehaviour
 
     [Tooltip("Camera Y rotation limits. The X axis is the maximum it can go up and the Y axis is the maximum it can go down.")]
     public Vector2 cameraLimit = new Vector2(-45, 40);
+    [Tooltip("Camera X rotation limits. The X axis is the maximum it can go left and the Y axis is the maximum it can go right.")]
+    public Vector2 cameraRotationLimit = new Vector2(-40, 40);
 
     float mouseX;
     float mouseY;
     float offsetDistanceY;
+    float offsetDistanceZ;
 
     Transform player;
 
@@ -36,6 +39,7 @@ public class CameraController : MonoBehaviour
 
         player = GameObject.FindWithTag("Player").transform;
         offsetDistanceY = transform.position.y;
+        offsetDistanceZ = transform.position.z;
 
         // Lock and hide cursor with option isn't checked
         if ( ! clickToMoveCamera )
@@ -51,7 +55,7 @@ public class CameraController : MonoBehaviour
     {
 
         // Follow player - camera offset
-        transform.position = player.position + new Vector3(0, offsetDistanceY, 0);
+        transform.position = player.position + new Vector3(0, offsetDistanceY, offsetDistanceZ);
 
         // Set camera zoom when mouse wheel is scrolled
         if( canZoom && Input.GetAxis("Mouse ScrollWheel") != 0 )
