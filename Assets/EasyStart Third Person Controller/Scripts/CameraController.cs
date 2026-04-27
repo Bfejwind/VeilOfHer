@@ -24,8 +24,6 @@ public class CameraController : MonoBehaviour
 
     [Tooltip("Camera Y rotation limits. The X axis is the maximum it can go up and the Y axis is the maximum it can go down.")]
     public Vector2 cameraLimit = new Vector2(-45, 40);
-    [Tooltip("Camera X rotation limits. The X axis is the maximum it can go left and the Y axis is the maximum it can go right.")]
-    public Vector2 cameraRotationLimit = new Vector2(-40, 40);
 
     float mouseX;
     float mouseY;
