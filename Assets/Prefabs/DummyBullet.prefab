@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 2961623025016527712}
   m_Layer: 0
   m_Name: DummyBullet
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -156,6 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39dbbcb0fbe1d98448e92a5b5c522a08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bullet
+  visionRangeLight: {fileID: 0}
 --- !u!96 &2961623025016527712
 TrailRenderer:
   serializedVersion: 4
