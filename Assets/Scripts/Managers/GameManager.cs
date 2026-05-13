@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
                 {
                     lightRadius.range = lightMin;
                 }
-                Debug.Log("Light range: " + lightRadius.range);
+                //Debug.Log("Light range: " + lightRadius.range);
                 yield return new WaitForSeconds(interval);
             }
             else
