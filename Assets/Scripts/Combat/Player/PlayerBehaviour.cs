@@ -26,7 +26,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             //Clicking once right mouse
             shieldDeployed = Input.GetKeyDown(KeyCode.Mouse1);
-            Debug.Log("Right Clicked");
+            //Debug.Log("Right Clicked");
         }
         if (shieldReady && shieldDeployed)
         {
@@ -38,7 +38,7 @@ public class PlayerBehaviour : MonoBehaviour
         if (other.gameObject.CompareTag("Bullet"))
         {
             reflectProjectile = other.gameObject;
-            Debug.Log("Acquired: "+ other.gameObject.name);
+            //Debug.Log("Acquired: "+ other.gameObject.name);
             if (shieldDeployed)
             {
                 Rigidbody reflectProjectileRB = reflectProjectile.GetComponent<Rigidbody>();

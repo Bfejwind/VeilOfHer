@@ -1,17 +1,16 @@
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class EnemyBullet : MonoBehaviour
 {
     //[Header("Layers")]
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Target"))
+        if (collision.gameObject.CompareTag("Environment"))
         {
             //print("hit" + collision.gameObject.name);
-            GameManager.Instance.ChangeLightRadius(2.0f);
             Destroy(gameObject);
         }
-        if (collision.gameObject.CompareTag("Environment"))
+        if (collision.gameObject.CompareTag("Player"))
         {
             //print("hit" + collision.gameObject.name);
             Destroy(gameObject);

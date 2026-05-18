@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 2851418796564010898}
   - component: {fileID: 928300206928201898}
   - component: {fileID: 1978543899780434570}
-  - component: {fileID: 3274066650187475610}
   - component: {fileID: 2961623025016527712}
+  - component: {fileID: 1984635872369587303}
   m_Layer: 0
   m_Name: EnemyBullet
   m_TagString: Bullet
@@ -144,18 +144,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 2
---- !u!114 &3274066650187475610
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2877888806307607821}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39dbbcb0fbe1d98448e92a5b5c522a08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Bullet
 --- !u!96 &2961623025016527712
 TrailRenderer:
   serializedVersion: 4
@@ -275,3 +263,15 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
+--- !u!114 &1984635872369587303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2877888806307607821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3644954c79bdfec439926dee7ee82cd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyBullet
