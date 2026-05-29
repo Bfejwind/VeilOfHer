@@ -63,7 +63,7 @@ public class FloatCodeBehaviour : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Bullet"))
         {
-            print("hit" + collision.gameObject.name);
+            //print("hit" + collision.gameObject.name);
             Destroy(gameObject);
         }
     }

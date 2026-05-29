@@ -1,7 +1,5 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerBehaviour : MonoBehaviour
 {
@@ -20,32 +18,32 @@ public class PlayerBehaviour : MonoBehaviour
 
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if (shieldReady && !shieldDeployed)
         {
             //Clicking once right mouse
             shieldDeployed = Input.GetKeyDown(KeyCode.Mouse1);
-            //Debug.Log("Right Clicked");
         }
         if (shieldReady && shieldDeployed)
         {
+            Debug.Log("Right Clicked");
             StartCoroutine(Shield());
         }
     }
-    void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.CompareTag("Bullet"))
-        {
-            reflectProjectile = other.gameObject;
-            //Debug.Log("Acquired: "+ other.gameObject.name);
-            if (shieldDeployed)
-            {
-                Rigidbody reflectProjectileRB = reflectProjectile.GetComponent<Rigidbody>();
-            }
+    // void OnTriggerStay(Collider other)
+    // {
+    //     if (other.gameObject.CompareTag("Bullet"))
+    //     {
+    //         reflectProjectile = other.gameObject;
+    //         //Debug.Log("Acquired: "+ other.gameObject.name);
+    //         if (shieldDeployed)
+    //         {
+    //             Rigidbody reflectProjectileRB = reflectProjectile.GetComponent<Rigidbody>();
+    //         }
             
-        }
-    }
+    //     }
+    // }
     IEnumerator Shield()
     {
         shieldObject.SetActive(true);

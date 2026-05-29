@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
         //Clamp light radius
         lightRadius.range = Mathf.Clamp(lightRadius.range,7,20);
 
-        StartCoroutine(ReduceVision(2.0f,1.0f));
+        StartCoroutine(ReduceVision(3.0f,1.0f));
     }
     private IEnumerator ReduceVision(float interval, float amount)
     {

@@ -9,10 +9,11 @@ public class FirstPersonMovement : MonoBehaviour
     public bool canRun = true;
     public bool IsRunning { get; private set; }
     public float runSpeed = 9;
+    public float finalSpeed;
     public KeyCode runningKey = KeyCode.LeftShift;
 
     Rigidbody rigidbody;
-    /// <summary> Functions to override movement speed. Will use the last added override. </summary>
+    /// <summary> Functions to apply modifiers to movement speed. </summary>
     public List<System.Func<float>> speedOverrides = new List<System.Func<float>>();
 
 
@@ -21,6 +22,7 @@ public class FirstPersonMovement : MonoBehaviour
     {
         // Get the rigidbody on this.
         rigidbody = GetComponent<Rigidbody>();
+        finalSpeed = runSpeed;
     }
 
     void FixedUpdate()
@@ -32,7 +34,11 @@ public class FirstPersonMovement : MonoBehaviour
         float targetMovingSpeed = IsRunning ? runSpeed : speed;
         if (speedOverrides.Count > 0)
         {
-            targetMovingSpeed = speedOverrides[speedOverrides.Count - 1]();
+            foreach (var overrideFunc in speedOverrides)
+            {
+                finalSpeed = overrideFunc();
+            }
+            //If you only want last function -- targetMovingSpeed = speedOverrides[speedOverrides.Count - 1]();
         }
 
         // Get targetVelocity from input.
