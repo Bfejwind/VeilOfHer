@@ -11,6 +11,9 @@ public class FirstPersonMovement : MonoBehaviour
     public float runSpeed = 9;
     public float finalSpeed;
     public KeyCode runningKey = KeyCode.LeftShift;
+    [Header("Dashing")]
+    public float dashSpeed;
+    public bool dashing ;
 
     Rigidbody rigidbody;
     /// <summary> Functions to apply modifiers to movement speed. </summary>
@@ -22,7 +25,8 @@ public class FirstPersonMovement : MonoBehaviour
     {
         // Get the rigidbody on this.
         rigidbody = GetComponent<Rigidbody>();
-        finalSpeed = runSpeed;
+        finalSpeed = speed;
+        dashing = false;
     }
 
     void FixedUpdate()
@@ -32,13 +36,14 @@ public class FirstPersonMovement : MonoBehaviour
 
         // Get targetMovingSpeed.
         float targetMovingSpeed = IsRunning ? runSpeed : speed;
+        //If dashing
+        if (dashing)
+        {
+            targetMovingSpeed *= dashSpeed;
+        }
         if (speedOverrides.Count > 0)
         {
-            foreach (var overrideFunc in speedOverrides)
-            {
-                finalSpeed = overrideFunc();
-            }
-            //If you only want last function -- targetMovingSpeed = speedOverrides[speedOverrides.Count - 1]();
+            targetMovingSpeed = speedOverrides[speedOverrides.Count - 1]();
         }
 
         // Get targetVelocity from input.
@@ -47,4 +52,5 @@ public class FirstPersonMovement : MonoBehaviour
         // Apply movement.
         rigidbody.linearVelocity = transform.rotation * new Vector3(targetVelocity.x, rigidbody.linearVelocity.y, targetVelocity.y);
     }
+
 }

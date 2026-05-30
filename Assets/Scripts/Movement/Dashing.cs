@@ -6,7 +6,8 @@ public class Dashing : MonoBehaviour
     public Transform orientation;
     public Transform playerCam;
     private Rigidbody rb;
-    private FirstPersonMovement pmScript;
+    private PlayerMovement pmScript;
+    private Vector3 delayedForceToApply;
     
     [Header("Dashing")]
     public float dashForce;
@@ -23,25 +24,48 @@ public class Dashing : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        pmScript = GetComponent<FirstPersonMovement>();
+        pmScript = GetComponent<PlayerMovement>();
     }
     private void Update()
     {
         if (Input.GetKeyDown(dashKey))
         {
+            Debug.Log("Dashing");
             Dash();
+        }
+        if (dashCdTimer > 0)
+        {
+            dashCdTimer -= Time.deltaTime;
         }
     }
 
     private void Dash()
     {
-        Vector3 forceToApply = orientation.forward * dashForce + orientation.up * dashUpwardsForce;
-        rb.AddForce(forceToApply,ForceMode.Impulse);
+        
+        if (dashCdTimer > 0) return;
+        else dashCdTimer = dashCd;
+
+        pmScript.dashing = true;
+        if (pmScript.moveDirection == Vector3.zero)
+        {
+             Vector3 forceToApply = orientation.forward * dashForce + orientation.forward * dashUpwardsForce;
+             delayedForceToApply = forceToApply;
+        }
+        else
+        {
+            Vector3 forceToApply = pmScript.moveDirection * dashForce + pmScript.moveDirection * dashUpwardsForce;
+            delayedForceToApply = forceToApply;
+        }
+        Invoke(nameof(DelayedDashForce),0.025f);
 
         Invoke(nameof(ResetDash),dashDuration);
     }
     private void ResetDash()
     {
-        
+        pmScript.dashing = false;
     } 
+    private void DelayedDashForce()
+    {
+        rb.AddForce(delayedForceToApply, ForceMode.Impulse);
+    }
 }
