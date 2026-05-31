@@ -13,6 +13,11 @@ public class Dashing : MonoBehaviour
     public float dashForce;
     public float dashUpwardsForce;
     public float dashDuration;
+    [Header("Settings")]
+    public bool useCameraForward;
+    public bool allowAllDirections;
+    public bool disableGravity;
+    
 
     [Header("Cooldown")]
     public float dashCd;

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public float walkSpeed;
     public float sprintSpeed;
     public float dashSpeed;
+    public float dashSpeedChangeFactor;
     public bool dashing;
 
     public float groundDrag;
@@ -43,6 +45,10 @@ public class PlayerMovement : MonoBehaviour
     float verticalInput;
 
     public Vector3 moveDirection;
+    private float desiredMoveSpeed;
+    private float lastDesiredMoveSpeed;
+    private MovementState lastState;
+    private bool keepMomentum;
 
     Rigidbody rb;
     public MovementState state;
@@ -91,30 +97,72 @@ public class PlayerMovement : MonoBehaviour
         if (dashing)
         {
             state = MovementState.dashing;
-            moveSpeed = dashSpeed;
+            desiredMoveSpeed = dashSpeed;
+            speedChangeFactor = dashSpeedChangeFactor;
         }
         //Mode - crouching
         else if (Input.GetKey(crouchKey))
         {
             state = MovementState.crouching;
-            moveSpeed = crouchSpeed;
+            desiredMoveSpeed = crouchSpeed;
         }
         //Mode - sprinting
         if (grounded && Input.GetKey(sprintKey))
         {
             state = MovementState.sprinting;
-            moveSpeed = sprintSpeed;
+            desiredMoveSpeed = sprintSpeed;
         }
         //Mode - walking
         else if (grounded)
         {
             state = MovementState.walking;
-            moveSpeed = walkSpeed;
+            desiredMoveSpeed = walkSpeed;
         }
         else
         {
             state = MovementState.air;
+            if (desiredMoveSpeed < walkSpeed)
+                desiredMoveSpeed = walkSpeed;
+            else
+            {
+                desiredMoveSpeed = sprintSpeed;
+            }
         }
+        bool desiredMoveSpeedHasChanged = desiredMoveSpeed != lastDesiredMoveSpeed;
+        if (lastState == MovementState.dashing) keepMomentum = true;
+        if (desiredMoveSpeedHasChanged)
+        {
+            if (keepMomentum)
+            {
+                StopAllCoroutines();
+                StartCoroutine(SmoothlyLerpMoveSpeed());
+            }
+            else
+            {
+                moveSpeed = desiredMoveSpeed;
+            }
+        }
+        lastDesiredMoveSpeed = desiredMoveSpeed;
+        lastState = state;
+    }
+    private float speedChangeFactor;
+    private IEnumerator SmoothlyLerpMoveSpeed()
+    {
+        float time = 0;
+        float difference = Mathf.Abs(desiredMoveSpeed - moveSpeed);
+        float startValue = moveSpeed;
+
+        speedChangeFactor = difference / 10f;
+
+        while (time < difference)
+        {
+            moveSpeed = Mathf.Lerp(startValue, desiredMoveSpeed, time / difference);
+            time += Time.deltaTime * speedChangeFactor;
+
+            yield return null;
+        }
+        moveSpeed = desiredMoveSpeed;
+        keepMomentum = false;
     }
 
     private void MyInput()
