@@ -195,7 +195,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 2
+      m_SerializableObject: 3
     m_Space: -1
   m_Property:
     name: Rate
@@ -902,7 +902,7 @@ MonoBehaviour:
   compositionPosition: 0
   compositionAxes: 0
   compositionDirection: 0
-  positionMode: 0
+  positionMode: 1
   spawnMode: 0
   shape: 0
   heightMode: 1
@@ -936,7 +936,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEditor.VFX.TArcSphere, Unity.VisualEffectGraph.Editor,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"sphere":{"transform":{"position":{"x":0.0,"y":0.0,"z":0.0},"angles":{"x":0.0,"y":0.0,"z":90.0},"scale":{"x":1.0,"y":1.0,"z":1.0}},"radius":0.07000000029802323},"arc":6.28000020980835}'
+      m_SerializableObject: '{"sphere":{"transform":{"position":{"x":0.0,"y":0.0,"z":0.0},"angles":{"x":0.0,"y":0.0,"z":90.0},"scale":{"x":1.0,"y":1.0,"z":1.0}},"radius":5.170000076293945},"arc":6.28000020980835}'
     m_Space: 0
   m_Property:
     name: arcSphere
@@ -1609,7 +1609,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector2, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":2.0,"y":3.0}'
+      m_SerializableObject: '{"x":10.0,"y":15.0}'
     m_Space: -1
   m_Property:
     name: Count

@@ -3,16 +3,16 @@ using UnityEngine;
 public class EnemyBullet : MonoBehaviour
 {
     //[Header("Layers")]
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("Environment"))
+        if (other.gameObject.CompareTag("Environment"))
         {
-            //print("hit" + collision.gameObject.name);
+            //print("hit" + other.gameObject.name);
             Destroy(gameObject);
         }
-        if (collision.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
-            //print("hit" + collision.gameObject.name);
+            //print("hit" + other.gameObject.name);
             Destroy(gameObject);
         }
     }

@@ -20,9 +20,9 @@ public class PlayerHealth : MonoBehaviour
         playerHealth -= amount;
         healthSlider.value = playerHealth;
     }
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("Bullet"))
+        if (other.gameObject.CompareTag("Bullet"))
         {
             if (Shield.activeSelf)
             {
