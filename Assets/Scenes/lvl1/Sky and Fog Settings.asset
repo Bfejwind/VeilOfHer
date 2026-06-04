@@ -1051,13 +1051,13 @@ MonoBehaviour:
   m_Version: 1
   skyType:
     m_OverrideState: 1
-    m_Value: 4
+    m_Value: 1
   cloudType:
     m_OverrideState: 1
     m_Value: 0
   skyAmbientMode:
     m_OverrideState: 0
-    m_Value: 1
+    m_Value: 0
   planetRadius:
     m_OverrideState: 1
     m_Value: 6378.1
@@ -1172,7 +1172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a6b00fcf518bb94a90b408492e07b44, type: 3}
   m_Name: FilmGrain
   m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.FilmGrain
-  active: 0
+  active: 1
   type:
     m_OverrideState: 1
     m_Value: 0
