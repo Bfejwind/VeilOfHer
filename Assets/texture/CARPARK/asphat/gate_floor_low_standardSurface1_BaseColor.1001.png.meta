@@ -1,12 +1,5 @@
 fileFormatVersion: 2
-guid: a87cbf62329d56d4681d92302095915c
-AssetOrigin:
-  serializedVersion: 1
-  productId: 139542
-  packageName: Terrain Textures Pack Free
-  packageVersion: 1.0
-  assetPath: Assets/TerrainTexturesPackFree/TerrainTextures/GroundCracked01.png
-  uploadId: 293989
+guid: ca7ac31672fb9134fafed0be145a3b94
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -70,9 +63,9 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   ignorePngGamma: 0
-  applyGammaDecoding: 1
+  applyGammaDecoding: 0
   swizzle: 50462976
-  cookieLightType: 1
+  cookieLightType: 0
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform

@@ -1,12 +1,5 @@
 fileFormatVersion: 2
-guid: a87cbf62329d56d4681d92302095915c
-AssetOrigin:
-  serializedVersion: 1
-  productId: 139542
-  packageName: Terrain Textures Pack Free
-  packageVersion: 1.0
-  assetPath: Assets/TerrainTexturesPackFree/TerrainTextures/GroundCracked01.png
-  uploadId: 293989
+guid: a25402daa2e054148bd88e373096862e
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -58,7 +51,7 @@ TextureImporter:
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
-  alphaUsage: 0
+  alphaUsage: 1
   alphaIsTransparency: 0
   spriteTessellationDetail: -1
   textureType: 0
@@ -70,13 +63,13 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   ignorePngGamma: 0
-  applyGammaDecoding: 1
+  applyGammaDecoding: 0
   swizzle: 50462976
-  cookieLightType: 1
+  cookieLightType: 0
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1

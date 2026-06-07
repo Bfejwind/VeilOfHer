@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
 
-[ExecuteAlways]
 [RequireComponent(typeof(Camera))]
 public class HDRPCameraGlitchEffect : MonoBehaviour
 {
@@ -46,7 +45,7 @@ public class HDRPCameraGlitchEffect : MonoBehaviour
     public float lineAppearChance = 0.35f;
 
     private Volume volume;
-    private VolumeProfile profile;
+    private VolumeProfile runtimeProfile;
 
     private ChromaticAberration chromatic;
     private FilmGrain filmGrain;
@@ -56,6 +55,12 @@ public class HDRPCameraGlitchEffect : MonoBehaviour
 
     private Texture2D whiteTexture;
 
+    void Awake()
+    {
+        SetupVolume();
+        SetupLineTexture();
+    }
+
     void OnEnable()
     {
         SetupVolume();
@@ -64,10 +69,20 @@ public class HDRPCameraGlitchEffect : MonoBehaviour
 
     void Update()
     {
-        if (volume == null || profile == null)
+        if (volume == null || runtimeProfile == null)
             SetupVolume();
 
         ApplyEffect();
+    }
+
+    void OnDisable()
+    {
+        Cleanup();
+    }
+
+    void OnDestroy()
+    {
+        Cleanup();
     }
 
     void SetupVolume()
@@ -80,28 +95,29 @@ public class HDRPCameraGlitchEffect : MonoBehaviour
         volume.isGlobal = true;
         volume.priority = 999f;
 
-        if (profile == null)
+        if (runtimeProfile == null)
         {
-            profile = ScriptableObject.CreateInstance<VolumeProfile>();
-            profile.name = "Runtime Camera Glitch Profile";
+            runtimeProfile = ScriptableObject.CreateInstance<VolumeProfile>();
+            runtimeProfile.name = "Runtime Camera Glitch Profile";
         }
 
-        volume.sharedProfile = profile;
+        // Safer than sharedProfile for runtime-created profile.
+        volume.profile = runtimeProfile;
 
-        if (!profile.TryGet(out chromatic))
-            chromatic = profile.Add<ChromaticAberration>(true);
+        if (!runtimeProfile.TryGet(out chromatic))
+            chromatic = runtimeProfile.Add<ChromaticAberration>(true);
 
-        if (!profile.TryGet(out filmGrain))
-            filmGrain = profile.Add<FilmGrain>(true);
+        if (!runtimeProfile.TryGet(out filmGrain))
+            filmGrain = runtimeProfile.Add<FilmGrain>(true);
 
-        if (!profile.TryGet(out vignette))
-            vignette = profile.Add<Vignette>(true);
+        if (!runtimeProfile.TryGet(out vignette))
+            vignette = runtimeProfile.Add<Vignette>(true);
 
-        if (!profile.TryGet(out lensDistortion))
-            lensDistortion = profile.Add<LensDistortion>(true);
+        if (!runtimeProfile.TryGet(out lensDistortion))
+            lensDistortion = runtimeProfile.Add<LensDistortion>(true);
 
-        if (!profile.TryGet(out bloom))
-            bloom = profile.Add<Bloom>(true);
+        if (!runtimeProfile.TryGet(out bloom))
+            bloom = runtimeProfile.Add<Bloom>(true);
     }
 
     void SetupLineTexture()
@@ -110,17 +126,21 @@ public class HDRPCameraGlitchEffect : MonoBehaviour
             return;
 
         whiteTexture = new Texture2D(1, 1, TextureFormat.RGBA32, false);
+        whiteTexture.name = "Runtime White Line Texture";
         whiteTexture.SetPixel(0, 0, Color.white);
         whiteTexture.Apply();
     }
 
     void ApplyEffect()
     {
+        if (chromatic == null || filmGrain == null || vignette == null || lensDistortion == null || bloom == null)
+            return;
+
         float finalIntensity = intensity;
 
         if (useFlicker && intensity > 0f)
         {
-            float flicker = Mathf.PerlinNoise(Time.realtimeSinceStartup * flickerSpeed, 0f);
+            float flicker = Mathf.PerlinNoise(Time.time * flickerSpeed, 0f);
             flicker = Mathf.Lerp(1f - flickerAmount, 1f + flickerAmount, flicker);
             finalIntensity *= flicker;
         }
@@ -165,7 +185,7 @@ public class HDRPCameraGlitchEffect : MonoBehaviour
             SetupLineTexture();
 
         float lineIntensity = Mathf.Clamp01(intensity * lineIntensityMultiplier);
-        float time = Time.realtimeSinceStartup;
+        float time = Time.time;
 
         for (int i = 0; i < lineCount; i++)
         {
@@ -199,6 +219,27 @@ public class HDRPCameraGlitchEffect : MonoBehaviour
     float Hash(float n)
     {
         return Mathf.Repeat(Mathf.Sin(n) * 43758.5453f, 1f);
+    }
+
+    void Cleanup()
+    {
+        if (whiteTexture != null)
+        {
+            Destroy(whiteTexture);
+            whiteTexture = null;
+        }
+
+        if (runtimeProfile != null)
+        {
+            Destroy(runtimeProfile);
+            runtimeProfile = null;
+        }
+
+        chromatic = null;
+        filmGrain = null;
+        vignette = null;
+        lensDistortion = null;
+        bloom = null;
     }
 
     public void SetIntensity(float value)
