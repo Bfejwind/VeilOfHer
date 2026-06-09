@@ -50,6 +50,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Keyboard",
+                    "type": "Button",
+                    "id": "67b96496-1ccb-4286-8f07-7a03db815598",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -237,6 +246,45 @@
                     "processors": "",
                     "groups": ";KeyboardMouse",
                     "action": "DashW",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bf13ee5d-37d3-4f90-a0c3-521e81c24e4b",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardMouse",
+                    "action": "Keyboard",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Keyboard",
+            "id": "07a90974-3aee-4902-b7d4-817af418305a",
+            "actions": [
+                {
+                    "name": "Player",
+                    "type": "Button",
+                    "id": "9293057b-590c-460d-a235-b0afc462794c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "8654b823-49f4-4a9c-8809-8799f2e0ccbb",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardMouse",
+                    "action": "Player",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

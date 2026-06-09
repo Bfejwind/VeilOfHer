@@ -10,6 +10,8 @@ public class Dash : MonoBehaviour
     private bool isDashing;
     public float dashSpeed;
     public float dashTime;
+    public float dashCooldown = 3.0f;
+    private bool canDash = true;
     private KeyCode dashKey = KeyCode.LeftShift;
     void Start()
     {
@@ -17,9 +19,12 @@ public class Dash : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(dashKey))
+        if (Input.GetKeyDown(dashKey) && canDash)
         {
-            StartCoroutine(Dashing());
+            if (!isDashing)
+            {
+                StartCoroutine(Dashing());
+            }
         }
     }
     private IEnumerator Dashing()
@@ -28,10 +33,12 @@ public class Dash : MonoBehaviour
         float startTime = Time.time;
         while (Time.time < startTime + dashTime)
         {
-            Debug.Log("Dashing");
             moveScript._controller.Move(moveScript.inputDirection * (dashSpeed * Time.deltaTime));
             yield return null;
         }
         isDashing = false;
+        canDash = false;
+        yield return new WaitForSeconds(dashCooldown);
+        canDash = true;
     }
 }
