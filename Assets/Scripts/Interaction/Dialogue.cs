@@ -17,6 +17,7 @@ public class Dialogue : MonoBehaviour
     void Start()
     {
         dialogueText.text = "";
+        StartDialogue();
     }
 
     // Update is called once per frame
