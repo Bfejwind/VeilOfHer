@@ -139,7 +139,7 @@ Material:
     - Wind_Blast: 0.05
     - Wind_Intensity: 0.96
     - Wind_Ripples: 0.05
-    - Wind_Speed: 5
+    - Wind_Speed: 1
     - Wind_Turbulence: 1.7
     - Wind_Wavelength: 10
     - Wind_Yaw: 180

@@ -175,7 +175,7 @@ Material:
     - Vector1_f46ed9607e984836a16fb226b0b8a203_1: 0
     - Vector1_f88d9ae619ee48f485d69bc04006250f: 0.02
     - Wind_Blast: 0.1
-    - Wind_Intensity: 0.05
+    - Wind_Intensity: 0.08
     - Wind_Ripples: 0.05
     - Wind_Speed: 5
     - Wind_Turbulence: 0
