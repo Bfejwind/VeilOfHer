@@ -43,16 +43,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "DashW",
-                    "type": "Button",
-                    "id": "18227e57-c39c-4302-b12d-04896c7468fa",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Keyboard",
+                    "name": "Cmd",
                     "type": "Button",
                     "id": "67b96496-1ccb-4286-8f07-7a03db815598",
                     "expectedControlType": "",
@@ -240,23 +231,12 @@
                 },
                 {
                     "name": "",
-                    "id": "bebf8441-e198-4e1e-801e-3c3d61c3358d",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";KeyboardMouse",
-                    "action": "DashW",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "bf13ee5d-37d3-4f90-a0c3-521e81c24e4b",
                     "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": ";KeyboardMouse",
-                    "action": "Keyboard",
+                    "action": "Cmd",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -279,8 +259,8 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "8654b823-49f4-4a9c-8809-8799f2e0ccbb",
-                    "path": "<Keyboard>/e",
+                    "id": "2195cd71-53bb-4e64-950e-02c8805c4d96",
+                    "path": "<Keyboard>/enter",
                     "interactions": "",
                     "processors": "",
                     "groups": ";KeyboardMouse",
