@@ -33,6 +33,9 @@ public class EnemyBehaviour : MonoBehaviour
     private bool isPlayerVisible;
     private bool isPlayerInRange;
 
+    [Header("Ability Interactions")]
+    private bool isStunned;
+
     private void Awake()
     {
         if (playerTransform == null)
@@ -152,10 +155,23 @@ public class EnemyBehaviour : MonoBehaviour
             StartCoroutine(AttackCooldownRoutine());
         }
     }
-    //State Machine - Patrol,Chase,Attack
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Lockdown"))
+        {
+            Debug.Log("Stunned");
+            isStunned = true;
+        }
+    }
+    //State Machine - Lockeddown,Patrol,Chase,Attack
     private void UpdateBehaviourState()
     {
-        if (!isPlayerVisible && !isPlayerInRange)
+        if (isStunned)
+        {
+            navAgent.SetDestination(transform.position);
+            return;
+        }
+        else if (!isPlayerVisible && !isPlayerInRange)
         {
             PerformPatrol();
         }
