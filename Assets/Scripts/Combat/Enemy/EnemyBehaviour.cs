@@ -163,6 +163,14 @@ public class EnemyBehaviour : MonoBehaviour
             isStunned = true;
         }
     }
+    void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Lockdown"))
+        {
+            Debug.Log("Released");
+            isStunned = false;
+        }
+    }
     //State Machine - Lockeddown,Patrol,Chase,Attack
     private void UpdateBehaviourState()
     {

@@ -9,12 +9,14 @@ public class CMD : MonoBehaviour
     [SerializeField] private TMPro.TMP_InputField cmdInputField; 
     private string cmdInput;
     [SerializeField] private float slowTimeScale = 0.1f; // The time scale to set when CMD is active
-    public ControlAbility1 controlAbility;
+    //public ControlAbility1 controlAbility;
+    public CommandCaster commandCast;
     void Start()
     {
         cmdKeyboard.SetActive(false);
         playerInput = GetComponent<PlayerInput>();
-        controlAbility = GetComponent<ControlAbility1>();
+        commandCast = GetComponent<CommandCaster>();
+        //controlAbility = GetComponent<ControlAbility1>();
     }
     public void OnCmd()
     {
@@ -34,10 +36,11 @@ public class CMD : MonoBehaviour
         //Switch control map to Player action map
         playerInput.SwitchCurrentActionMap("Player");
         cmdKeyboard.SetActive(false);
-        if (cmdInput == "lockdown")
-        {
-            controlAbility.ActivateAbility();
-        }
+        commandCast.ExecuteCommand(cmdInput);
+        // if (cmdInput == "lockdown")
+        // {
+        //     controlAbility.ActivateAbility();
+        // }
     }
 
     // Update is called once per frame

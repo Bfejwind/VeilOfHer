@@ -8,7 +8,7 @@ public class Bullet : MonoBehaviour
         if (other.gameObject.CompareTag("Target"))
         {
             //print("hit" + other.gameObject.name);
-            GameManager.Instance.ChangeLightRadius(2.0f);
+            //GameManager.Instance.ChangeLightRadius(2.0f);
             Destroy(gameObject);
         }
         if (other.gameObject.CompareTag("Environment"))

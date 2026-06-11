@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8868422986132643473}
   - component: {fileID: 3251607080490185495}
   - component: {fileID: 1837650206265494615}
+  - component: {fileID: 1708127738783655530}
   m_Layer: 0
   m_Name: ControlTriggerZone
   m_TagString: Lockdown
@@ -113,6 +114,20 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1708127738783655530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 561155185329637842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf53d615ed20ddd419dfeefe71ebf2a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LockdownAbility
+  radius: 0.5
+  duration: 3
 --- !u!1001 &5359499063290302427
 PrefabInstance:
   m_ObjectHideFlags: 0
