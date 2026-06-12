@@ -67,6 +67,14 @@ public class CommandCaster : MonoBehaviour
             var bubbleLogic = bubble.GetComponent<LockdownAbility>(); 
             bubbleLogic.radius = control.bubbleRadius;
             bubbleLogic.duration = control.bubbleDuration;
+            return;
+        }
+        if (ability is AOEAbilityData aoe)
+        {
+            GameObject aoePrefab = Instantiate(aoe.aoeImpactPrefab, targetPoint,Quaternion.identity);
+            var aoeLogic = aoePrefab.GetComponent<AOEExplosionAnim>();
+            Debug.Log("AOE activated");
+            aoeLogic.StartExplosion();
         }
     }
     private Vector3 GetTargetPoint()

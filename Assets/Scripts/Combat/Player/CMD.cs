@@ -16,7 +16,6 @@ public class CMD : MonoBehaviour
         cmdKeyboard.SetActive(false);
         playerInput = GetComponent<PlayerInput>();
         commandCast = GetComponent<CommandCaster>();
-        //controlAbility = GetComponent<ControlAbility1>();
     }
     public void OnCmd()
     {
@@ -36,11 +35,8 @@ public class CMD : MonoBehaviour
         //Switch control map to Player action map
         playerInput.SwitchCurrentActionMap("Player");
         cmdKeyboard.SetActive(false);
+        //Call the command
         commandCast.ExecuteCommand(cmdInput);
-        // if (cmdInput == "lockdown")
-        // {
-        //     controlAbility.ActivateAbility();
-        // }
     }
 
     // Update is called once per frame
