@@ -110,7 +110,7 @@ MonoBehaviour:
     x: 680
     y: -492
     width: 475
-    height: 2240
+    height: 2297
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1502,7 +1502,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 9
+      m_SerializableObject: 5
     m_Space: -1
   m_Property:
     name: frameRate
@@ -2087,7 +2087,7 @@ MonoBehaviour:
   colorMapping: 0
   uvMode: 1
   flipbookLayout: 0
-  flipbookBlendFrames: 0
+  flipbookBlendFrames: 1
   flipbookMotionVectors: 0
   useSoftParticle: 1
   vfxSystemSortPriority: 0
