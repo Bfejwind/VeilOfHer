@@ -64,7 +64,7 @@ public class CommandCaster : MonoBehaviour
         if (ability is ControlAbilityData control)
         {
             GameObject bubble = Instantiate(control.bubblePrefab, targetPoint, Quaternion.identity);
-            var bubbleLogic = bubble.GetComponent<LockdownAbility>(); //Change this after changing the script name
+            var bubbleLogic = bubble.GetComponent<LockdownAbility>(); 
             bubbleLogic.radius = control.bubbleRadius;
             bubbleLogic.duration = control.bubbleDuration;
         }

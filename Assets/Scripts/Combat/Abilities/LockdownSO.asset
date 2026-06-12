@@ -19,6 +19,6 @@ MonoBehaviour:
   range: 20
   bubblePrefab: {fileID: 561155185329637842, guid: f10a123afaaceb84c8a1ee41d023e5c2, type: 3}
   bubbleRadius: 0.5
-  bubbleDuration: 6
+  bubbleDuration: 5
   stopMovement: 0
   stopAttacking: 0

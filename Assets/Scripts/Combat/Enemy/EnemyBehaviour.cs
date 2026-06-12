@@ -34,7 +34,9 @@ public class EnemyBehaviour : MonoBehaviour
     private bool isPlayerInRange;
 
     [Header("Ability Interactions")]
-    private bool isStunned;
+    public int controlEffects;
+    public bool canMove => controlEffects == 0;
+    public bool canAttack => controlEffects == 0;
 
     private void Awake()
     {
@@ -143,6 +145,10 @@ public class EnemyBehaviour : MonoBehaviour
     private void PerformAttack()
     {
         navAgent.SetDestination(transform.position);
+        if (!canAttack)
+        {
+            return;
+        }
 
         if (playerTransform != null)
         {
@@ -155,41 +161,45 @@ public class EnemyBehaviour : MonoBehaviour
             StartCoroutine(AttackCooldownRoutine());
         }
     }
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Lockdown"))
-        {
-            Debug.Log("Stunned");
-            isStunned = true;
-        }
-    }
-    void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("Lockdown"))
-        {
-            Debug.Log("Released");
-            isStunned = false;
-        }
-    }
+    // void OnTriggerEnter(Collider other)
+    // {
+    //     if (other.gameObject.CompareTag("Lockdown"))
+    //     {
+    //         Debug.Log("Stunned");
+    //         isStunned = true;
+    //     }
+    // }
     //State Machine - Lockeddown,Patrol,Chase,Attack
     private void UpdateBehaviourState()
     {
-        if (isStunned)
-        {
-            navAgent.SetDestination(transform.position);
-            return;
-        }
-        else if (!isPlayerVisible && !isPlayerInRange)
+        if (!isPlayerVisible && !isPlayerInRange)
         {
             PerformPatrol();
+            return;
         }
-        else if (isPlayerVisible && !isPlayerInRange)
+        if (isPlayerVisible && !isPlayerInRange)
         {
             PerformChase();
+            return;
         }
-        else if (isPlayerVisible && isPlayerInRange)
+        if (isPlayerVisible && isPlayerInRange)
         {
             PerformAttack();
+            return;
         }
+    }
+    public void ApplyControl()
+    {
+        controlEffects++;
+        UpdateMovementState();
+    }
+    public void RemoveControl()
+    {
+        controlEffects = Mathf.Max(0, controlEffects-1);
+        UpdateMovementState();
+    }
+    private void UpdateMovementState()
+    {
+        navAgent.isStopped = !canMove;
     }
 }
