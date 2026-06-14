@@ -15,6 +15,12 @@ public class CommandCaster : MonoBehaviour
     public int currentCharges;
     public float rechargeTime = 10f;
     [Space]
+    [Header("Player Stats")]
+    private PlayerBehaviour playerStats;
+    [Space]
+    [Header("Modifiers")]
+    [SerializeField]private float aoeDamageMod;
+    [Space]
     [Header("Ability Mapping")]
     private string commandInput;
     [SerializeField] private List<CommandPair> commandList;
@@ -27,6 +33,7 @@ public class CommandCaster : MonoBehaviour
     }
     private void Awake()
     {
+        playerStats = GetComponent<PlayerBehaviour>();
         commandLookup = new Dictionary<string, AbilityData>();
         foreach (var pair in commandList)
         {
@@ -72,9 +79,13 @@ public class CommandCaster : MonoBehaviour
         if (ability is AOEAbilityData aoe)
         {
             GameObject aoePrefab = Instantiate(aoe.aoeImpactPrefab, targetPoint,Quaternion.identity);
-            var aoeLogic = aoePrefab.GetComponent<AOEExplosionAnim>();
+            var aoeAnim = aoePrefab.GetComponent<AOEExplosionAnim>();
+            var aoeLogic = aoePrefab.GetComponent<AOEBehaviour>();
+            float aoeFinalDamage = (aoe.aoeBaseDamage + aoeDamageMod) * playerStats.abilityDamageMultiplier;
+            aoeLogic.AOEDamageCalc(aoeFinalDamage);
             Debug.Log("AOE activated");
-            aoeLogic.StartExplosion();
+            aoeAnim.StartExplosion();
+            return;
         }
     }
     private Vector3 GetTargetPoint()

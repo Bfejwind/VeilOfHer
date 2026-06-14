@@ -6,7 +6,7 @@ public class PlayerHealth : MonoBehaviour
     public float playerHealth,playerHealthWidth,playerHealthHeight;
     public float playerMaxHealth = 100f;
     public Slider healthSlider;
-    private float damageAmt = 12.0f;
+    // private float damageAmt = 12.0f;
     [SerializeField] private GameObject Shield;
 
     void Start()
@@ -20,19 +20,19 @@ public class PlayerHealth : MonoBehaviour
         playerHealth -= amount;
         healthSlider.value = playerHealth;
     }
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Bullet"))
-        {
-            if (Shield.activeSelf)
-            {
-                Debug.Log("Shielded");
-            }
-            else
-            {
-                Debug.Log("Hit");
-                TakeDamage(damageAmt);
-            }
-        }
-    }
+    // void OnTriggerEnter(Collider other)
+    // {
+    //     if (other.gameObject.CompareTag("Bullet"))
+    //     {
+    //         if (Shield.activeSelf)
+    //         {
+    //             Debug.Log("Shielded");
+    //         }
+    //         else
+    //         {
+    //             Debug.Log("Hit");
+    //             TakeDamage(damageAmt);
+    //         }
+    //     }
+    // }
 }

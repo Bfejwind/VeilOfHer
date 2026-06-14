@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class EnemyBullet : MonoBehaviour
 {
+    private float damage = 20.0f;
     //[Header("Layers")]
     void OnTriggerEnter(Collider other)
     {
@@ -10,9 +11,10 @@ public class EnemyBullet : MonoBehaviour
             //print("hit" + other.gameObject.name);
             Destroy(gameObject);
         }
-        if (other.gameObject.CompareTag("Player"))
+        if (other.TryGetComponent(out PlayerHealth playerHP))
         {
             //print("hit" + other.gameObject.name);
+            playerHP.TakeDamage(damage);
             Destroy(gameObject);
         }
     }

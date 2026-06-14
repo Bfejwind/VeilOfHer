@@ -9,10 +9,9 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] GameObject reflectProjectile;
     [SerializeField] GameObject shieldObject;
     [Header("Stat modifiers")]
-    public float bulletdamageMultiplier = 1f;
-    public float abilitydamageMultiplier = 1f;
+    public float bulletDamageMultiplier = 1f;
+    public float abilityDamageMultiplier = 1f;
     public float bulletDamageUpgrade;
-    public float AbilityDamageUpgrade;
 
     void Awake()
     {

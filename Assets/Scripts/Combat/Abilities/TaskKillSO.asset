@@ -19,7 +19,7 @@ MonoBehaviour:
   range: 10
   aoeImpactPrefab: {fileID: 7736319181632970551, guid: 1b81c9d5dd42791468f79509508e2027, type: 3}
   aoeRadius: 10
-  aoeDamage: 50
+  aoeBaseDamage: 50
   targetLayerMask:
     serializedVersion: 2
     m_Bits: 576

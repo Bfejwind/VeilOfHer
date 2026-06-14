@@ -60,7 +60,7 @@ public class Weapon : MonoBehaviour
     private void FireWeapon()
     {
         readyToShoot = false;
-        float finalDamage = (baseDamage + playerStats.bulletDamageUpgrade) * playerStats.bulletdamageMultiplier;
+        float finalDamage = (baseDamage + playerStats.bulletDamageUpgrade) * playerStats.bulletDamageMultiplier;
 
         Vector3 shootingDirection = CalculateDirectionAndSpread().normalized;
         //Instantiate bullet
