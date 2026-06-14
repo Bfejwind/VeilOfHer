@@ -14,11 +14,14 @@ public class Weapon : MonoBehaviour
     public int burstBulletsLeft;
     //Spread
     public float spreadIntensity;
-    //Bullet
+    [Header("Bullet Settings")]
     public GameObject bulletPrefab;
     public Transform bulletSpawn;
     public float bulletVelocity = 30;
     public float bulletLifetime = 3f;
+    public float baseDamage = 10.0f;
+    [Header("Player Stats")]
+    private PlayerBehaviour playerStats;
     
     public enum ShootingMode
     {
@@ -31,6 +34,7 @@ public class Weapon : MonoBehaviour
     {
         readyToShoot = true;
         burstBulletsLeft = bulletsPerBurst;
+        playerStats = GetComponent<PlayerBehaviour>();
     }
 
     // Update is called once per frame
@@ -56,10 +60,13 @@ public class Weapon : MonoBehaviour
     private void FireWeapon()
     {
         readyToShoot = false;
+        float finalDamage = (baseDamage + playerStats.bulletDamageUpgrade) * playerStats.bulletdamageMultiplier;
 
         Vector3 shootingDirection = CalculateDirectionAndSpread().normalized;
         //Instantiate bullet
         GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.identity);
+        //Calculate damage
+        bullet.GetComponent<Bullet>().DamageCalculation(finalDamage);
         //Point at shooting direction
         bullet.transform.forward = shootingDirection;
         //Apply force to bullet

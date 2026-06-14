@@ -8,6 +8,11 @@ public class PlayerBehaviour : MonoBehaviour
     public bool shieldDeployed;
     [SerializeField] GameObject reflectProjectile;
     [SerializeField] GameObject shieldObject;
+    [Header("Stat modifiers")]
+    public float bulletdamageMultiplier = 1f;
+    public float abilitydamageMultiplier = 1f;
+    public float bulletDamageUpgrade;
+    public float AbilityDamageUpgrade;
 
     void Awake()
     {
