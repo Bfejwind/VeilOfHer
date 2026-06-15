@@ -83,7 +83,7 @@ public class CommandCaster : MonoBehaviour
             var aoeLogic = aoePrefab.GetComponent<AOEBehaviour>();
             float aoeFinalDamage = (aoe.aoeBaseDamage + aoeDamageMod) * playerStats.abilityDamageMultiplier;
             aoeLogic.AOEDamageCalc(aoeFinalDamage);
-            Debug.Log("AOE activated");
+            //Debug.Log("AOE activated");
             aoeAnim.StartExplosion();
             return;
         }

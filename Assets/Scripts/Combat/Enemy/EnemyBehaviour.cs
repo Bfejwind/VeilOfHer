@@ -145,14 +145,14 @@ public class EnemyBehaviour : MonoBehaviour
     private void PerformAttack()
     {
         navAgent.SetDestination(transform.position);
-        if (!canAttack)
-        {
-            return;
-        }
 
         if (playerTransform != null)
         {
             transform.LookAt(playerTransform);
+        }
+        if (!canAttack)
+        {
+            return;
         }
 
         if (!isOnAttackCooldown)
@@ -172,6 +172,11 @@ public class EnemyBehaviour : MonoBehaviour
     //State Machine - Lockeddown,Patrol,Chase,Attack
     private void UpdateBehaviourState()
     {
+        if (controlEffects > 0)
+        {
+            UpdateMovementState();
+            return;
+        }
         if (!isPlayerVisible && !isPlayerInRange)
         {
             PerformPatrol();
@@ -200,6 +205,8 @@ public class EnemyBehaviour : MonoBehaviour
     }
     private void UpdateMovementState()
     {
+        navAgent.SetDestination(transform.position);
         navAgent.isStopped = !canMove;
+        navAgent.velocity = Vector3.zero;
     }
 }

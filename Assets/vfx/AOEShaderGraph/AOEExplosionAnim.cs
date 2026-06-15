@@ -11,7 +11,7 @@ public class AOEExplosionAnim : MonoBehaviour
     }
     public void StartExplosion()
     {
-        Debug.Log("Sparks playing");
+        //Debug.Log("Sparks playing");
         sparkParticles.Play();
     }
     public void DeleteExplosion()

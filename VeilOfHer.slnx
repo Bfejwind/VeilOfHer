@@ -1,4 +1,5 @@
 ﻿<Solution>
+  <Project Path="AmplifyShaderEditor.csproj" />
   <Project Path="Unity.RenderPipelines.HighDefinition.Editor.csproj" />
   <Project Path="Unity.RenderPipelines.HighDefinition.Runtime.csproj" />
   <Project Path="Assembly-CSharp.csproj" />
