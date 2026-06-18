@@ -39,9 +39,4 @@ public class CMD : MonoBehaviour
         commandCast.ExecuteCommand(cmdInput);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

@@ -32,6 +32,7 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] private float attackRange = 10f;
     private bool isPlayerVisible;
     private bool isPlayerInRange;
+    private bool shotAt;
 
     [Header("Ability Interactions")]
     public int controlEffects;
@@ -56,11 +57,18 @@ public class EnemyBehaviour : MonoBehaviour
     private void Update()
     {
         DetectPlayer();
-        UpdateBehaviourState();
+        if (!shotAt)
+        {
+            UpdateBehaviourState();
+        }
+        else
+        {
+            EnragedBehaviourState();
+        }
     }
 
     //See vision and Attack range
-    private void OnDGizmosSelected()
+    private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
@@ -144,6 +152,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     private void PerformAttack()
     {
+        navAgent.velocity = Vector3.zero;
         navAgent.SetDestination(transform.position);
 
         if (playerTransform != null)
@@ -208,5 +217,27 @@ public class EnemyBehaviour : MonoBehaviour
         navAgent.SetDestination(transform.position);
         navAgent.isStopped = !canMove;
         navAgent.velocity = Vector3.zero;
+    }
+    public void Enraged()
+    {
+        shotAt = true;
+    }
+    private void EnragedBehaviourState()
+    {
+        if (controlEffects > 0)
+        {
+            UpdateMovementState();
+            return;
+        }
+        if (!isPlayerInRange)
+        {
+            PerformChase();
+            return;
+        }
+        if (isPlayerVisible && isPlayerInRange)
+        {
+            PerformAttack();
+            return;
+        }
     }
 }

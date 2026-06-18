@@ -87,6 +87,19 @@ public class CommandCaster : MonoBehaviour
             aoeAnim.StartExplosion();
             return;
         }
+        if (ability is FireWallAbilityData firewall)
+        {
+            Vector3 directionToFace = playerCamera.transform.position - targetPoint;
+            directionToFace.y = 0;
+            Quaternion rotation = Quaternion.LookRotation(directionToFace);
+            GameObject firewallObject = Instantiate(firewall.fireWallPrefab, targetPoint,rotation);
+            var firewallLogic = firewallObject.GetComponent<FireWallBehaviour>();
+            firewallLogic.fireWallCurrentWidth = firewall.fireWallBaseWidth;
+            firewallLogic.fireWallDuration = firewall.fireWallBaseDuration;
+            firewallLogic.fireWallMaxHP = firewall.fireWallBaseMaxHP;
+            return;
+
+        }
     }
     private Vector3 GetTargetPoint()
     {

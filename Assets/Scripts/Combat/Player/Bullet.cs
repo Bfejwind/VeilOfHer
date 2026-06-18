@@ -13,7 +13,7 @@ public class Bullet : MonoBehaviour
     {
         if (other.TryGetComponent(out EnemyHP enemy))
         {
-            //print("hit" + other.gameObject.name);
+            //print("Bullet hit" + other.gameObject.name);
             //GameManager.Instance.ChangeLightRadius(2.0f);
             enemy.TakingDamage(damage);
             Destroy(gameObject);

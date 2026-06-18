@@ -7,7 +7,7 @@ public class LockdownAbility : MonoBehaviour
 {
     public float radius;
     public float duration;
-    private List<EnemyBehaviour>affectedEnemies = new();
+    [SerializeField]private List<EnemyBehaviour>affectedEnemies = new();
     void Start()
     {
         Destroy(gameObject, duration);
