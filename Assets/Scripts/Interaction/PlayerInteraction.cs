@@ -1,30 +1,43 @@
 using UnityEngine;
+using TMPro;
+using System.Collections;
 
 public class PlayerInteraction : MonoBehaviour
 {
-    Dialogue dialogue;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public Camera playerCamera;
+    public float interactionRange = 3f;
+
+    public GameObject interactionPrompt;
+    public TextMeshProUGUI interactionText;
+
+    private void Update()
     {
-        dialogue = GetComponent<Dialogue>();
+        InteractionRay();
     }
 
-    // Update is called once per frame
-    void Update()
+    void InteractionRay()
     {
-        
-    }
+        Ray ray = playerCamera.ViewportPointToRay(Vector3.one * 0.5f);
+        RaycastHit hit;
 
-    void Interact()
-    {
-        if (Input.GetKeyDown(KeyCode.E))
+        bool hitSomething = false;
+
+        if (Physics.Raycast(ray, out hit, interactionRange))
         {
-            dialogue.StartDialogue();
-        }
-    }
+            IInteractable interactable = hit.collider.GetComponent<IInteractable>();
 
-    void PickUpItem()
-    {
-        // Implement item pickup logic here
+            if (interactable != null)
+            {
+                hitSomething = true;
+                interactionText.text = interactable.GetDescription();
+
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    interactable.Interact();
+                }
+            }
+        }
+
+        interactionPrompt.SetActive(hitSomething);
     }
 }

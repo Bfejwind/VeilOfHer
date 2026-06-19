@@ -1,24 +1,44 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.Events;
 
+public class ActivateDialogue : MonoBehaviour, IInteractable
+{   
+    [SerializeField]
+    GameObject dialogueBox;
 
-public class Dialogue : MonoBehaviour
-{
+    [SerializeField]
+    GameObject interactionPromt;
+
     public TextMeshProUGUI dialogueText;
     public string[] dialogueLines;
     public float textSpeed;
+    public bool dialogueActive = false;
 
     private int index;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void Interact()
     {
-        dialogueText.text = "";
-        StartDialogue();
+        if (dialogueActive)
+        {
+            return;
+        }
+        else
+        {
+            dialogueText.text = "";
+            StartDialogue();
+            dialogueBox.SetActive(true);
+            interactionPromt.SetActive(false);
+        }
+        
     }
+
+    public string GetDescription()
+    {
+        return "Talk to Zyr4";
+    }
+
+    
 
     // Update is called once per frame
     void Update()
@@ -39,6 +59,7 @@ public class Dialogue : MonoBehaviour
 
     public void StartDialogue()
     {
+        dialogueActive = true;
         index = 0;
         StartCoroutine(TypeLine());
     }
@@ -62,8 +83,8 @@ public class Dialogue : MonoBehaviour
         }
         else
         {
-            gameObject.SetActive(false);
+            dialogueBox.SetActive(false);
+            dialogueActive = false;
         }
     }
-
 }
