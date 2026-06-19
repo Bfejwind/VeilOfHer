@@ -14,6 +14,9 @@ public class CommandCaster : MonoBehaviour
     public int maxCharges = 2;
     public int currentCharges;
     public float rechargeTime = 10f;
+    private float rechargeTimer;
+    public float RechargeTimer => rechargeTimer;
+    private CooldownTracker cdTracker;
     [Space]
     [Header("Player Stats")]
     private PlayerBehaviour playerStats;
@@ -35,6 +38,7 @@ public class CommandCaster : MonoBehaviour
     {
         playerStats = GetComponent<PlayerBehaviour>();
         commandLookup = new Dictionary<string, AbilityData>();
+        cdTracker = GetComponent<CooldownTracker>();
         foreach (var pair in commandList)
         {
             commandLookup[pair.command] = pair.ability; //Add [pair.command.ToLower()] if you want to ignore case sensitivity
@@ -56,6 +60,9 @@ public class CommandCaster : MonoBehaviour
         else if (commandLookup.TryGetValue(input, out AbilityData ability))
         {
             currentCharges--;
+            //Track Cooldown
+            string cmdCharges = currentCharges.ToString();
+            cdTracker.CMDChargesTracker(cmdCharges);
             CastAbility(ability);
             StartCoroutine(RechargeCharge());
         }
@@ -64,6 +71,8 @@ public class CommandCaster : MonoBehaviour
     {
         yield return new WaitForSeconds(rechargeTime);
         currentCharges = Mathf.Min(currentCharges + 1, maxCharges);
+        string cmdCharges = currentCharges.ToString();
+        cdTracker.CMDChargesTracker(cmdCharges);
     }
     private void CastAbility(AbilityData ability)
     {
