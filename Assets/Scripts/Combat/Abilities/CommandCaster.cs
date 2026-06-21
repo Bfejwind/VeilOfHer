@@ -6,9 +6,9 @@ using UnityEngine;
 public class CommandCaster : MonoBehaviour
 {
     [Header("References Player")]
-    [SerializeField]private Camera playerCamera;
-    [SerializeField]private float maxRange = 20f;
-    [SerializeField]private LayerMask aimMask;
+    [SerializeField] private Camera playerCamera;
+    [SerializeField] private float maxRange = 20f;
+    [SerializeField] private LayerMask aimMask;
 
     [Header("Charge System")]
     public int maxCharges = 2;
@@ -16,13 +16,15 @@ public class CommandCaster : MonoBehaviour
     public float rechargeTime = 10f;
     private float rechargeTimer;
     public float RechargeTimer => rechargeTimer;
-    private CooldownTracker cdTracker;
+
+    // private CooldownTracker cdTracker;
+    [SerializeField] private CooldownTracker cdTracker;
     [Space]
     [Header("Player Stats")]
     private PlayerBehaviour playerStats;
     [Space]
     [Header("Modifiers")]
-    [SerializeField]private float aoeDamageMod;
+    [SerializeField] private float aoeDamageMod;
     [Space]
     [Header("Ability Mapping")]
     private string commandInput;
@@ -38,7 +40,7 @@ public class CommandCaster : MonoBehaviour
     {
         playerStats = GetComponent<PlayerBehaviour>();
         commandLookup = new Dictionary<string, AbilityData>();
-        cdTracker = GetComponent<CooldownTracker>();
+        // cdTracker = GetComponent<CooldownTracker>();
         foreach (var pair in commandList)
         {
             commandLookup[pair.command] = pair.ability; //Add [pair.command.ToLower()] if you want to ignore case sensitivity
@@ -59,14 +61,53 @@ public class CommandCaster : MonoBehaviour
         //Add input = input.ToLower() if you want to ignore case sensitivity
         else if (commandLookup.TryGetValue(input, out AbilityData ability))
         {
+            // currentCharges--;
+            // //Track Cooldown
+            // string cmdCharges = currentCharges.ToString();
+            // cdTracker.CMDChargesTracker(cmdCharges);
+            // CastAbility(ability);
+            // StartCoroutine(RechargeCharge());
             currentCharges--;
-            //Track Cooldown
-            string cmdCharges = currentCharges.ToString();
-            cdTracker.CMDChargesTracker(cmdCharges);
+
+            if (cdTracker != null)
+            {
+                cdTracker.CMDChargesTracker(currentCharges.ToString());
+                StartCoroutine(CooldownIconRoutine());
+            }
+
             CastAbility(ability);
             StartCoroutine(RechargeCharge());
         }
     }
+
+private IEnumerator CooldownIconRoutine()
+{
+    float timer = rechargeTime;
+
+    while (timer > 0)
+    {
+        float progress = timer / rechargeTime;
+
+        if (cdTracker != null)
+        {
+            cdTracker.SetCMDCooldownFill(progress);
+
+            cdTracker.CMDCooldownTracker(
+                Mathf.CeilToInt(timer).ToString()
+            );
+        }
+
+        timer -= Time.unscaledDeltaTime;
+        yield return null;
+    }
+
+    if (cdTracker != null)
+    {
+        cdTracker.SetCMDCooldownFill(0f);
+        cdTracker.CMDCooldownTracker("");
+    }
+}
+
     private IEnumerator RechargeCharge()
     {
         yield return new WaitForSeconds(rechargeTime);
@@ -80,14 +121,14 @@ public class CommandCaster : MonoBehaviour
         if (ability is ControlAbilityData control)
         {
             GameObject bubble = Instantiate(control.bubblePrefab, targetPoint, Quaternion.identity);
-            var bubbleLogic = bubble.GetComponent<LockdownAbility>(); 
+            var bubbleLogic = bubble.GetComponent<LockdownAbility>();
             bubbleLogic.radius = control.bubbleRadius;
             bubbleLogic.duration = control.bubbleDuration;
             return;
         }
         if (ability is AOEAbilityData aoe)
         {
-            GameObject aoePrefab = Instantiate(aoe.aoeImpactPrefab, targetPoint,Quaternion.identity);
+            GameObject aoePrefab = Instantiate(aoe.aoeImpactPrefab, targetPoint, Quaternion.identity);
             var aoeAnim = aoePrefab.GetComponent<AOEExplosionAnim>();
             var aoeLogic = aoePrefab.GetComponent<AOEBehaviour>();
             float aoeFinalDamage = (aoe.aoeBaseDamage + aoeDamageMod) * playerStats.abilityDamageMultiplier;
@@ -101,7 +142,7 @@ public class CommandCaster : MonoBehaviour
             Vector3 directionToFace = playerCamera.transform.position - targetPoint;
             directionToFace.y = 0;
             Quaternion rotation = Quaternion.LookRotation(directionToFace);
-            GameObject firewallObject = Instantiate(firewall.fireWallPrefab, targetPoint,rotation);
+            GameObject firewallObject = Instantiate(firewall.fireWallPrefab, targetPoint, rotation);
             var firewallLogic = firewallObject.GetComponent<FireWallBehaviour>();
             firewallLogic.fireWallCurrentWidth = firewall.fireWallBaseWidth;
             firewallLogic.fireWallDuration = firewall.fireWallBaseDuration;
@@ -113,7 +154,7 @@ public class CommandCaster : MonoBehaviour
     private Vector3 GetTargetPoint()
     {
         Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
-        if (Physics.Raycast(ray, out RaycastHit hit, maxRange,aimMask))
+        if (Physics.Raycast(ray, out RaycastHit hit, maxRange, aimMask))
         {
             return hit.point;
         }
