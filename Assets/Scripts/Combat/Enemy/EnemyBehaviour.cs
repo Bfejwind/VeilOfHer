@@ -90,8 +90,9 @@ public class EnemyBehaviour : MonoBehaviour
         if (projectilePrefab == null || firePoint == null) return;
 
         Rigidbody projectileRB = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity).GetComponent<Rigidbody>();
-        projectileRB.AddForce(transform.forward * forwardShotForce, ForceMode.Impulse);
-        projectileRB.AddForce(transform.up * verticalShotForce, ForceMode.Impulse);
+        Vector3 aimDirection = (playerTransform.position - firePoint.position).normalized;
+        projectileRB.AddForce(aimDirection * forwardShotForce, ForceMode.Impulse);
+        projectileRB.AddForce(aimDirection * verticalShotForce, ForceMode.Impulse);
 
         Destroy(projectileRB.gameObject, 3.0f);
     }
