@@ -14,12 +14,15 @@ public class CommandCaster : MonoBehaviour
     public int maxCharges = 2;
     public int currentCharges;
     public float rechargeTime = 10f;
+    private float rechargeCountdown;
+    public float RechargeTimer => rechargeCountdown;
+    [SerializeField] private CooldownTracker cdTracker;
     [Space]
     [Header("Player Stats")]
     private PlayerBehaviour playerStats;
     [Space]
     [Header("Modifiers")]
-    [SerializeField]private float aoeDamageMod;
+    [SerializeField] private float aoeDamageMod;
     [Space]
     [Header("Ability Mapping")]
     private string commandInput;
@@ -56,8 +59,40 @@ public class CommandCaster : MonoBehaviour
         else if (commandLookup.TryGetValue(input, out AbilityData ability))
         {
             currentCharges--;
+            if (cdTracker != null)
+            {
+                cdTracker.CMDChargesTracker(currentCharges.ToString());
+                StartCoroutine(CooldownIconRoutine());
+            }
             CastAbility(ability);
             StartCoroutine(RechargeCharge());
+        }
+    }
+    private IEnumerator CooldownIconRoutine()
+    {
+        float timer = rechargeTime;
+
+        while (timer > 0)
+        {
+            float progress = timer / rechargeTime;
+
+            if (cdTracker != null)
+            {
+                cdTracker.SetCMDCooldownFill(progress);
+
+                cdTracker.CMDCooldownTracker(
+                    Mathf.CeilToInt(timer).ToString()
+                );
+            }
+
+            timer -= Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        if (cdTracker != null)
+        {
+            cdTracker.SetCMDCooldownFill(0f);
+            cdTracker.CMDCooldownTracker("");
         }
     }
     private IEnumerator RechargeCharge()
