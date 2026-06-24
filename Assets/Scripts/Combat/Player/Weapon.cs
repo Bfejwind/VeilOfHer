@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
@@ -22,6 +23,10 @@ public class Weapon : MonoBehaviour
     public float baseDamage = 10.0f;
     [Header("Player Stats")]
     private PlayerBehaviour playerStats;
+    [Header("Loading")]
+    public float reloadTime;
+    public int magazineSize, bulletsLeft;
+    public bool isReloading;
     
     public enum ShootingMode
     {
@@ -35,6 +40,7 @@ public class Weapon : MonoBehaviour
         readyToShoot = true;
         burstBulletsLeft = bulletsPerBurst;
         playerStats = GetComponent<PlayerBehaviour>();
+        bulletsLeft = magazineSize;
     }
 
     // Update is called once per frame
@@ -50,16 +56,22 @@ public class Weapon : MonoBehaviour
             //Clicking once left mouse
             isShooting = Input.GetKeyDown(KeyCode.Mouse0);
         }
-        if (readyToShoot && isShooting)
+        if (readyToShoot && isShooting && bulletsLeft > 0)
         {
             burstBulletsLeft = bulletsPerBurst;
             FireWeapon();
+        }
+        //Ammo UI
+        if (AmmoManager.Instance.ammoDisplay != null)
+        {
+            AmmoManager.Instance.ammoDisplay.text = $"{bulletsLeft}/{magazineSize}";
         }
     }
 
     private void FireWeapon()
     {
         readyToShoot = false;
+        bulletsLeft--;
         float finalDamage = (baseDamage + playerStats.bulletDamageUpgrade) * playerStats.bulletDamageMultiplier;
 
         Vector3 shootingDirection = CalculateDirectionAndSpread().normalized;
@@ -85,6 +97,20 @@ public class Weapon : MonoBehaviour
             burstBulletsLeft--;
             Invoke("FireWeapon", shootingDelay);
         }
+    }
+    private void OnReload()
+    {
+        if (bulletsLeft < magazineSize && isReloading == false)
+        {
+            isReloading = true;
+            Invoke("ReloadCompleted", reloadTime);
+        }
+    }
+    private void ReloadCompleted()
+    {
+        bulletsLeft = magazineSize;
+        isReloading = false;
+
     }
 
     public void ResetShot()
