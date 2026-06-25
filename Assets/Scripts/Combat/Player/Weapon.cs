@@ -15,12 +15,17 @@ public class Weapon : MonoBehaviour
     public int burstBulletsLeft;
     //Spread
     public float spreadIntensity;
-    [Header("Bullet Settings")]
+    [Header("Normal Bullet Settings")]
     public GameObject bulletPrefab;
     public Transform bulletSpawn;
     public float bulletVelocity = 30;
     public float bulletLifetime = 3f;
     public float baseDamage = 10.0f;
+    [Header("Charged Bullet Settings")]
+    [SerializeField] private GameObject chargedBulletPrefab;
+    [SerializeField] private float chargeSpeed;
+    [SerializeField] private float chargeTime;
+    private bool isCharging;
     [Header("Player Stats")]
     private PlayerBehaviour playerStats;
     [Header("Loading")]
@@ -56,6 +61,10 @@ public class Weapon : MonoBehaviour
         }
         else if (currentShootingMode == ShootingMode.Single || currentShootingMode == ShootingMode.Burst)
         {
+            // if (Input.GetKey(KeyCode.Mouse0) && !isCharging)
+            // {
+            //     isCharging = Input.GetKey(KeyCode.Mouse0);
+            // }
             //Clicking once left mouse
             isShooting = Input.GetKeyDown(KeyCode.Mouse0);
         }
@@ -64,6 +73,10 @@ public class Weapon : MonoBehaviour
             burstBulletsLeft = bulletsPerBurst;
             FireWeapon();
         }
+        // if (readyToShoot && isCharging && bulletsLeft > 0)
+        // {
+        //     ChargedShot();
+        // }
         //Ammo UI
         if (AmmoManager.Instance.ammoDisplay != null)
         {
@@ -102,6 +115,24 @@ public class Weapon : MonoBehaviour
         }
         audioSource.PlayOneShot(keyboardSound[UnityEngine.Random.Range(0, keyboardSound.Length)]);
     }
+    // private void ChargedShot()
+    // {
+    //     readyToShoot = false;
+    //     bulletsLeft--;
+    //     float finalDamage = (baseDamage + playerStats.bulletDamageUpgrade) * playerStats.bulletDamageMultiplier;
+
+    //     Vector3 shootingDirection = CalculateDirectionAndSpread().normalized;
+    //     //Instantiate bullet
+    //     GameObject bigBullet = Instantiate(chargedBulletPrefab, bulletSpawn.position, Quaternion.identity);
+    //     //Calculate damage
+    //     bigBullet.GetComponent<Bullet>().DamageCalculation(finalDamage);
+    //     //Point at shooting direction
+    //     bigBullet.transform.forward = shootingDirection;
+    //     //Apply force to bullet
+    //     bigBullet.GetComponent<Rigidbody>().AddForce(bulletSpawn.forward.normalized*bulletVelocity, ForceMode.Impulse);
+    //     //destroy bullet
+    //     StartCoroutine(destroyBulletAfterTime(bigBullet,bulletLifetime));
+    // }
     private void OnReload()
     {
         if (bulletsLeft < magazineSize && isReloading == false)
