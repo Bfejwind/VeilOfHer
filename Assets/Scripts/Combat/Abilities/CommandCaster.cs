@@ -34,6 +34,9 @@ public class CommandCaster : MonoBehaviour
         public string command;
         public AbilityData ability;
     }
+    //Targeting
+    private AbilityData currentAbility;
+    private Coroutine slowMoCoroutine;
     private void Awake()
     {
         playerStats = GetComponent<PlayerBehaviour>();
@@ -46,6 +49,15 @@ public class CommandCaster : MonoBehaviour
     void Start()
     {
         currentCharges = maxCharges;
+    }
+    void Update()
+    {
+        if (currentAbility != null && Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            CastAbility(currentAbility);
+            EndTargeting();
+            currentAbility = null;
+        }
     }
     public void ExecuteCommand(string input)
     {
@@ -64,7 +76,9 @@ public class CommandCaster : MonoBehaviour
                 cdTracker.CMDChargesTracker(currentCharges.ToString());
                 StartCoroutine(CooldownIconRoutine());
             }
-            CastAbility(ability);
+            currentAbility = ability;
+            slowMoCoroutine = StartCoroutine(SlowTime());
+            //CastAbility(ability);
             StartCoroutine(RechargeCharge());
         }
     }
@@ -144,5 +158,20 @@ public class CommandCaster : MonoBehaviour
             return hit.point;
         }
         return ray.origin + ray.direction * maxRange;
+    }
+    private IEnumerator SlowTime()
+    {
+        Time.timeScale = 0.2f;
+        yield return new WaitForSeconds(0.5f);
+        EndTargeting();
+    }
+    private void EndTargeting()
+    {
+        if (slowMoCoroutine != null)
+        {
+            StopCoroutine(SlowTime());
+            slowMoCoroutine = null;
+        }
+        Time.timeScale = 1.0f;
     }
 }
