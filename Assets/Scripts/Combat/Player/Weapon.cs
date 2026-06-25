@@ -27,6 +27,9 @@ public class Weapon : MonoBehaviour
     public float reloadTime;
     public int magazineSize, bulletsLeft;
     public bool isReloading;
+    //Audio
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip[] keyboardSound;
     
     public enum ShootingMode
     {
@@ -97,6 +100,7 @@ public class Weapon : MonoBehaviour
             burstBulletsLeft--;
             Invoke("FireWeapon", shootingDelay);
         }
+        audioSource.PlayOneShot(keyboardSound[UnityEngine.Random.Range(0, keyboardSound.Length)]);
     }
     private void OnReload()
     {
