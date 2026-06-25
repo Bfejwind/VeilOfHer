@@ -14,6 +14,8 @@ namespace StarterAssets
 		[Header("Player")]
 		[Tooltip("Move speed of the character in m/s")]
 		public float MoveSpeed = 4.0f;
+		[Tooltip("Crouch Move speed of the character in m/s")]
+		public float CrouchSpeed = 2.0f;
 		[Tooltip("Sprint speed of the character in m/s")]
 		public float SprintSpeed = 6.0f;
 		[Tooltip("Rotation speed of the character")]
@@ -60,6 +62,17 @@ namespace StarterAssets
 		private float _verticalVelocity;
 		private float _terminalVelocity = 53.0f;
 		public Vector3 inputDirection;
+		[Header("Crouching")]
+		[SerializeField] private float crouchHeight = 1.2f;
+		[SerializeField] private Vector3 crouchCenter = new Vector3(0, 0.595f, 0);
+		[SerializeField] private float crouchTransitionSpeed = 7f;
+		private float originalCamHeight;
+		//[SerializeField] private float crouchCameraOffset = 0.4f;
+		[SerializeField] private GameObject aimTarget;
+		private float originalAimHeight;
+		private float standHeight;
+		private Vector3 standCenter;
+		private bool crouched;
 
 		// timeout deltatime
 		private float _jumpTimeoutDelta;
@@ -109,6 +122,11 @@ namespace StarterAssets
 			// reset our timeouts on start
 			_jumpTimeoutDelta = JumpTimeout;
 			_fallTimeoutDelta = FallTimeout;
+			//Crouch Values
+			standCenter = _controller.center;
+			standHeight = _controller.height;
+			originalCamHeight = CinemachineCameraTarget.transform.localPosition.y;
+			originalAimHeight = aimTarget.transform.localPosition.y;
 		}
 
 		private void Update()
@@ -116,6 +134,14 @@ namespace StarterAssets
 			JumpAndGravity();
 			GroundedCheck();
 			Move();
+			UpdateControllerCollider();
+
+			if (_input.crouch)
+			{
+				crouched = !crouched;
+
+				_input.crouch = false;
+			}
 		}
 
 		private void LateUpdate()
@@ -155,7 +181,11 @@ namespace StarterAssets
 		private void Move()
 		{
 			// set target speed based on move speed, sprint speed and if sprint is pressed
-			float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
+			float targetSpeed = _input.sprint ? SprintSpeed : crouched ? CrouchSpeed : MoveSpeed;
+			if (_input.sprint)
+			{
+				crouched = false;
+			}
 
 			// a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
@@ -198,7 +228,25 @@ namespace StarterAssets
 			// move the player
 			_controller.Move(inputDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 		}
-
+		private void UpdateControllerCollider()
+		{
+			Vector3 targetCenter = standCenter;
+			float targetHeight = standHeight;
+			if (crouched)
+			{
+				targetCenter = crouchCenter;
+				targetHeight = crouchHeight;
+			}
+			_controller.height = Mathf.Lerp(_controller.height, targetHeight, crouchTransitionSpeed * Time.deltaTime);
+			_controller.center = Vector3.Lerp(_controller.center, targetCenter, crouchTransitionSpeed * Time.deltaTime);
+			Vector3 cameraTargetPosition = CinemachineCameraTarget.transform.localPosition;
+			cameraTargetPosition.y = crouched ? crouchHeight : originalCamHeight;
+			CinemachineCameraTarget.transform.localPosition = Vector3.Lerp(CinemachineCameraTarget.transform.localPosition,cameraTargetPosition, crouchTransitionSpeed * Time.deltaTime);
+			//Enemy Aiming at player when crouched
+			Vector3 aimedTargetPosition = aimTarget.transform.localPosition;
+			aimedTargetPosition.y = crouched ? crouchHeight : originalAimHeight;
+			aimTarget.transform.localPosition = Vector3.Lerp(aimTarget.transform.localPosition,aimedTargetPosition, crouchTransitionSpeed * Time.deltaTime);
+		}
 		private void JumpAndGravity()
 		{
 			if (Grounded)
