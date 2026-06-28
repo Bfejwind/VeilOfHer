@@ -14,6 +14,7 @@ namespace StarterAssets
 		public bool sprint;
 		public bool dash;
 		public bool crouch;
+		public bool fire;
 		[Header("Movement Settings")]
 		public bool analogMovement;
 
@@ -52,10 +53,15 @@ namespace StarterAssets
 		{
 			CrouchInput(value.isPressed);
 		}
+		public void OnFire(InputValue value)
+		{
+			Debug.Log($"OnFire: {value.isPressed}");
+			FireInput(value.isPressed);
+		}
 #endif
 
 
-		public void MoveInput(Vector2 newMoveDirection)
+        public void MoveInput(Vector2 newMoveDirection)
 		{
 			move = newMoveDirection;
 		} 
@@ -81,6 +87,10 @@ namespace StarterAssets
 		public void CrouchInput(bool newCrouchState)
 		{
 			crouch = newCrouchState;
+		}
+		public void FireInput(bool newFireState)
+		{
+			fire = newFireState;
 		}
 		
 		private void OnApplicationFocus(bool hasFocus)
