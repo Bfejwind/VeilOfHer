@@ -35,6 +35,7 @@ public class Weapon : MonoBehaviour
     //Audio
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip[] keyboardSound;
+    [SerializeField] private AudioClip reloadSfx;
     
     public enum ShootingMode
     {
@@ -138,6 +139,7 @@ public class Weapon : MonoBehaviour
         if (bulletsLeft < magazineSize && isReloading == false)
         {
             isReloading = true;
+            audioSource.PlayOneShot(reloadSfx);
             Invoke("ReloadCompleted", reloadTime);
         }
     }
