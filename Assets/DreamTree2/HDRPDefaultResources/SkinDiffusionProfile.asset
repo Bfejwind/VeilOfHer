@@ -25,5 +25,5 @@ MonoBehaviour:
     transmissionMode: 1
     thicknessRemap: {x: 0, y: 8.152544}
     worldScale: 1
-    ior: 1.4
+    ior: 1.609
     hash: 1077211019
