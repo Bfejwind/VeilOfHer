@@ -55,7 +55,7 @@ public class CommandCaster : MonoBehaviour
         if (currentAbility != null && Input.GetKeyDown(KeyCode.Mouse0))
         {
             CastAbility(currentAbility);
-            EndTargeting();
+            //EndTargeting();
             currentAbility = null;
         }
     }
@@ -77,7 +77,7 @@ public class CommandCaster : MonoBehaviour
                 StartCoroutine(CooldownIconRoutine());
             }
             currentAbility = ability;
-            slowMoCoroutine = StartCoroutine(SlowTime());
+            //slowMoCoroutine = StartCoroutine(SlowTime());
             //CastAbility(ability);
             StartCoroutine(RechargeCharge());
         }
@@ -159,19 +159,19 @@ public class CommandCaster : MonoBehaviour
         }
         return ray.origin + ray.direction * maxRange;
     }
-    private IEnumerator SlowTime()
-    {
-        Time.timeScale = 0.2f;
-        yield return new WaitForSeconds(0.5f);
-        EndTargeting();
-    }
-    private void EndTargeting()
-    {
-        if (slowMoCoroutine != null)
-        {
-            StopCoroutine(SlowTime());
-            slowMoCoroutine = null;
-        }
-        Time.timeScale = 1.0f;
-    }
+    // private IEnumerator SlowTime()
+    // {
+    //     Time.timeScale = 0.2f;
+    //     yield return new WaitForSeconds(0.5f);
+    //     EndTargeting();
+    // }
+    // private void EndTargeting()
+    // {
+    //     if (slowMoCoroutine != null)
+    //     {
+    //         StopCoroutine(SlowTime());
+    //         slowMoCoroutine = null;
+    //     }
+    //     Time.timeScale = 1.0f;
+    // }
 }
