@@ -30,6 +30,7 @@ public class CMD : MonoBehaviour
     public void OnPlayer()
     {
         cmdInput = cmdInputField.text;
+        Debug.Log($"{cmdInput}");
         //Reset time scale
         Time.timeScale = 1.0f;
         //Switch control map to Player action map
