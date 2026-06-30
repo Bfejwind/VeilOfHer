@@ -43,7 +43,7 @@ public class EnemyBehaviour : MonoBehaviour
     {
         if (playerTransform == null)
         {
-            GameObject playerObj = GameObject.Find("Player");
+            GameObject playerObj = GameObject.Find("aimTarget");
             if (playerObj != null)
             {
                 playerTransform = playerObj.transform;
