@@ -54,7 +54,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _noise:
         m_Texture: {fileID: 2800000, guid: 3e22a1aa284c99249b42ac33152dc24a, type: 3}
-        m_Scale: {x: 4, y: 4}
+        m_Scale: {x: 2, y: 1}
         m_Offset: {x: 0, y: 0}
     - _normal:
         m_Texture: {fileID: 2800000, guid: 92e4afc72f2c45d4790d056375dee7c9, type: 3}
@@ -131,7 +131,7 @@ Material:
     - _ZTestGBuffer: 3
     - _ZTestTransparent: 4
     - _ZWrite: 1
-    - _dissovel_amount: 0.152
+    - _dissovel_amount: 0
     - _thickness: 0.02
     m_Colors:
     - _Color: {r: 0, g: 0, b: 0, a: 1}
