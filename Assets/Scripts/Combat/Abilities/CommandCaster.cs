@@ -23,6 +23,7 @@ public class CommandCaster : MonoBehaviour
     [Space]
     [Header("Modifiers")]
     [SerializeField] private float aoeDamageMod;
+    [SerializeField] private float aoeCalldownDelay = 1.0f;
     [Space]
     [Header("Ability Mapping")]
     private string commandInput;
@@ -127,13 +128,14 @@ public class CommandCaster : MonoBehaviour
         }
         if (ability is AOEAbilityData aoe)
         {
-            GameObject aoePrefab = Instantiate(aoe.aoeImpactPrefab, targetPoint,Quaternion.identity);
-            var aoeAnim = aoePrefab.GetComponent<AOEExplosionAnim>();
-            var aoeLogic = aoePrefab.GetComponent<AOEBehaviour>();
-            float aoeFinalDamage = (aoe.aoeBaseDamage + aoeDamageMod) * playerStats.abilityDamageMultiplier;
-            aoeLogic.AOEDamageCalc(aoeFinalDamage);
-            //Debug.Log("AOE activated");
-            aoeAnim.StartExplosion();
+            StartCoroutine(AOEStrike(aoe, targetPoint));
+            // GameObject aoePrefab = Instantiate(aoe.aoeImpactPrefab, targetPoint,Quaternion.identity);
+            // var aoeAnim = aoePrefab.GetComponent<AOEExplosionAnim>();
+            // var aoeLogic = aoePrefab.GetComponent<AOEBehaviour>();
+            // float aoeFinalDamage = (aoe.aoeBaseDamage + aoeDamageMod) * playerStats.abilityDamageMultiplier;
+            // aoeLogic.AOEDamageCalc(aoeFinalDamage);
+            // //Debug.Log("AOE activated");
+            // aoeAnim.StartExplosion();
             return;
         }
         if (ability is FireWallAbilityData firewall)
@@ -149,6 +151,17 @@ public class CommandCaster : MonoBehaviour
             return;
 
         }
+    }
+    private IEnumerator AOEStrike(AOEAbilityData aoe, Vector3 targetPoint)
+    {
+        yield return new WaitForSeconds(aoeCalldownDelay);
+        GameObject aoePrefab = Instantiate(aoe.aoeImpactPrefab, targetPoint, Quaternion.identity);
+        var aoeAnim = aoePrefab.GetComponent<AOEExplosionAnim>();
+        var aoeLogic = aoePrefab.GetComponent<AOEBehaviour>();
+        float aoeFinalDamage = (aoe.aoeBaseDamage + aoeDamageMod) * playerStats.abilityDamageMultiplier;
+        aoeLogic.AOEDamageCalc(aoeFinalDamage);
+        //Debug.Log("AOE activated");
+        aoeAnim.StartExplosion();
     }
     private Vector3 GetTargetPoint()
     {

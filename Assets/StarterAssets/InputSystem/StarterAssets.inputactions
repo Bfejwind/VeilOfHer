@@ -320,7 +320,7 @@
                 {
                     "name": "",
                     "id": "2195cd71-53bb-4e64-950e-02c8805c4d96",
-                    "path": "<Keyboard>/enter",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": ";KeyboardMouse",
