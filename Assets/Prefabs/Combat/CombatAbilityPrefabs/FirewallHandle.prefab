@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 820841228053010387}
   - component: {fileID: 4104273601051297166}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FirewallHandle
   m_TagString: Environment
   m_Icon: {fileID: 0}
@@ -62,7 +62,7 @@ GameObject:
   - component: {fileID: 4559637807933381967}
   - component: {fileID: 3049414375375669051}
   - component: {fileID: 4233377287721326421}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FireWallModel
   m_TagString: Environment
   m_Icon: {fileID: 0}

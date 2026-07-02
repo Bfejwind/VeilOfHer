@@ -1,0 +1,294 @@
+using UnityEngine;
+using UnityEngine.AI;
+using System.Collections;
+public class EnemyVision : MonoBehaviour
+{
+    [Header("References")]
+    [SerializeField] private NavMeshAgent navAgent;
+    [SerializeField] private Transform playerTransform;
+    [SerializeField] private Transform firePoint;
+    [SerializeField] private GameObject projectilePrefab;
+
+    [Header("Layers")]
+    [SerializeField] private LayerMask terrainLayer;
+    [SerializeField] private LayerMask playerLayerMask;
+
+    [Header("Patrol Settings")]
+    [SerializeField] private float patrolRadius = 10f;
+    private Vector3 currentPatrolPoint;
+    private bool hasPatrolPoint;
+    private Transform playerLastKnownPosition;
+    private bool reachedLastKnownPosition;
+
+    [Header("Attack Settings")]
+    [SerializeField] private float attackCooldown = 1f;
+    private bool isOnAttackCooldown;
+    [SerializeField] private float forwardShotForce = 10f;
+    [SerializeField] private float verticalShotForce = 1.3f;
+
+    [Header("Detection Ranges")]
+    [SerializeField] private float visionRange = 20f;
+    [SerializeField] private float attackRange = 10f;
+    [SerializeField] private bool isPlayerVisible;
+    [SerializeField]private bool isPlayerInAngle;
+    private bool isPlayerInRange;
+    [SerializeField] private float detectionAngle = 45f;
+    private bool shotAt;
+
+    [Header("Ability Interactions")]
+    public int controlEffects;
+    public bool canMove => controlEffects == 0;
+    public bool canAttack => controlEffects == 0;
+
+    private void Awake()
+    {
+        if (playerTransform == null)
+        {
+            GameObject playerObj = GameObject.Find("aimTarget");
+            if (playerObj != null)
+            {
+                playerTransform = playerObj.transform;
+            }
+        }
+        if (navAgent == null)
+        {
+            navAgent = GetComponent<NavMeshAgent>();
+        }
+    }
+    private void Update()
+    {
+        DetectPlayer();
+        if (!shotAt)
+        {
+            UpdateBehaviourState();
+        }
+        else
+        {
+            EnragedBehaviourState();
+        }
+    }
+
+    //See vision and Attack range
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+
+        // Gizmos.color = Color.yellow;
+        // Gizmos.DrawWireSphere(transform.position, visionRange);
+    }
+
+    //Detects player
+    private void DetectPlayer()
+    {
+        isPlayerInRange = Physics.CheckSphere(transform.position, attackRange, playerLayerMask);
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, (playerTransform.position - transform.position), out hit, Mathf.Infinity))
+        {
+            if (hit.collider.CompareTag("Player"))
+            {
+                isPlayerVisible = true;
+            }
+            else
+            {
+                isPlayerVisible = false;
+            }
+            Debug.DrawLine(transform.position, hit.point, Color.green);
+        }
+        else //ray hits nothing
+        {
+            isPlayerVisible = false;
+        }
+        Vector3 directionToPlayer = (playerTransform.position - transform.position).normalized;
+        Vector3 enemyFacingDirection = transform.forward;
+        float angleToPlayer = Vector3.SignedAngle(enemyFacingDirection, directionToPlayer, Vector3.up);
+        if (angleToPlayer < detectionAngle && angleToPlayer > -detectionAngle)
+        {
+            isPlayerInAngle = true;
+        }
+        else
+        {
+            isPlayerInAngle = false;
+        }
+    }
+
+    //Shooting
+    private void FireProjectile()
+    {
+        if (projectilePrefab == null || firePoint == null) return;
+
+        Rigidbody projectileRB = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity).GetComponent<Rigidbody>();
+        Vector3 aimDirection = (playerTransform.position - firePoint.position).normalized;
+        projectileRB.AddForce(aimDirection * forwardShotForce, ForceMode.Impulse);
+        projectileRB.AddForce(aimDirection * verticalShotForce, ForceMode.Impulse);
+
+        Destroy(projectileRB.gameObject, 3.0f);
+    }
+
+    //Patrolling setup
+    private void FindPatrolPoint()
+    {
+        float randomX = Random.Range(-patrolRadius, patrolRadius);
+        float randomZ = Random.Range(-patrolRadius, patrolRadius);
+
+        Vector3 potentialPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
+
+        if (Physics.Raycast(potentialPoint, -transform.up, 2f, terrainLayer))
+        {
+            currentPatrolPoint = potentialPoint;
+            hasPatrolPoint = true;
+        }
+    }
+
+    //Fire rate
+    private IEnumerator AttackCooldownRoutine()
+    {
+        isOnAttackCooldown = true;
+        yield return new WaitForSeconds(attackCooldown);
+        isOnAttackCooldown = false;
+    }
+
+    //Patrolling
+    private void PerformPatrol()
+    {
+        if (!hasPatrolPoint)
+        {
+            //Debug.Log("Setting Point");
+            FindPatrolPoint();
+        }
+        if (hasPatrolPoint)
+        {
+            //Debug.Log("Moving to point");
+            navAgent.SetDestination(currentPatrolPoint);
+        }
+        if (Vector3.Distance(transform.position, currentPatrolPoint) < 1f)
+        {
+            //Debug.Log("Point Reached");
+            hasPatrolPoint = false;
+        }
+    }
+    
+    //Player Sighted
+    private void PerformChase()
+    {
+        if (playerTransform != null)
+        {
+            navAgent.SetDestination(playerTransform.position);
+        }
+    }
+
+    //Player in Attack range
+
+    private void PerformAttack()
+    {
+        navAgent.velocity = Vector3.zero;
+        navAgent.SetDestination(transform.position);
+
+        if (playerTransform != null)
+        {
+            transform.LookAt(playerTransform);
+        }
+        if (!canAttack)
+        {
+            return;
+        }
+
+        if (!isOnAttackCooldown)
+        {
+            FireProjectile();
+            StartCoroutine(AttackCooldownRoutine());
+        }
+    }
+    // void OnTriggerEnter(Collider other)
+    // {
+    //     if (other.gameObject.CompareTag("Lockdown"))
+    //     {
+    //         Debug.Log("Stunned");
+    //         isStunned = true;
+    //     }
+    // }
+    //State Machine - Lockeddown,Patrol,Chase,Attack
+    private void UpdateBehaviourState()
+    {
+        if (controlEffects > 0)
+        {
+            UpdateMovementState();
+            return;
+        }
+        if (!isPlayerVisible && playerLastKnownPosition != null)
+        {
+            navAgent.SetDestination(playerLastKnownPosition.position);
+            playerLastKnownPosition = null;
+            return;
+        }
+        if (!isPlayerInAngle && !isPlayerInRange)
+        {
+            PerformPatrol();
+            return;
+        }
+        if (isPlayerVisible && isPlayerInAngle && !isPlayerInRange)
+        {
+            PerformChase();
+            playerLastKnownPosition = playerTransform;
+            return;
+        }
+        if (isPlayerVisible && isPlayerInAngle && isPlayerInRange)
+        {
+            PerformAttack();
+            return;
+        }
+    }
+    public void ApplyControl()
+    {
+        controlEffects++;
+        UpdateMovementState();
+    }
+    public void RemoveControl()
+    {
+        controlEffects = Mathf.Max(0, controlEffects-1);
+        UpdateMovementState();
+    }
+    private void UpdateMovementState()
+    {
+        navAgent.SetDestination(transform.position);
+        navAgent.isStopped = !canMove;
+        navAgent.velocity = Vector3.zero;
+    }
+    public void Enraged()
+    {
+        shotAt = true;
+    }
+    private void EnragedBehaviourState()
+    {
+        if (controlEffects > 0)
+        {
+            UpdateMovementState();
+            return;
+        }
+        if (isPlayerVisible && !isPlayerInRange)
+        {
+            PerformChase();
+            playerLastKnownPosition = playerTransform;
+            return;
+        }
+        if (!isPlayerVisible)
+        {
+            if (playerLastKnownPosition != null)
+            {
+                navAgent.SetDestination(playerLastKnownPosition.position);
+            }
+            else
+            {
+                shotAt = false;
+                PerformPatrol();
+            }
+            playerLastKnownPosition = null;
+            return;
+        }
+        if (isPlayerVisible && isPlayerInAngle && isPlayerInRange)
+        {
+            PerformAttack();
+            return;
+        }
+    }
+}
