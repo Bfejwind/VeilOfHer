@@ -30,7 +30,7 @@ public class EnemyBehaviour : MonoBehaviour
     [Header("Detection Ranges")]
     [SerializeField] private float visionRange = 20f;
     [SerializeField] private float attackRange = 10f;
-    private bool isPlayerVisible;
+    public bool isPlayerVisible;
     private bool isPlayerInRange;
     private bool shotAt;
 
@@ -158,7 +158,9 @@ public class EnemyBehaviour : MonoBehaviour
 
         if (playerTransform != null)
         {
-            transform.LookAt(playerTransform);
+            Vector3 target = playerTransform.position;
+            target.y = transform.position.y;
+            transform.LookAt(target);
         }
         if (!canAttack)
         {

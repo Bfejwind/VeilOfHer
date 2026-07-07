@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading;
 using UnityEngine;
+
 
 public class Boss1Behaviour : MonoBehaviour
 {
     //Lasers
-    [SerializeField] private GameObject laserPrefab;
-    private Transform laserSpawnPoint;
+    //[SerializeField] private GameObject laserPrefab;
+    //private Transform laserSpawnPoint;
+    //References
+    private EnemyBehaviour enemyBehaviour;
+    private bool attackStarted;
     private enum BossState
     {
         Idle,
@@ -17,11 +19,32 @@ public class Boss1Behaviour : MonoBehaviour
 
     }
     //AOE attack
-    [SerializeField] private GameObject bossAOEWarningPrefab;
+    [SerializeField] private GameObject bossAOEPrefab;
+    [SerializeField] private Transform firePoint;
+    [SerializeField] private float aoeAttackVelocity = 10f;
     private List<Transform> aoeSpawnPoints = new List<Transform>();
-    private void Start()
+    //Summons
+    [SerializeField] private GameObject summonPrefab;
+    [SerializeField] private Transform summonPoint1;
+    [SerializeField] private Transform summonPoint2;
+    private void Awake()
     {
-        StartCoroutine(BossAOE());
+        if (firePoint == null)
+        {
+            firePoint = transform.Find("FirePoint");
+        }
+        if (enemyBehaviour == null)
+        {
+            enemyBehaviour = GetComponent<EnemyBehaviour>();
+        }
+    }
+    private void Update()
+    {
+        if (!attackStarted &&enemyBehaviour.isPlayerVisible)
+        {
+            StartCoroutine(BossAOE());
+            attackStarted = true;
+        }
     }
     private IEnumerator BossAOE()
     {
@@ -29,8 +52,11 @@ public class Boss1Behaviour : MonoBehaviour
         {
             Debug.Log("Boss AOE Attack");
             yield return new WaitForSeconds(2.0f);
-            Vector3 randomSpawnPoint = new Vector3(transform.position.x + Random.Range(-10f, 11f), 0f,transform.position.z + Random.Range(-10f, 11f));
-            Instantiate(bossAOEWarningPrefab, randomSpawnPoint, Quaternion.identity);
+            GameObject bossAOE = Instantiate(bossAOEPrefab, firePoint.position, Quaternion.identity);
+            bossAOE.GetComponent<Rigidbody>().AddForce(firePoint.forward.normalized * aoeAttackVelocity, ForceMode.Impulse);
+            GameObject summon1 = Instantiate(summonPrefab, summonPoint1.position, Quaternion.identity);
+            GameObject summon2 = Instantiate(summonPrefab, summonPoint2.position, Quaternion.identity);
+            yield return new WaitForSeconds(5.0f);
         }
 
     }
