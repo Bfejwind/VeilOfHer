@@ -1,6 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.VFX;
 public class EnemyBufferBehaviour : MonoBehaviour
 {
     [Header("References")]
@@ -14,7 +15,7 @@ public class EnemyBufferBehaviour : MonoBehaviour
     private float channellingTimer;
     [SerializeField] private float channellingSuccessTime = 5.0f;
     private bool buffApplied;
-    [SerializeField] private ParticleSystem channellingEffect;
+    [SerializeField] private VisualEffect channellingEffect;
     [Header("Layers")]
     [SerializeField] private LayerMask terrainLayer;
     [Header("Ability Interactions")]
@@ -24,6 +25,8 @@ public class EnemyBufferBehaviour : MonoBehaviour
 
     private void Awake()
     {
+        channellingEffect = GetComponentInChildren<VisualEffect>();
+        //channellingEffect.Stop();
         if (navAgent == null)
         {
             navAgent = GetComponent<NavMeshAgent>();
@@ -40,6 +43,7 @@ public class EnemyBufferBehaviour : MonoBehaviour
         {
             channellingSpawnPoint = transform.Find("ChannellingSpawnPoint");
         }
+
     }
     private void Update()
     {
@@ -50,7 +54,9 @@ public class EnemyBufferBehaviour : MonoBehaviour
         }
         if (isChannelling && channellingTimer >= channellingSuccessTime)
         {
+            Debug.Log("Channelling complete");
             buffApplied = true;
+            channellingEffect.SetFloat("spawnRate", 0f);
             // Apply the buff to the boss here
             Debug.Log("Buff applied to the boss!");
             Destroy(gameObject);
@@ -77,12 +83,10 @@ public class EnemyBufferBehaviour : MonoBehaviour
         if (inChannelRange)
         {
             navAgent.SetDestination(transform.position);
-            if (!channellingEffect.isPlaying)
-            {
-                isChannelling = true;
-                channellingTimer += Time.deltaTime;
-                channellingEffect.Play();
-            }
+            transform.LookAt(bossTransform.position);
+            isChannelling = true;
+            channellingTimer += Time.deltaTime;
+            channellingEffect.SetFloat("spawnRate", 16f);
             return;
         }
     }
