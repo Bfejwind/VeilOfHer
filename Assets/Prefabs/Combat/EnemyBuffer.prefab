@@ -166,7 +166,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9164997248323897434}
   m_Layer: 0
-  m_Name: FirePoint
+  m_Name: ChannellingSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -181,7 +181,7 @@ Transform:
   m_GameObject: {fileID: 2676916690172172154}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.6, z: 1}
+  m_LocalPosition: {x: 0, y: 1.73, z: 0.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -390,8 +390,9 @@ GameObject:
   - component: {fileID: 4949007965653870674}
   - component: {fileID: 2419770502229468345}
   - component: {fileID: 3496630099283184374}
+  - component: {fileID: 3640749680183742940}
   m_Layer: 0
-  m_Name: EnemyHealer
+  m_Name: EnemyBuffer
   m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -524,7 +525,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8941305048270414665}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 785ec6963b5a51e4a84eeb33443da6d9, type: 3}
   m_Name: 
@@ -545,6 +546,7 @@ MonoBehaviour:
   verticalShotForce: 0.85
   visionRange: 25
   attackRange: 20
+  isPlayerVisible: 0
   controlEffects: 0
 --- !u!114 &2419770502229468345
 MonoBehaviour:
@@ -591,6 +593,28 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 2
+--- !u!114 &3640749680183742940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8941305048270414665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c74806454161c1740ba3d20840b573b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyBufferBehaviour
+  navAgent: {fileID: 2181150578454172129}
+  bossTransform: {fileID: 0}
+  channellingSpawnPoint: {fileID: 0}
+  channelDistance: 5
+  channellingSuccessTime: 5
+  channellingEffect: {fileID: 0}
+  terrainLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  controlEffects: 0
 --- !u!1 &9149879443568345922
 GameObject:
   m_ObjectHideFlags: 0
@@ -941,7 +965,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6819750521046532994, guid: 719a1b6d34a8d3641bb87dbc316dc75d, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.x
-      value: -0.0030899048
+      value: -0.0030937195
       objectReference: {fileID: 0}
     - target: {fileID: 6819750521046532994, guid: 719a1b6d34a8d3641bb87dbc316dc75d, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.y
@@ -949,7 +973,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6819750521046532994, guid: 719a1b6d34a8d3641bb87dbc316dc75d, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.z
-      value: -0.008728027
+      value: -0.008720398
       objectReference: {fileID: 0}
     - target: {fileID: 6819750521046532994, guid: 719a1b6d34a8d3641bb87dbc316dc75d, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[2].m_Value.x
