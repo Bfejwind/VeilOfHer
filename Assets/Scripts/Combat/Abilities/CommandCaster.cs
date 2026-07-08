@@ -129,13 +129,6 @@ public class CommandCaster : MonoBehaviour
         if (ability is AOEAbilityData aoe)
         {
             StartCoroutine(AOEStrike(aoe, targetPoint));
-            // GameObject aoePrefab = Instantiate(aoe.aoeImpactPrefab, targetPoint,Quaternion.identity);
-            // var aoeAnim = aoePrefab.GetComponent<AOEExplosionAnim>();
-            // var aoeLogic = aoePrefab.GetComponent<AOEBehaviour>();
-            // float aoeFinalDamage = (aoe.aoeBaseDamage + aoeDamageMod) * playerStats.abilityDamageMultiplier;
-            // aoeLogic.AOEDamageCalc(aoeFinalDamage);
-            // //Debug.Log("AOE activated");
-            // aoeAnim.StartExplosion();
             return;
         }
         if (ability is FireWallAbilityData firewall)
