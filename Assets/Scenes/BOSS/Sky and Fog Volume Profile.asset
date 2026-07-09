@@ -234,10 +234,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15cc4c5fcb677014ebdc0d8be227b40c, type: 3}
   m_Name: ScreenSpaceLensFlare
   m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.ScreenSpaceLensFlare
-  active: 0
+  active: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 0.95
   tintColor:
     m_OverrideState: 1
     m_Value: {r: 1, g: 1, b: 1, a: 1}
@@ -876,7 +876,7 @@ MonoBehaviour:
     m_Value: 8000
   shadowOpacity:
     m_OverrideState: 1
-    m_Value: 0.486
+    m_Value: 1
   shadowOpacityFallback:
     m_OverrideState: 1
     m_Value: 0
