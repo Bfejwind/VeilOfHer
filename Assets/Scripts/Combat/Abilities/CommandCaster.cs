@@ -22,7 +22,7 @@ public class CommandCaster : MonoBehaviour
     [Space]
     [Header("Player Stats")]
     private PlayerBehaviour playerStats;
-    public bool AbilityLoaded => currentAbility != null;
+    public bool abilityLoaded;
     [Space]
     [Header("Modifiers")]
     [SerializeField] private float aoeDamageMod;
@@ -60,6 +60,7 @@ public class CommandCaster : MonoBehaviour
         if (currentAbility != null && Input.GetKeyDown(KeyCode.Mouse0))
         {
             CastAbility(currentAbility);
+            StartCoroutine(ScuffedAbilityLoad());
             //Turn on weapon after ability is fired
             //EndTargeting();
             currentAbility = null;
@@ -76,6 +77,7 @@ public class CommandCaster : MonoBehaviour
         //Add input = input.ToLower() if you want to ignore case sensitivity
         else if (commandLookup.TryGetValue(input, out AbilityData ability))
         {
+            abilityLoaded = true;
             currentCharges--;
             //Disable gun to allow ability fire
             if (cdTracker != null)
@@ -186,4 +188,9 @@ public class CommandCaster : MonoBehaviour
     //     }
     //     Time.timeScale = 1.0f;
     // }
+    private IEnumerator ScuffedAbilityLoad()
+    {
+        yield return new WaitForSeconds(0.5f);
+        abilityLoaded = false;
+    }
 }
