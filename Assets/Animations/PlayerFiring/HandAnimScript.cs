@@ -7,6 +7,7 @@ public class HandAnimScript : MonoBehaviour
     {
         animator = GetComponent<Animator>();
     }
+    //Firing
     public void PlayHandsFireStart()
     {
         animator.SetTrigger("Fire");
@@ -20,6 +21,7 @@ public class HandAnimScript : MonoBehaviour
     {
         animator.SetTrigger("Reload");
     }
+    //Ability
     public void PlayHandsAbilityStart()
     {
         animator.SetTrigger("AbilityStart");
@@ -28,9 +30,6 @@ public class HandAnimScript : MonoBehaviour
     public void PlayHandsAbilityShoot()
     {
         animator.SetTrigger("AbilityFire");
-    }
-    public void PlayHandsAbilityStop()
-    {
         animator.SetBool("AbilityLoaded", false);
     }
 }

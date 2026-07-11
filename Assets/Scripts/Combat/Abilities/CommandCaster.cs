@@ -9,6 +9,8 @@ public class CommandCaster : MonoBehaviour
     [SerializeField]private Camera playerCamera;
     [SerializeField]private float maxRange = 20f;
     [SerializeField]private LayerMask aimMask;
+    //Animations
+    [SerializeField] private HandAnimScript handAnim;
 
     [Header("Charge System")]
     public int maxCharges = 2;
@@ -20,6 +22,7 @@ public class CommandCaster : MonoBehaviour
     [Space]
     [Header("Player Stats")]
     private PlayerBehaviour playerStats;
+    public bool AbilityLoaded => currentAbility != null;
     [Space]
     [Header("Modifiers")]
     [SerializeField] private float aoeDamageMod;
@@ -41,6 +44,7 @@ public class CommandCaster : MonoBehaviour
     private void Awake()
     {
         playerStats = GetComponent<PlayerBehaviour>();
+        handAnim = GetComponentInChildren<HandAnimScript>();
         commandLookup = new Dictionary<string, AbilityData>();
         foreach (var pair in commandList)
         {
@@ -56,6 +60,7 @@ public class CommandCaster : MonoBehaviour
         if (currentAbility != null && Input.GetKeyDown(KeyCode.Mouse0))
         {
             CastAbility(currentAbility);
+            //Turn on weapon after ability is fired
             //EndTargeting();
             currentAbility = null;
         }
@@ -72,6 +77,7 @@ public class CommandCaster : MonoBehaviour
         else if (commandLookup.TryGetValue(input, out AbilityData ability))
         {
             currentCharges--;
+            //Disable gun to allow ability fire
             if (cdTracker != null)
             {
                 cdTracker.CMDChargesTracker(currentCharges.ToString());

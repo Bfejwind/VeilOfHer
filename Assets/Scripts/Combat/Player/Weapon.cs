@@ -30,8 +30,7 @@ public class Weapon : MonoBehaviour
     private bool isCharging;
     [Header("Player Stats")]
     private PlayerBehaviour playerStats;
-    [Header("Gun Switch")]
-    public bool weaponOn = true;
+    private CommandCaster commandCasterScript;
     [Header("Loading")]
     public float reloadTime;
     public int magazineSize, bulletsLeft;
@@ -55,51 +54,52 @@ public class Weapon : MonoBehaviour
         playerStats = GetComponent<PlayerBehaviour>();
         bulletsLeft = magazineSize;
         handAnim = GetComponentInChildren<HandAnimScript>();
+        commandCasterScript = GetComponent<CommandCaster>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (weaponOn)
+        if (commandCasterScript.AbilityLoaded)
         {
-            if (currentShootingMode == ShootingMode.Auto)
+            return;
+        }
+        if (currentShootingMode == ShootingMode.Auto)
+        {
+            //play animation once
+            if (Input.GetKeyDown(KeyCode.Mouse0) && bulletsLeft > 0)
             {
-                //play animation once
-                if (Input.GetKeyDown(KeyCode.Mouse0) && bulletsLeft > 0)
-                {
-                    handAnim.PlayHandsFireStart();
-                }
-                //Holding down left mouse
-                if (Input.GetKeyUp(KeyCode.Mouse0) || bulletsLeft <= 0)
-                {
-                    handAnim.PlayHandsFireStop();
-                }
-                isShooting = Input.GetKey(KeyCode.Mouse0);
+                handAnim.PlayHandsFireStart();
             }
-            else if (currentShootingMode == ShootingMode.Single || currentShootingMode == ShootingMode.Burst)
+            //Holding down left mouse
+            if (Input.GetKeyUp(KeyCode.Mouse0) || bulletsLeft <= 0)
             {
-                // if (Input.GetKey(KeyCode.Mouse0) && !isCharging)
-                // {
-                //     isCharging = Input.GetKey(KeyCode.Mouse0);
-                // }
-                //Clicking once left mouse
-                isShooting = Input.GetKeyDown(KeyCode.Mouse0);
+                handAnim.PlayHandsFireStop();
             }
-            if (readyToShoot && isShooting && bulletsLeft > 0)
-            {
-                burstBulletsLeft = bulletsPerBurst;
-                FireWeapon();
-            }
-            // if (readyToShoot && isCharging && bulletsLeft > 0)
+            isShooting = Input.GetKey(KeyCode.Mouse0);
+        }
+        else if (currentShootingMode == ShootingMode.Single || currentShootingMode == ShootingMode.Burst)
+        {
+            // if (Input.GetKey(KeyCode.Mouse0) && !isCharging)
             // {
-            //     ChargedShot();
+            //     isCharging = Input.GetKey(KeyCode.Mouse0);
             // }
-            //Ammo UI
-            if (AmmoManager.Instance.ammoDisplay != null)
-            {
-                AmmoManager.Instance.ammoDisplay.text = $"{bulletsLeft}/{magazineSize}";
-            }
-            //Stop shooting when out of ammo
+            //Clicking once left mouse
+            isShooting = Input.GetKeyDown(KeyCode.Mouse0);
+        }
+        if (readyToShoot && isShooting && bulletsLeft > 0)
+        {
+            burstBulletsLeft = bulletsPerBurst;
+            FireWeapon();
+        }
+        // if (readyToShoot && isCharging && bulletsLeft > 0)
+        // {
+        //     ChargedShot();
+        // }
+        //Ammo UI
+        if (AmmoManager.Instance.ammoDisplay != null)
+        {
+            AmmoManager.Instance.ammoDisplay.text = $"{bulletsLeft}/{magazineSize}";
         }
     }
 
