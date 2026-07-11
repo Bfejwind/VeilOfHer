@@ -38,6 +38,10 @@ public class EnemyBufferBehaviour : MonoBehaviour
             {
                 bossTransform = bossObj.transform;
             }
+            else
+            {
+                DestroySelf();
+            }
         }
         if (channellingSpawnPoint == null)
         {
@@ -59,12 +63,17 @@ public class EnemyBufferBehaviour : MonoBehaviour
             channellingEffect.SetFloat("spawnRate", 0f);
             // Apply the buff to the boss here
             Debug.Log("Buff applied to the boss!");
-            Destroy(gameObject);
+            DestroySelf();
         }
     }
 
     private void DetectBoss()
     {
+        if (bossTransform == null)
+        {
+            DestroySelf();
+            return;
+        }
         distToBoss = bossTransform.position - transform.position;
         inChannelRange = distToBoss.magnitude <= channelDistance;
     }
@@ -109,5 +118,9 @@ public class EnemyBufferBehaviour : MonoBehaviour
         navAgent.SetDestination(transform.position);
         navAgent.isStopped = !canMove;
         navAgent.velocity = Vector3.zero;
+    }
+    private void DestroySelf()
+    {
+        Destroy(gameObject);
     }
 }

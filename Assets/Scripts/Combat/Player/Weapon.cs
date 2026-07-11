@@ -30,6 +30,8 @@ public class Weapon : MonoBehaviour
     private bool isCharging;
     [Header("Player Stats")]
     private PlayerBehaviour playerStats;
+    [Header("Gun Switch")]
+    public bool weaponOn = true;
     [Header("Loading")]
     public float reloadTime;
     public int magazineSize, bulletsLeft;
@@ -58,39 +60,51 @@ public class Weapon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (currentShootingMode == ShootingMode.Auto)
+        if (weaponOn)
         {
-            //Holding down left mouse
-            isShooting = Input.GetKey(KeyCode.Mouse0);
-        }
-        else if (currentShootingMode == ShootingMode.Single || currentShootingMode == ShootingMode.Burst)
-        {
-            // if (Input.GetKey(KeyCode.Mouse0) && !isCharging)
+            if (currentShootingMode == ShootingMode.Auto)
+            {
+                //play animation once
+                if (Input.GetKeyDown(KeyCode.Mouse0) && bulletsLeft > 0)
+                {
+                    handAnim.PlayHandsFireStart();
+                }
+                //Holding down left mouse
+                if (Input.GetKeyUp(KeyCode.Mouse0) || bulletsLeft <= 0)
+                {
+                    handAnim.PlayHandsFireStop();
+                }
+                isShooting = Input.GetKey(KeyCode.Mouse0);
+            }
+            else if (currentShootingMode == ShootingMode.Single || currentShootingMode == ShootingMode.Burst)
+            {
+                // if (Input.GetKey(KeyCode.Mouse0) && !isCharging)
+                // {
+                //     isCharging = Input.GetKey(KeyCode.Mouse0);
+                // }
+                //Clicking once left mouse
+                isShooting = Input.GetKeyDown(KeyCode.Mouse0);
+            }
+            if (readyToShoot && isShooting && bulletsLeft > 0)
+            {
+                burstBulletsLeft = bulletsPerBurst;
+                FireWeapon();
+            }
+            // if (readyToShoot && isCharging && bulletsLeft > 0)
             // {
-            //     isCharging = Input.GetKey(KeyCode.Mouse0);
+            //     ChargedShot();
             // }
-            //Clicking once left mouse
-            isShooting = Input.GetKeyDown(KeyCode.Mouse0);
-        }
-        if (readyToShoot && isShooting && bulletsLeft > 0)
-        {
-            burstBulletsLeft = bulletsPerBurst;
-            FireWeapon();
-        }
-        // if (readyToShoot && isCharging && bulletsLeft > 0)
-        // {
-        //     ChargedShot();
-        // }
-        //Ammo UI
-        if (AmmoManager.Instance.ammoDisplay != null)
-        {
-            AmmoManager.Instance.ammoDisplay.text = $"{bulletsLeft}/{magazineSize}";
+            //Ammo UI
+            if (AmmoManager.Instance.ammoDisplay != null)
+            {
+                AmmoManager.Instance.ammoDisplay.text = $"{bulletsLeft}/{magazineSize}";
+            }
+            //Stop shooting when out of ammo
         }
     }
 
     private void FireWeapon()
     {
-        handAnim.PlayHandsFireStart();
         readyToShoot = false;
         bulletsLeft--;
         float finalDamage = (baseDamage + playerStats.bulletDamageUpgrade) * playerStats.bulletDamageMultiplier;
@@ -142,7 +156,9 @@ public class Weapon : MonoBehaviour
     {
         if (bulletsLeft < magazineSize && isReloading == false)
         {
+            readyToShoot = false;
             isReloading = true;
+            handAnim.PlayReload();
             audioSource.PlayOneShot(reloadSfx);
             Invoke("ReloadCompleted", reloadTime);
         }
@@ -151,6 +167,7 @@ public class Weapon : MonoBehaviour
     {
         bulletsLeft = magazineSize;
         isReloading = false;
+        readyToShoot = true;
 
     }
 
