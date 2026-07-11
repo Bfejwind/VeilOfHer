@@ -594,7 +594,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Armature|HandsAbilityIdle
-  m_Speed: 8
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 7015669990474547111}
@@ -649,7 +649,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Armature|HandsAbilityShoot
-  m_Speed: 8
+  m_Speed: 10
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -6891570764682338884}
