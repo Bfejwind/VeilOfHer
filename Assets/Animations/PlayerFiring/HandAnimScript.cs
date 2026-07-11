@@ -7,40 +7,30 @@ public class HandAnimScript : MonoBehaviour
     {
         animator = GetComponent<Animator>();
     }
-    public void PlayHandsIdle()
-    {
-        animator.Play("HandsIdleBetter");
-    }
     public void PlayHandsFireStart()
     {
-        animator.Play("HandsFireStart");
-    }
-    public void PlayHandsFiring()
-    {
-        animator.Play("HandsFiring");
+        animator.SetTrigger("Fire");
+        animator.SetBool("isFiring", true);
     }
     public void PlayHandsFireStop()
     {
-        animator.Play("HandsFireStop");
+        animator.SetBool("isFiring", false);
     }
     public void PlayReload()
     {
-        animator.Play("Reload");
+        animator.SetTrigger("Reload");
     }
     public void PlayHandsAbilityStart()
     {
-        animator.Play("HandsAbilityStart");
-    }
-    public void PlayHandsAbilityIdle()
-    {
-        animator.Play("HandsAbilityIdle");
+        animator.SetTrigger("AbilityStart");
+        animator.SetBool("AbilityLoaded", true);
     }
     public void PlayHandsAbilityShoot()
     {
-        animator.Play("HandsAbilityShoot");
+        animator.SetTrigger("AbilityFire");
     }
     public void PlayHandsAbilityStop()
     {
-        animator.Play("HandsAbilityStop");
+        animator.SetBool("AbilityLoaded", false);
     }
 }

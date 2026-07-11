@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    [Header("References")]
     public Camera playerCamera;
+    [SerializeField] private HandAnimScript handAnim;
     //Shooting
     public bool isShooting, readyToShoot;
     bool allowReset = true;
@@ -50,6 +52,7 @@ public class Weapon : MonoBehaviour
         burstBulletsLeft = bulletsPerBurst;
         playerStats = GetComponent<PlayerBehaviour>();
         bulletsLeft = magazineSize;
+        handAnim = GetComponentInChildren<HandAnimScript>();
     }
 
     // Update is called once per frame
@@ -87,6 +90,7 @@ public class Weapon : MonoBehaviour
 
     private void FireWeapon()
     {
+        handAnim.PlayHandsFireStart();
         readyToShoot = false;
         bulletsLeft--;
         float finalDamage = (baseDamage + playerStats.bulletDamageUpgrade) * playerStats.bulletDamageMultiplier;
