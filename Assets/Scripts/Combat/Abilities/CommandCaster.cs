@@ -41,6 +41,8 @@ public class CommandCaster : MonoBehaviour
     //Targeting
     private AbilityData currentAbility;
     private Coroutine slowMoCoroutine;
+    //Delay weapon Firing
+    [SerializeField] private float scuffedWeaponDelay = 0.5f;
     private void Awake()
     {
         playerStats = GetComponent<PlayerBehaviour>();
@@ -79,7 +81,6 @@ public class CommandCaster : MonoBehaviour
         {
             abilityLoaded = true;
             currentCharges--;
-            //Disable gun to allow ability fire
             if (cdTracker != null)
             {
                 cdTracker.CMDChargesTracker(currentCharges.ToString());
@@ -89,6 +90,8 @@ public class CommandCaster : MonoBehaviour
             //slowMoCoroutine = StartCoroutine(SlowTime());
             //CastAbility(ability);
             StartCoroutine(RechargeCharge());
+            //Animations
+            handAnim.PlayHandsAbilityStart();
         }
     }
     private IEnumerator CooldownIconRoutine()
@@ -125,6 +128,8 @@ public class CommandCaster : MonoBehaviour
     }
     private void CastAbility(AbilityData ability)
     {
+        //Animations
+        handAnim.PlayHandsAbilityShoot();
         Vector3 targetPoint = GetTargetPoint();
         if (ability is ControlAbilityData control)
         {
@@ -190,7 +195,7 @@ public class CommandCaster : MonoBehaviour
     // }
     private IEnumerator ScuffedAbilityLoad()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(scuffedWeaponDelay);
         abilityLoaded = false;
     }
 }
