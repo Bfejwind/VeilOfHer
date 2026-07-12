@@ -42,7 +42,7 @@ public class CommandCaster : MonoBehaviour
     private AbilityData currentAbility;
     private Coroutine slowMoCoroutine;
     //Delay weapon Firing
-    [SerializeField] private float scuffedWeaponDelay = 0.5f;
+    [SerializeField] private float scuffedWeaponDelay = 0.2f;
     private void Awake()
     {
         playerStats = GetComponent<PlayerBehaviour>();
