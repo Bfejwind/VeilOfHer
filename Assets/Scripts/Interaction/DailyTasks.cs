@@ -19,7 +19,7 @@ public class DailyTasks : MonoBehaviour
 
     public void UpdateDirtCount()
     {
-        dirtCleaned++;
+        dirtCleaned += 1;
         dirtCountText.text = "Dirt Cleaned: " + dirtCleaned.ToString() + "/3";
         Debug.Log(dirtCleaned);
     }
