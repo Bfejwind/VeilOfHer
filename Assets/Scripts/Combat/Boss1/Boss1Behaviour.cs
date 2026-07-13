@@ -11,13 +11,6 @@ public class Boss1Behaviour : MonoBehaviour
     [Header("References")]
     private EnemyBehaviour enemyBehaviour;
     private bool attackStarted;
-    private enum BossState
-    {
-        Idle,
-        NormalAttack,
-        AOEAttack,
-
-    }
     [SerializeField] private float abilityAttackDelay = 5.0f;
     [Header("Follow Attack")]
     [SerializeField] private GameObject followAttackPrefab;
@@ -37,6 +30,13 @@ public class Boss1Behaviour : MonoBehaviour
     private float dodgeCooldown = 30.0f;
     private bool dodgeAvailable = true;
     public bool incomingAttack = false;
+    private enum BossState
+    {
+        Idle,
+        SprayAttack,
+        AOEAttack,
+        Summon,
+    }
     private void Awake()
     {
         if (firePoint == null)
@@ -59,6 +59,10 @@ public class Boss1Behaviour : MonoBehaviour
         {
             BossDodge();
         }
+    }
+    private void UpdateBossState()
+    {
+        
     }
     private IEnumerator BossAOE()
     {

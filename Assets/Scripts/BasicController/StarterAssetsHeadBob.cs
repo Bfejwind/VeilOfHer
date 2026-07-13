@@ -4,6 +4,7 @@ public class StarterAssetsHeadBob : MonoBehaviour
 {
     [Header("References")]
     public Transform cameraRoot;
+    public Transform handPos;
     public CharacterController controller;
 
     [Header("Test")]
@@ -16,6 +17,7 @@ public class StarterAssetsHeadBob : MonoBehaviour
     public float smooth = 20f;
 
     private Vector3 originalLocalPosition;
+    private Vector3 originalHandLocalPosition;
     private float timer;
 
     void Start()
@@ -26,6 +28,10 @@ public class StarterAssetsHeadBob : MonoBehaviour
             enabled = false;
             return;
         }
+        if (handPos == null)
+        {
+            handPos = GameObject.Find("Hands").transform;
+        }
 
         if (controller == null)
         {
@@ -33,6 +39,8 @@ public class StarterAssetsHeadBob : MonoBehaviour
         }
 
         originalLocalPosition = cameraRoot.localPosition;
+        originalHandLocalPosition = handPos.localPosition;
+
         Debug.Log("HeadBob started on: " + gameObject.name);
     }
 
@@ -49,6 +57,7 @@ public class StarterAssetsHeadBob : MonoBehaviour
         }
 
         Vector3 targetPosition = originalLocalPosition;
+        Vector3 handTargetPosition = originalHandLocalPosition;
 
         if (isMoving)
         {
@@ -58,6 +67,7 @@ public class StarterAssetsHeadBob : MonoBehaviour
             float x = Mathf.Cos(timer * 0.5f) * horizontalAmount;
 
             targetPosition = originalLocalPosition + new Vector3(x, y, 0f);
+            handTargetPosition = originalHandLocalPosition + new Vector3(x, y, 0f);
         }
         else
         {
@@ -69,5 +79,6 @@ public class StarterAssetsHeadBob : MonoBehaviour
             targetPosition,
             Time.deltaTime * smooth
         );
+        handPos.localPosition = Vector3.Lerp(handPos.localPosition,handTargetPosition,Time.deltaTime * smooth);
     }
 }
