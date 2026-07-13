@@ -16,10 +16,11 @@ public class FloatCodeBehaviour : MonoBehaviour
     [Header("Behavior")]
     [Tooltip("If checked, object bounces off walls. If unchecked, it stops")]
     public bool bounceOffWalls = true;
+    [SerializeField] private float rotationSpeed = 10.0f;
     void Start()
     {
         FloatRB = GetComponent<Rigidbody>();
-        StartCoroutine(FloatRandomly());
+        //StartCoroutine(FloatRandomly());
     }
     void Update()
     {
@@ -41,6 +42,7 @@ public class FloatCodeBehaviour : MonoBehaviour
         // // Apply corrected position and velocity back to physics engine
         // transform.position = pos;
         // FloatRB.linearVelocity = vel;
+        transform.Rotate(0f, rotationSpeed * Time.deltaTime, 0f, Space.World);
     }
     IEnumerator FloatRandomly()
     {
