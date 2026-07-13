@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Rendering.Universal;
 
 public class ActivateDirt : MonoBehaviour, IInteractable
 {
@@ -16,6 +17,14 @@ public class ActivateDirt : MonoBehaviour, IInteractable
 
     [SerializeField]
     public TMP_Text statusText;
+
+    [SerializeField] 
+    public float fadeAmount = 0.2f; // Fixed amount to reduce opacity
+
+    [SerializeField] 
+    public LayerMask decalLayer; // Layer mask to filter raycast hits
+
+     public float interactionRange = 3f;
 
     public ActivateCleaning mopStatus;
 
@@ -40,7 +49,7 @@ public class ActivateDirt : MonoBehaviour, IInteractable
     {
         if (ActivateCleaning.mopTaken)
         {
-            cleanDirt();
+            PerformDecalRaycast();
         }
         else
         {
@@ -68,7 +77,8 @@ public class ActivateDirt : MonoBehaviour, IInteractable
 
     IEnumerator cleanUpDirt()
     {
-        dirt.SetActive(false);
+        // decalProjector.fadeFactor = Mathf.Sin(Time.time) * 0.5f + 0.5f;
+        // dirt.SetActive(false);
         if (dirtCount != null)
         {
             if (DailyTasks.dirtCleaned < 3)
@@ -81,5 +91,27 @@ public class ActivateDirt : MonoBehaviour, IInteractable
             Debug.LogWarning("DailyTasks reference is null. Cannot update dirt count.");
         }
         yield return new WaitForSeconds(2);
+    }
+
+    void PerformDecalRaycast()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        // Perform the raycast restricted to the decal layer
+        if (Physics.Raycast(ray, out hit, interactionRange, decalLayer))
+        {
+            // Try to find the HDRP Decal Projector component on the hit object
+            DecalProjector projector = hit.collider.GetComponent<DecalProjector>();
+
+            if (projector != null)
+            {
+                // Subtract the fixed number and clamp it between 0 (invisible) and 1 (fully opaque)
+                projector.fadeFactor = Mathf.Clamp01(projector.fadeFactor - fadeAmount);
+                
+                Debug.Log($"Decal Hit! New opacity: {projector.fadeFactor}");
+                StartCoroutine(cleanUpDirt());
+            }
+        }
     }
 }
