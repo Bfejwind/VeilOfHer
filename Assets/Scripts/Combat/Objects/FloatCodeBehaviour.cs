@@ -46,7 +46,7 @@ public class FloatCodeBehaviour : MonoBehaviour
     {
         while (true)
         {
-            floatStrength = Random.Range(1,4);
+            floatStrength = Random.Range(5,10);
             Vector3 randomDirection = Random.insideUnitSphere.normalized;
             FloatRB.AddForce(randomDirection * floatStrength,ForceMode.Impulse);
             yield return new WaitForSeconds(2.0f);

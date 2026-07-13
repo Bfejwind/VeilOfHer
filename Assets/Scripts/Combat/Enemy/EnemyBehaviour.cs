@@ -31,7 +31,7 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] private float visionRange = 20f;
     [SerializeField] private float attackRange = 10f;
     public bool isPlayerVisible;
-    private bool isPlayerInRange;
+    public bool isPlayerInRange;
     private bool shotAt;
 
     [Header("Ability Interactions")]

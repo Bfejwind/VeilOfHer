@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyBullet : MonoBehaviour
 {
-    private float damage = 20.0f;
+    [SerializeField] private float damage = 20.0f;
     //[Header("Layers")]
     void OnTriggerEnter(Collider other)
     {
