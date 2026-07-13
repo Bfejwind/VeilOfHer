@@ -331,6 +331,9 @@ VisualEffect:
       - m_Value: 3
         m_Name: New Cone_height
         m_Overridden: 1
+      - m_Value: 74.28
+        m_Name: spawnRate
+        m_Overridden: 1
     m_Vector2f:
       m_Array: []
     m_Vector3f:
