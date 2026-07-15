@@ -827,16 +827,16 @@ MonoBehaviour:
     m_Value: 1
   enabledTransparent:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0
   tracing:
     m_OverrideState: 1
     m_Value: 2
   m_MinSmoothness:
     m_OverrideState: 1
-    m_Value: 0.538
+    m_Value: 0.716
   m_SmoothnessFadeStart:
     m_OverrideState: 1
-    m_Value: 0.7
+    m_Value: 0.793
   reflectSky:
     m_OverrideState: 1
     m_Value: 1
@@ -889,13 +889,13 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 8192
   textureLodBias:
     m_OverrideState: 1
     m_Value: 1
   m_RayLength:
     m_OverrideState: 1
-    m_Value: 20
+    m_Value: 12
   m_ClampValue:
     m_OverrideState: 1
     m_Value: 20
@@ -904,10 +904,10 @@ MonoBehaviour:
     m_Value: 1
   m_DenoiserRadius:
     m_OverrideState: 1
-    m_Value: 0.75
+    m_Value: 0.594
   m_DenoiserAntiFlickeringStrength:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.885
   mode:
     m_OverrideState: 1
     m_Value: 2
