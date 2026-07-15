@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using StarterAssets;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,9 +14,14 @@ public class Dash : MonoBehaviour
     public float dashCooldown = 3.0f;
     private bool canDash = true;
     private KeyCode dashKey = KeyCode.LeftShift;
+    //Invulnerability
+    private PlayerHealth playerHealth;
+    private float invulnerableDuration;
     void Start()
     {
         moveScript = GetComponent<FirstPersonController>();
+        playerHealth = GetComponent<PlayerHealth>();
+        invulnerableDuration = dashTime;
     }
     void Update()
     {
@@ -24,6 +30,7 @@ public class Dash : MonoBehaviour
             if (!isDashing)
             {
                 StartCoroutine(Dashing());
+                StartCoroutine(playerHealth.DashInvulnerability(invulnerableDuration));
             }
         }
     }

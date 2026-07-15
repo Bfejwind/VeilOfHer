@@ -33,8 +33,20 @@ public class Boss1Behaviour : MonoBehaviour
     private enum BossState
     {
         Idle,
-        SprayAttack,
-        AOEAttack,
+        Moving,
+        ChoosingAttack,
+        Attacking,
+        Recovering,
+        Stunned,
+        PhaseTransition,
+        Dead
+    }
+    public enum BossAttackType
+    {
+        None,
+        Projectile,
+        AOE,
+        FollowAttack,
         Summon,
     }
     private void Awake()
@@ -70,14 +82,14 @@ public class Boss1Behaviour : MonoBehaviour
         {
             if (enemyBehaviour.isPlayerInRange)
             {
-                Debug.Log("Boss AOE Attack");
+                //Debug.Log("Boss AOE Attack");
                 GameObject bossAOE = Instantiate(bossAOEPrefab, firePoint.position, Quaternion.identity);
                 bossAOE.GetComponent<Rigidbody>().AddForce(firePoint.forward.normalized * aoeAttackVelocity, ForceMode.Impulse);
                 
             }
             else
             {
-                Debug.Log("Boss Follow Attack");
+                //Debug.Log("Boss Follow Attack");
                 GameObject followAttack = Instantiate(followAttackPrefab, firePoint.position, Quaternion.identity);
             }
             yield return new WaitForSeconds(abilityAttackDelay);
