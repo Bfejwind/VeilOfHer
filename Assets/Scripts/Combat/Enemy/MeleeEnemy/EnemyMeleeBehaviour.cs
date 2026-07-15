@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,6 +8,7 @@ public class EnemyMeleeBehaviour : MonoBehaviour
     [Header("References")]
     [SerializeField] private NavMeshAgent navAgent;
     [SerializeField] private Transform playerTransform;
+    [SerializeField] private Transform warningOrigin;
 
     [Header("Layers")]
     [SerializeField] private LayerMask terrainLayer;
@@ -46,6 +48,10 @@ public class EnemyMeleeBehaviour : MonoBehaviour
         if (navAgent == null)
         {
             navAgent = GetComponent<NavMeshAgent>();
+        }
+        if (warningOrigin == null)
+        {
+            warningOrigin = transform.Find("WarningRaycastOrigin");
         }
     }
     private void Update()
@@ -133,7 +139,7 @@ public class EnemyMeleeBehaviour : MonoBehaviour
 
     //Player in Attack range
 
-    private void PerformAttack()
+    private IEnumerator PerformWarning()
     {
         navAgent.velocity = Vector3.zero;
         navAgent.SetDestination(transform.position);
@@ -146,7 +152,7 @@ public class EnemyMeleeBehaviour : MonoBehaviour
         }
         if (!canAttack)
         {
-            return;
+            yield break;
         }
 
         if (!isOnAttackCooldown)
@@ -154,6 +160,10 @@ public class EnemyMeleeBehaviour : MonoBehaviour
             //Attack Script
             StartCoroutine(AttackCooldownRoutine());
         }
+    }
+    private void PerformCharge()
+    {
+
     }
     private void UpdateBehaviourState()
     {
@@ -174,7 +184,7 @@ public class EnemyMeleeBehaviour : MonoBehaviour
         }
         if (isPlayerVisible && isPlayerInRange)
         {
-            PerformAttack();
+            PerformCharge();
             return;
         }
     }
@@ -212,7 +222,7 @@ public class EnemyMeleeBehaviour : MonoBehaviour
         }
         if (isPlayerVisible && isPlayerInRange)
         {
-            PerformAttack();
+            PerformCharge();
             return;
         }
     }
