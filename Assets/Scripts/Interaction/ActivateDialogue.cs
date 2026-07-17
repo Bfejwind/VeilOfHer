@@ -20,9 +20,9 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
     public SpeakerPosition position;
 
     [SerializeField] 
-    public Image leftPortraitImage;
+    public RawImage leftPortraitImage;
     [SerializeField] 
-    public Image rightPortraitImage;
+    public RawImage rightPortraitImage;
 
     [Header("Visual Settings")]
     [SerializeField] private Color activeColor = Color.white; // Full brightness (1,1,1,1)
