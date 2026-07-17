@@ -11,6 +11,7 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] private Transform playerTransform;
     [SerializeField] private Transform firePoint;
     [SerializeField] private GameObject projectilePrefab;
+    private EnemyHP enemyHP;
 
     [Header("Layers")]
     [SerializeField] private LayerMask terrainLayer;
@@ -32,7 +33,6 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] private float attackRange = 10f;
     public bool isPlayerVisible;
     public bool isPlayerInRange;
-    private bool shotAt;
 
     [Header("Ability Interactions")]
     public int controlEffects;
@@ -53,11 +53,15 @@ public class EnemyBehaviour : MonoBehaviour
         {
             navAgent = GetComponent<NavMeshAgent>();
         }
+        if (enemyHP == null)
+        {
+            enemyHP = GetComponent<EnemyHP>();
+        }
     }
     private void Update()
     {
         DetectPlayer();
-        if (!shotAt)
+        if (!enemyHP.shotAt)
         {
             UpdateBehaviourState();
         }
@@ -173,15 +177,6 @@ public class EnemyBehaviour : MonoBehaviour
             StartCoroutine(AttackCooldownRoutine());
         }
     }
-    // void OnTriggerEnter(Collider other)
-    // {
-    //     if (other.gameObject.CompareTag("Lockdown"))
-    //     {
-    //         Debug.Log("Stunned");
-    //         isStunned = true;
-    //     }
-    // }
-    //State Machine - Lockeddown,Patrol,Chase,Attack
     private void UpdateBehaviourState()
     {
         if (controlEffects > 0)
@@ -220,10 +215,6 @@ public class EnemyBehaviour : MonoBehaviour
         navAgent.SetDestination(transform.position);
         navAgent.isStopped = !canMove;
         navAgent.velocity = Vector3.zero;
-    }
-    public void Enraged()
-    {
-        shotAt = true;
     }
     private void EnragedBehaviourState()
     {

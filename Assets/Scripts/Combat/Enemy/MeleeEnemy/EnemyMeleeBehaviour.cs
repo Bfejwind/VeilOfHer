@@ -9,6 +9,9 @@ public class EnemyMeleeBehaviour : MonoBehaviour
     [SerializeField] private NavMeshAgent navAgent;
     [SerializeField] private Transform playerTransform;
     [SerializeField] private Transform warningOrigin;
+    [SerializeField] private GameObject warningPrefab;
+    private Rigidbody rb;
+    private EnemyHP enemyHP;
 
     [Header("Layers")]
     [SerializeField] private LayerMask terrainLayer;
@@ -23,12 +26,14 @@ public class EnemyMeleeBehaviour : MonoBehaviour
     [SerializeField] private float attackCooldown = 1f;
     private bool isOnAttackCooldown;
 
+    [Header("Warning Settings")]
+    private bool warned;
+
     [Header("Detection Ranges")]
     [SerializeField] private float visionRange = 20f;
     [SerializeField] private float attackRange = 10f;
     public bool isPlayerVisible;
     public bool isPlayerInRange;
-    private bool shotAt;
 
     [Header("Ability Interactions")]
     public int controlEffects;
@@ -53,11 +58,17 @@ public class EnemyMeleeBehaviour : MonoBehaviour
         {
             warningOrigin = transform.Find("WarningRaycastOrigin");
         }
+        if (enemyHP == null)
+        {
+            enemyHP = GetComponent<EnemyHP>();
+        }
+        rb = GetComponent<Rigidbody>();
     }
     private void Update()
     {
+        Debug.DrawRay(warningOrigin.position, Vector3.down * 20f, Color.red);
         DetectPlayer();
-        if (!shotAt)
+        if (!enemyHP.shotAt)
         {
             UpdateBehaviourState();
         }
@@ -103,6 +114,7 @@ public class EnemyMeleeBehaviour : MonoBehaviour
     //Fire rate
     private IEnumerator AttackCooldownRoutine()
     {
+        warned = false;
         isOnAttackCooldown = true;
         yield return new WaitForSeconds(attackCooldown);
         isOnAttackCooldown = false;
@@ -155,15 +167,33 @@ public class EnemyMeleeBehaviour : MonoBehaviour
             yield break;
         }
 
-        if (!isOnAttackCooldown)
+        if (!isOnAttackCooldown && !warned)
         {
-            //Attack Script
-            StartCoroutine(AttackCooldownRoutine());
+            if (Physics.Raycast(warningOrigin.position, Vector3.down, out RaycastHit hit, 3.0f, terrainLayer))
+            {
+                Vector3 warningPosition = hit.point + Vector3.up * 0.05f;
+                Instantiate(warningPrefab, warningPosition, transform.rotation);
+                //PreCharge Animation
+                warned = true;
+                yield return new WaitForSeconds(2f);
+                PerformCharge();
+                StartCoroutine(AttackCooldownRoutine());
+            }
+            //Attack script
+            else
+            {
+                Debug.Log("ray not hitting ground");
+            }
+        }
+        else
+        {
+            //Play tired animation
         }
     }
     private void PerformCharge()
     {
-
+        Debug.Log("Charged");
+        rb.AddForce(transform.forward, ForceMode.VelocityChange);
     }
     private void UpdateBehaviourState()
     {
@@ -182,9 +212,9 @@ public class EnemyMeleeBehaviour : MonoBehaviour
             PerformChase();
             return;
         }
-        if (isPlayerVisible && isPlayerInRange)
+        if (isPlayerVisible && isPlayerInRange && !warned)
         {
-            PerformCharge();
+            StartCoroutine(PerformWarning());
             return;
         }
     }
@@ -204,10 +234,6 @@ public class EnemyMeleeBehaviour : MonoBehaviour
         navAgent.isStopped = !canMove;
         navAgent.velocity = Vector3.zero;
     }
-    public void Enraged()
-    {
-        shotAt = true;
-    }
     private void EnragedBehaviourState()
     {
         if (controlEffects > 0)
@@ -222,7 +248,7 @@ public class EnemyMeleeBehaviour : MonoBehaviour
         }
         if (isPlayerVisible && isPlayerInRange)
         {
-            PerformCharge();
+            StartCoroutine(PerformWarning());
             return;
         }
     }
