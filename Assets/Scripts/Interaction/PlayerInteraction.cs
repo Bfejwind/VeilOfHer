@@ -10,6 +10,12 @@ public class PlayerInteraction : MonoBehaviour
     public GameObject interactionPrompt;
     public TextMeshProUGUI interactionText;
 
+
+    public void Start()
+    {
+        interactionPrompt.SetActive(false);
+    }
+
     private void Update()
     {
         InteractionRay();
@@ -25,8 +31,10 @@ public class PlayerInteraction : MonoBehaviour
         if (Physics.Raycast(ray, out hit, interactionRange))
         {
             IInteractable interactable = hit.collider.GetComponent<IInteractable>();
+            
+            ActivateDialogue dialogueScript = hit.collider.GetComponent<ActivateDialogue>();
 
-            if (interactable != null)
+            if (interactable != null && !dialogueScript.dialogueActive)
             {
                 hitSomething = true;
                 interactionText.text = interactable.GetDescription();

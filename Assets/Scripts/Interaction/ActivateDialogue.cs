@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using UnityEngine.UI;
 
 public class ActivateDialogue : MonoBehaviour, IInteractable
 {   
@@ -14,6 +15,18 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
     public string[] dialogueLines;
     public float textSpeed;
     public bool dialogueActive = false;
+
+    public enum SpeakerPosition { Left, Right }
+    public SpeakerPosition position;
+
+    [SerializeField] 
+    public Image leftPortraitImage;
+    [SerializeField] 
+    public Image rightPortraitImage;
+
+    [Header("Visual Settings")]
+    [SerializeField] private Color activeColor = Color.white; // Full brightness (1,1,1,1)
+    [SerializeField] private Color dimmedColor = new Color(0.4f, 0.4f, 0.4f, 1f); // Dimmed brightness (0.4,0.4,0.4,1)
 
     private int index;
 
@@ -35,7 +48,7 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
 
     public string GetDescription()
     {
-        return "Talk to Zyr4";
+        return "Talk to Zyr4"; 
     }
 
     // Update is called once per frame
@@ -66,6 +79,16 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
     {
         foreach (char c in dialogueLines[index].ToCharArray())
         {
+            if (position == SpeakerPosition.Left)
+            {
+                leftPortraitImage.color = activeColor;
+                rightPortraitImage.color = dimmedColor;
+            }
+            else if (position == SpeakerPosition.Right)
+            {
+                rightPortraitImage.color = activeColor;
+                leftPortraitImage.color = dimmedColor;
+            }
             dialogueText.text += c;
             yield return new WaitForSeconds(textSpeed);
         }
@@ -76,6 +99,14 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
         if (index < dialogueLines.Length - 1)
         {
             index++;
+            if (position == SpeakerPosition.Left)
+            {
+                position = SpeakerPosition.Right;
+            }
+            else if (position == SpeakerPosition.Right)
+            {
+                position = SpeakerPosition.Left;
+            }
             dialogueText.text = "";
             StartCoroutine(TypeLine());
         }

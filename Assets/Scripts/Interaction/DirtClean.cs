@@ -40,19 +40,22 @@ public class DirtClean : MonoBehaviour
     void Update()
     {
         // Check if the left mouse button is held down
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && ActivateCleaning.mopTaken)
         {
             // Handle scrubbing logic
             HandleScrubbing();
         }
         else
         {
-            // Stop the particle system if the mouse button is not held down
-            StopParticles();
+            // Stop the particle system if it's playing and the mouse button is not held down
+            if (activeParticles != null && activeParticles.isPlaying)
+            {
+                StopParticles();
+            }
         }
 
         // Stop the particle system when the mouse button is released
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && ActivateCleaning.mopTaken)
         {
             StopParticles();
         }
