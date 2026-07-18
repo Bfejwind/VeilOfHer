@@ -22,7 +22,9 @@ namespace StarterAssets
 		public float RotationSpeed = 1.0f;
 		[Tooltip("Acceleration and deceleration")]
 		public float SpeedChangeRate = 10.0f;
-
+		[Tooltip("Knockback")]
+		private Vector3 knockbackVelocity;
+		[SerializeField] private float knockbackDecay = 100f;
 		[Space(10)]
 		[Tooltip("The height the player can jump")]
 		public float JumpHeight = 1.2f;
@@ -224,9 +226,18 @@ namespace StarterAssets
 				// move
 				inputDirection = transform.right * _input.move.x + transform.forward * _input.move.y;
 			}
+			Vector3 horizontalMovement = inputDirection.normalized * _speed;
 
+			Vector3 verticalMovement = new Vector3(0f, _verticalVelocity, 0f);
+
+			Vector3 finalMovement = horizontalMovement + verticalMovement + knockbackVelocity;
 			// move the player
-			_controller.Move(inputDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+			_controller.Move(finalMovement * Time.deltaTime);
+			knockbackVelocity = Vector3.MoveTowards(knockbackVelocity,Vector3.zero,knockbackDecay * Time.deltaTime);
+		}
+		public void AddKnockback(Vector3 force)
+		{
+			knockbackVelocity += force;
 		}
 		private void UpdateControllerCollider()
 		{

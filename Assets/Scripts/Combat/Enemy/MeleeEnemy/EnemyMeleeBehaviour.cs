@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Runtime.InteropServices;
+using StarterAssets;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -12,8 +13,7 @@ public class EnemyMeleeBehaviour : MonoBehaviour
     [SerializeField] private Transform warningOrigin;
     [SerializeField] private GameObject warningPrefab;
     private Rigidbody rb;
-    private Rigidbody playerRB;
-    private PlayerHealth playerHP;
+    [SerializeField] private PlayerHealth playerHP;
     private EnemyHP enemyHP;
 
     [Header("Layers")]
@@ -30,13 +30,17 @@ public class EnemyMeleeBehaviour : MonoBehaviour
     private bool isOnAttackCooldown;
     [SerializeField] private float chargeSpeed = 3.0f;
     [SerializeField] private float chargeDistance= 9.0f;
+    [SerializeField] private float contactDmg = 10.0f;
+    [SerializeField] private float chargeDmg = 20.0f;
 
     [Header("Warning Settings")]
     private bool warned;
     [Header("Collision")]
     [SerializeField] private CharacterController playerCC;
+    [SerializeField] private FirstPersonController playerController;
     [SerializeField] private Collider enemyCollider;
     private bool isCharging;
+    [SerializeField] private float knockbackMagnitude = 10.0f;
 
 
     [Header("Detection Ranges")]
@@ -72,23 +76,17 @@ public class EnemyMeleeBehaviour : MonoBehaviour
         {
             enemyHP = GetComponent<EnemyHP>();
         }
-        if (playerCC == null)
+        if (playerCC == null || playerController == null)
         {
             GameObject playerObj = GameObject.Find("Player");
             if (playerObj != null)
             {
                 playerCC = playerObj.GetComponent<CharacterController>();
+                playerController = playerObj.GetComponent<FirstPersonController>();
+                playerHP = playerObj.GetComponent<PlayerHealth>();
             }
         }
         rb = GetComponent<Rigidbody>();
-    }
-    private void Start()
-    {
-        if (playerTransform != null)
-        {
-            playerRB = playerTransform.GetComponent<Rigidbody>();
-            playerHP = playerTransform.GetComponent<PlayerHealth>();
-        }
     }
     private void Update()
     {
@@ -316,9 +314,14 @@ public class EnemyMeleeBehaviour : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (!isCharging)
+            Vector3 direction = (other.transform.position - transform.position).normalized;
+            playerController.AddKnockback(direction * knockbackMagnitude);
+            if (isCharging)
             {
-                
+                //Stun effect
+                playerHP.TakeDamage(chargeDmg);
+                playerHP.CameraEffect();
+                return;
             }
         }
     }

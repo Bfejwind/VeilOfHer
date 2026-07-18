@@ -11,12 +11,18 @@ public class PlayerHealth : MonoBehaviour
     public bool IsInvulnerable { get; private set; }
     // private float damageAmt = 12.0f;
     [SerializeField] private GameObject Shield;
+    //ScreenShake
+    [SerializeField] private ScreenShakeEffects screenShake;
 
     void Start()
     {
         playerHealth = playerMaxHealth;
         healthSlider.maxValue = playerMaxHealth;
         healthSlider.value = playerHealth;
+        if (screenShake == null)
+        {
+            screenShake = Camera.main.GetComponent<ScreenShakeEffects>();
+        }
     }
     public void TakeDamage(float amount)
     {
@@ -30,6 +36,10 @@ public class PlayerHealth : MonoBehaviour
         yield return new WaitForSeconds(duration);
 
         IsInvulnerable = false;
+    }
+    public void CameraEffect()
+    {
+        screenShake.ScreenShake();
     }
     // void OnTriggerEnter(Collider other)
     // {
