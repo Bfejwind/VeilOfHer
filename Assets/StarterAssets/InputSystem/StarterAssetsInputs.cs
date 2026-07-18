@@ -55,7 +55,6 @@ namespace StarterAssets
 		}
 		public void OnFire(InputValue value)
 		{
-			Debug.Log($"OnFire: {value.isPressed}");
 			FireInput(value.isPressed);
 		}
 #endif
