@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -11,6 +12,8 @@ public class EnemyMeleeBehaviour : MonoBehaviour
     [SerializeField] private Transform warningOrigin;
     [SerializeField] private GameObject warningPrefab;
     private Rigidbody rb;
+    private Rigidbody playerRB;
+    private PlayerHealth playerHP;
     private EnemyHP enemyHP;
 
     [Header("Layers")]
@@ -25,9 +28,16 @@ public class EnemyMeleeBehaviour : MonoBehaviour
     [Header("Attack Settings")]
     [SerializeField] private float attackCooldown = 1f;
     private bool isOnAttackCooldown;
+    [SerializeField] private float chargeSpeed = 3.0f;
+    [SerializeField] private float chargeDistance= 9.0f;
 
     [Header("Warning Settings")]
     private bool warned;
+    [Header("Collision")]
+    [SerializeField] private CharacterController playerCC;
+    [SerializeField] private Collider enemyCollider;
+    private bool isCharging;
+
 
     [Header("Detection Ranges")]
     [SerializeField] private float visionRange = 20f;
@@ -62,7 +72,23 @@ public class EnemyMeleeBehaviour : MonoBehaviour
         {
             enemyHP = GetComponent<EnemyHP>();
         }
+        if (playerCC == null)
+        {
+            GameObject playerObj = GameObject.Find("Player");
+            if (playerObj != null)
+            {
+                playerCC = playerObj.GetComponent<CharacterController>();
+            }
+        }
         rb = GetComponent<Rigidbody>();
+    }
+    private void Start()
+    {
+        if (playerTransform != null)
+        {
+            playerRB = playerTransform.GetComponent<Rigidbody>();
+            playerHP = playerTransform.GetComponent<PlayerHealth>();
+        }
     }
     private void Update()
     {
@@ -151,49 +177,83 @@ public class EnemyMeleeBehaviour : MonoBehaviour
 
     //Player in Attack range
 
-    private IEnumerator PerformWarning()
+    private void PerformWarning()
     {
         navAgent.velocity = Vector3.zero;
         navAgent.SetDestination(transform.position);
-
-        if (playerTransform != null)
-        {
-            Vector3 target = playerTransform.position;
-            target.y = transform.position.y;
-            transform.LookAt(target);
-        }
         if (!canAttack)
         {
-            yield break;
+            return;
         }
 
-        if (!isOnAttackCooldown && !warned)
+        if (playerTransform != null && !isOnAttackCooldown && !warned)
         {
-            if (Physics.Raycast(warningOrigin.position, Vector3.down, out RaycastHit hit, 3.0f, terrainLayer))
-            {
-                Vector3 warningPosition = hit.point + Vector3.up * 0.05f;
-                Instantiate(warningPrefab, warningPosition, transform.rotation);
-                //PreCharge Animation
-                warned = true;
-                yield return new WaitForSeconds(2f);
-                PerformCharge();
-                StartCoroutine(AttackCooldownRoutine());
-            }
-            //Attack script
-            else
-            {
-                Debug.Log("ray not hitting ground");
-            }
-        }
-        else
-        {
-            //Play tired animation
+            StartCoroutine(ChargeWarning());
+        //     Vector3 target = playerTransform.position;
+        //     target.y = transform.position.y;
+        //     transform.LookAt(target);
+        //     if (Physics.Raycast(warningOrigin.position, Vector3.down, out RaycastHit hit, 3.0f, terrainLayer))
+        //     {
+        //         Debug.Log("Aiming");
+        //         Vector3 warningPosition = hit.point + Vector3.up * 0.05f;
+        //         Instantiate(warningPrefab, warningPosition, transform.rotation);
+        //         //PreCharge Animation
+        //         warned = true;
+        //         yield return new WaitForSeconds(1.5f);
+        //         StartCoroutine(AttackCooldownRoutine());
+        //         StartCoroutine(PerformCharge());
+        //     }
+        //     //Attack script
+        //     else
+        //     {
+        //         Debug.Log("ray not hitting ground");
+        //     }
+        // }
+        // else
+        // {
+        //     yield break;
+        //     //Play tired animation
+        // }
         }
     }
-    private void PerformCharge()
+    private IEnumerator ChargeWarning()
     {
-        Debug.Log("Charged");
-        rb.AddForce(transform.forward, ForceMode.VelocityChange);
+        Vector3 target = playerTransform.position;
+        target.y = transform.position.y;
+        transform.LookAt(target);
+        if (Physics.Raycast(warningOrigin.position, Vector3.down, out RaycastHit hit, 3.0f, terrainLayer))
+        {
+            Debug.Log("Aiming");
+            Vector3 warningPosition = hit.point + Vector3.up * 0.05f;
+            Instantiate(warningPrefab, warningPosition, transform.rotation, transform);
+            //PreCharge Animation
+            warned = true;
+            yield return new WaitForSeconds(1.5f);
+            StartCoroutine(AttackCooldownRoutine());
+            StartCoroutine(PerformCharge());
+        }
+        //Attack script
+        else
+        {
+            Debug.Log("ray not hitting ground");
+        }
+    }
+    private IEnumerator PerformCharge()
+    {
+        isCharging = true;
+        Physics.IgnoreCollision(enemyCollider, playerCC, true);
+        Vector3 targetPosition = playerTransform.position;
+        Vector3 chargeDirection = (targetPosition - transform.position).normalized;
+        float travelled = 0f;
+        while (travelled < chargeDistance)
+        {
+            float step = chargeSpeed * Time.deltaTime;
+            transform.position += chargeDirection * step; 
+            travelled += step;
+            yield return null;
+        }
+        Physics.IgnoreCollision(enemyCollider, playerCC, false);
+        isCharging = false;
     }
     private void UpdateBehaviourState()
     {
@@ -214,7 +274,7 @@ public class EnemyMeleeBehaviour : MonoBehaviour
         }
         if (isPlayerVisible && isPlayerInRange && !warned)
         {
-            StartCoroutine(PerformWarning());
+            PerformWarning();
             return;
         }
     }
@@ -246,10 +306,20 @@ public class EnemyMeleeBehaviour : MonoBehaviour
             PerformChase();
             return;
         }
-        if (isPlayerVisible && isPlayerInRange)
+        if (isPlayerVisible && isPlayerInRange && !warned)
         {
-            StartCoroutine(PerformWarning());
+            PerformWarning();
             return;
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            if (!isCharging)
+            {
+                
+            }
         }
     }
 }
