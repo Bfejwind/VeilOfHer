@@ -41,6 +41,7 @@ public class PlayerInteraction : MonoBehaviour
 
                 if (Input.GetKeyDown(KeyCode.E))
                 {
+                    Debug.Log("ActivateDialogue Interact was called");
                     interactable.Interact();
                 }
             }

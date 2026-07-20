@@ -4,7 +4,7 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class ActivateDialogue : MonoBehaviour, IInteractable
-{   
+{
     [SerializeField]
     GameObject dialogueBox;
 
@@ -19,9 +19,9 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
     public enum SpeakerPosition { Left, Right }
     public SpeakerPosition position;
 
-    [SerializeField] 
+    [SerializeField]
     public RawImage leftPortraitImage;
-    [SerializeField] 
+    [SerializeField]
     public RawImage rightPortraitImage;
 
     [Header("Visual Settings")]
@@ -36,24 +36,50 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
         {
             return;
         }
-        else
+
+        if (dialogueBox == null)
         {
-            dialogueText.text = "";
-            StartDialogue();
-            dialogueBox.SetActive(true);
+            Debug.LogError("Dialogue Box is not assigned.");
+            return;
+        }
+
+        if (dialogueText == null)
+        {
+            Debug.LogError("Dialogue Text is not assigned.");
+            return;
+        }
+
+        if (dialogueLines == null || dialogueLines.Length == 0)
+        {
+            Debug.LogError("Dialogue Lines are empty.");
+            return;
+        }
+
+        // Open the UI first.
+        dialogueBox.SetActive(true);
+
+        if (interactionPromt != null)
+        {
             interactionPromt.SetActive(false);
         }
-        
+
+        dialogueText.text = "";
+        StartDialogue();
     }
 
     public string GetDescription()
     {
-        return "Talk to Zyr4"; 
+        return "Talk to Zyr4";
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
+        if (!dialogueActive)
+        {
+            return;
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             if (dialogueText.text == dialogueLines[index])
@@ -75,22 +101,28 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
         StartCoroutine(TypeLine());
     }
 
-    IEnumerator TypeLine()
+    private IEnumerator TypeLine()
     {
-        foreach (char c in dialogueLines[index].ToCharArray())
+        if (index < 0 || index >= dialogueLines.Length)
         {
-            if (position == SpeakerPosition.Left)
-            {
-                leftPortraitImage.color = activeColor;
-                rightPortraitImage.color = dimmedColor;
-            }
-            else if (position == SpeakerPosition.Right)
-            {
-                rightPortraitImage.color = activeColor;
-                leftPortraitImage.color = dimmedColor;
-            }
-            dialogueText.text += c;
-            yield return new WaitForSeconds(textSpeed);
+            Debug.LogError($"Invalid dialogue index: {index}");
+            yield break;
+        }
+
+        string currentLine = dialogueLines[index];
+
+        Debug.Log($"Typing dialogue line {index}: {currentLine}");
+
+        dialogueText.text = "";
+
+        UpdatePortraitBrightness();
+
+        foreach (char character in currentLine)
+        {
+            dialogueText.text += character;
+
+            // Continues even if dialogue pauses the game.
+            yield return new WaitForSecondsRealtime(textSpeed);
         }
     }
 
@@ -114,6 +146,25 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
         {
             dialogueBox.SetActive(false);
             dialogueActive = false;
+        }
+    }
+
+    private void UpdatePortraitBrightness()
+    {
+        if (leftPortraitImage == null || rightPortraitImage == null)
+        {
+            return;
+        }
+
+        if (position == SpeakerPosition.Left)
+        {
+            leftPortraitImage.color = activeColor;
+            rightPortraitImage.color = dimmedColor;
+        }
+        else
+        {
+            rightPortraitImage.color = activeColor;
+            leftPortraitImage.color = dimmedColor;
         }
     }
 }
