@@ -25,8 +25,8 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
     public RawImage rightPortraitImage;
 
     [Header("Visual Settings")]
-    [SerializeField] private Color activeColor = Color.white; // Full brightness (1,1,1,1)
-    [SerializeField] private Color dimmedColor = new Color(0.4f, 0.4f, 0.4f, 1f); // Dimmed brightness (0.4,0.4,0.4,1)
+    // [SerializeField] private Color activeColor = Color.white; // Full brightness (1,1,1,1)
+    // [SerializeField] private Color dimmedColor = new Color(0.4f, 0.4f, 0.4f, 1f); // Dimmed brightness (0.4,0.4,0.4,1)
 
     private int index;
 
@@ -115,7 +115,7 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
 
         dialogueText.text = "";
 
-        UpdatePortraitBrightness();
+        UpdatePortraitVisibility();
 
         foreach (char character in currentLine)
         {
@@ -146,25 +146,30 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
         {
             dialogueBox.SetActive(false);
             dialogueActive = false;
+
+            if (leftPortraitImage != null)
+            {
+                leftPortraitImage.gameObject.SetActive(false);
+            }
+
+            if (rightPortraitImage != null)
+            {
+                rightPortraitImage.gameObject.SetActive(false);
+            }
         }
     }
 
-    private void UpdatePortraitBrightness()
+    private void UpdatePortraitVisibility()
     {
         if (leftPortraitImage == null || rightPortraitImage == null)
         {
+            Debug.LogWarning("One or both dialogue portraits are not assigned.");
             return;
         }
 
-        if (position == SpeakerPosition.Left)
-        {
-            leftPortraitImage.color = activeColor;
-            rightPortraitImage.color = dimmedColor;
-        }
-        else
-        {
-            rightPortraitImage.color = activeColor;
-            leftPortraitImage.color = dimmedColor;
-        }
+        bool zaneIsSpeaking = position == SpeakerPosition.Left;
+
+        leftPortraitImage.gameObject.SetActive(zaneIsSpeaking);
+        rightPortraitImage.gameObject.SetActive(!zaneIsSpeaking);
     }
 }
