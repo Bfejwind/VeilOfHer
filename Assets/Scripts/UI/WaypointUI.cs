@@ -93,4 +93,29 @@ public class WaypointUI : MonoBehaviour
 
         distanceText.text = $"{distance:0} m";
     }
+
+    public void SetTarget(Transform newTarget)
+    {
+        target = newTarget;
+    }
+
+    public void ShowWaypoint()
+    {
+        waypointReached = false;
+
+        if (waypointCanvasGroup != null)
+        {
+            waypointCanvasGroup.alpha = 1f;
+        }
+    }
+
+    public void HideWaypoint()
+    {
+        waypointReached = true;
+
+        if (waypointCanvasGroup != null)
+        {
+            waypointCanvasGroup.alpha = 0f;
+        }
+    }
 }

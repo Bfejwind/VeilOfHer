@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class ActivateDialogue : MonoBehaviour, IInteractable
 {
@@ -23,6 +24,9 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
     public RawImage leftPortraitImage;
     [SerializeField]
     public RawImage rightPortraitImage;
+
+    [Header("Dialogue Events")]
+    [SerializeField] private UnityEvent onDialogueFinished;
 
     [Header("Visual Settings")]
     // [SerializeField] private Color activeColor = Color.white; // Full brightness (1,1,1,1)
@@ -156,6 +160,8 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
             {
                 rightPortraitImage.gameObject.SetActive(false);
             }
+
+            onDialogueFinished?.Invoke();
         }
     }
 
