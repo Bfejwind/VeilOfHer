@@ -9,8 +9,19 @@ public class Boss1Behaviour : MonoBehaviour
     //[SerializeField] private GameObject laserPrefab;
     //private Transform laserSpawnPoint;
     [Header("References")]
-    private EnemyBehaviour enemyBehaviour;
+    [SerializeField] private Transform playerTransform;
+    [SerializeField] private FinalBossMovement finalBossMovement;
+    private EnemyHP enemyHP;
     private bool attackStarted;
+    [Header("Layers")]
+    [SerializeField] private LayerMask terrainLayer;
+    [SerializeField] private LayerMask playerLayerMask;
+
+    [Header("Detection Ranges")]
+    [SerializeField] private float visionRange = 20f;
+    [SerializeField] private float attackRange = 10f;
+    public bool isPlayerVisible;
+    public bool isPlayerInRange;
     [SerializeField] private float abilityAttackDelay = 5.0f;
     [Header("Follow Attack")]
     [SerializeField] private GameObject followAttackPrefab;
@@ -20,56 +31,60 @@ public class Boss1Behaviour : MonoBehaviour
     [SerializeField] private GameObject bossAOEPrefab;
     [SerializeField] private Transform firePoint;
     [SerializeField] private float aoeAttackVelocity = 10f;
-    private List<Transform> aoeSpawnPoints = new List<Transform>();
     [Header("Summons")]
     [SerializeField] private GameObject summonPrefab;
     [SerializeField] private Transform summonPoint1;
     [SerializeField] private Transform summonPoint2;
     [SerializeField] private float SummonAttackDelay = 2f;
-    //Dodge
-    private float dodgeCooldown = 30.0f;
-    private bool dodgeAvailable = true;
-    public bool incomingAttack = false;
-    private enum BossState
-    {
-        Idle,
-        Moving,
-        ChoosingAttack,
-        Attacking,
-        Recovering,
-        Stunned,
-        PhaseTransition,
-        Dead
-    }
-    public enum BossAttackType
-    {
-        None,
-        Projectile,
-        AOE,
-        FollowAttack,
-        Summon,
-    }
+    [Header("Difficulty Settings")]
+    [SerializeField] private float damageTimer = 0f;
+    [SerializeField] private float damageTimerThreshold = 10.0f;
+    [SerializeField] private float damageTaken = 0f;
+    [SerializeField] private float damageTakenThreshold = 50f;
     private void Awake()
     {
+        if (playerTransform == null)
+        {
+            GameObject playerObj = GameObject.Find("aimTarget");
+            if (playerObj != null)
+            {
+                playerTransform = playerObj.transform;
+            }
+        }
         if (firePoint == null)
         {
             firePoint = transform.Find("FirePoint");
         }
-        if (enemyBehaviour == null)
+        if (enemyHP == null)
         {
-            enemyBehaviour = GetComponent<EnemyBehaviour>();
+            enemyHP = GetComponent<EnemyHP>();
         }
+        if (finalBossMovement == null)
+        {
+            finalBossMovement = GetComponent<FinalBossMovement>();
+        }
+    }
+    private void DetectPlayer()
+    {
+        isPlayerVisible = Physics.CheckSphere(transform.position, visionRange, playerLayerMask);
+        isPlayerInRange = Physics.CheckSphere(transform.position, attackRange, playerLayerMask);
+    }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, visionRange);
     }
     private void Update()
     {
-        if (!attackStarted &&enemyBehaviour.isPlayerVisible)
+        DetectPlayer();
+        if (!attackStarted && isPlayerVisible)
         {
+            damageTimer += Time.deltaTime;
             StartCoroutine(BossAOE());
             attackStarted = true;
-        }
-        if (dodgeAvailable && incomingAttack)
-        {
-            BossDodge();
         }
     }
     private void UpdateBossState()
@@ -80,46 +95,26 @@ public class Boss1Behaviour : MonoBehaviour
     {
         while (true)
         {
-            if (enemyBehaviour.isPlayerInRange)
+            if (isPlayerInRange)
             {
                 //Debug.Log("Boss AOE Attack");
                 GameObject bossAOE = Instantiate(bossAOEPrefab, firePoint.position, Quaternion.identity);
                 bossAOE.GetComponent<Rigidbody>().AddForce(firePoint.forward.normalized * aoeAttackVelocity, ForceMode.Impulse);
-                
             }
             else
             {
                 //Debug.Log("Boss Follow Attack");
                 GameObject followAttack = Instantiate(followAttackPrefab, firePoint.position, Quaternion.identity);
             }
-            yield return new WaitForSeconds(abilityAttackDelay);
-            GameObject summon1 = Instantiate(summonPrefab, summonPoint1.position, Quaternion.identity);
-            GameObject summon2 = Instantiate(summonPrefab, summonPoint2.position, Quaternion.identity);
             yield return new WaitForSeconds(SummonAttackDelay);
+            if (damageTimer <= damageTimerThreshold && damageTaken >= damageTakenThreshold)
+            {
+                GameObject summon1 = Instantiate(summonPrefab, summonPoint1.position, Quaternion.identity);
+                GameObject summon2 = Instantiate(summonPrefab, summonPoint2.position, Quaternion.identity);
+            }
+            yield return new WaitForSeconds(abilityAttackDelay);
         }
 
     }
 
-    private void BossDodge()
-    {
-        RaycastHit hit;
-        if (!Physics.Raycast(transform.position, transform.right, out hit, 5f))
-        {
-            
-        }
-
-        dodgeAvailable = false;
-        incomingAttack = false;
-        StartCoroutine(ResetDodge());
-    }
-    // public static int WrapValue(int value, int min, int max)
-    // {
-    //     int range = max - min + 1; //min cant be 0
-    //     int wrappedValue = (value - min) % range;
-    // }
-    private IEnumerator ResetDodge()
-    {
-        yield return new WaitForSeconds(dodgeCooldown);
-        dodgeAvailable = true;
-    }
 }
