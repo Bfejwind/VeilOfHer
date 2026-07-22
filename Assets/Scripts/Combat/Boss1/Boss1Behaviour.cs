@@ -31,6 +31,10 @@ public class Boss1Behaviour : MonoBehaviour
     [SerializeField] private GameObject bossAOEPrefab;
     [SerializeField] private Transform firePoint;
     [SerializeField] private float aoeAttackVelocity = 10f;
+    [Header("Wave Attack")]
+    [SerializeField] private GameObject bossWavePrefab;
+    [SerializeField] private float WaveAttackVelocity = 10f;
+    [SerializeField] private float WaveAttackDelay = 1f;
     [Header("Summons")]
     [SerializeField] private GameObject summonPrefab;
     [SerializeField] private Transform summonPoint1;
@@ -39,7 +43,7 @@ public class Boss1Behaviour : MonoBehaviour
     [Header("Difficulty Settings")]
     [SerializeField] private float damageTimer = 0f;
     [SerializeField] private float damageTimerThreshold = 10.0f;
-    [SerializeField] private float damageTaken = 0f;
+    public float damageTaken = 0f;
     [SerializeField] private float damageTakenThreshold = 50f;
     private void Awake()
     {
@@ -80,6 +84,12 @@ public class Boss1Behaviour : MonoBehaviour
     private void Update()
     {
         DetectPlayer();
+        if (playerTransform != null)
+        {
+            Vector3 target = playerTransform.position;
+            target.y = transform.position.y;
+            transform.LookAt(target);
+        }
         if (!attackStarted && isPlayerVisible)
         {
             damageTimer += Time.deltaTime;
@@ -106,12 +116,18 @@ public class Boss1Behaviour : MonoBehaviour
                 //Debug.Log("Boss Follow Attack");
                 GameObject followAttack = Instantiate(followAttackPrefab, firePoint.position, Quaternion.identity);
             }
+            yield return new WaitForSeconds(WaveAttackDelay);
+            GameObject waveAttack = Instantiate(bossWavePrefab, firePoint.position, transform.rotation * Quaternion.Euler(90,0,0));
+            waveAttack.GetComponent<Rigidbody>().AddForce(firePoint.forward.normalized * WaveAttackVelocity, ForceMode.Impulse);
             yield return new WaitForSeconds(SummonAttackDelay);
+            //Shining Animation to show absorbing
             if (damageTimer <= damageTimerThreshold && damageTaken >= damageTakenThreshold)
             {
                 GameObject summon1 = Instantiate(summonPrefab, summonPoint1.position, Quaternion.identity);
                 GameObject summon2 = Instantiate(summonPrefab, summonPoint2.position, Quaternion.identity);
             }
+            damageTimer = 0;
+            damageTaken = 0;
             yield return new WaitForSeconds(abilityAttackDelay);
         }
 

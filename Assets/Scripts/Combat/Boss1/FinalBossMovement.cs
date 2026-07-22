@@ -85,11 +85,6 @@ public class FinalBossMovement : MonoBehaviour
     private void TeleportBoss(int posNum)
     {
         transform.position = BossPositions[posNum].position;
-        if (playerTransform != null)
-        {
-            Vector3 target = playerTransform.position;
-            target.y = transform.position.y;
-            transform.LookAt(target);
-        }
+        
     }
 }

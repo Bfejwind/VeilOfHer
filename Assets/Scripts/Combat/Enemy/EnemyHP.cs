@@ -3,11 +3,20 @@ using UnityEngine.UI;
 
 public class EnemyHP : MonoBehaviour
 {
-public float enemyHealth,enemyHealthWidth,enemyHealthHeight;
+    [Header("References")]
+    [SerializeField] private Boss1Behaviour boss1Behaviour;
+    public float enemyHealth,enemyHealthWidth,enemyHealthHeight;
     public float enemyMaxHealth = 100f;
     public float damageAmt;
     public Slider healthSlider;
     public bool shotAt;
+    private void Awake()
+    {
+        if (boss1Behaviour == null)
+        {
+            return;
+        }
+    }
 
     void Start()
     {
@@ -20,6 +29,10 @@ public float enemyHealth,enemyHealthWidth,enemyHealthHeight;
     {
         shotAt = true;
         enemyHealth -= amount;
+        if (boss1Behaviour != null)
+        {
+            boss1Behaviour.damageTaken += amount;
+        }
         healthSlider.value = enemyHealth;
         if (enemyHealth <= 0)
         {
