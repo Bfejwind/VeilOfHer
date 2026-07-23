@@ -219,9 +219,49 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3458205708321481069, guid: 38f8839dbecbdab41a0df508706bb81c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.024
+      objectReference: {fileID: 0}
+    - target: {fileID: 3458205708321481069, guid: 38f8839dbecbdab41a0df508706bb81c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.005
+      objectReference: {fileID: 0}
+    - target: {fileID: 5346103771554252846, guid: 38f8839dbecbdab41a0df508706bb81c, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5346103771554252846, guid: 38f8839dbecbdab41a0df508706bb81c, type: 3}
+      propertyPath: m_Parameters.widthMultiplier
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6395252825070881336, guid: 38f8839dbecbdab41a0df508706bb81c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.03
+      objectReference: {fileID: 0}
     - target: {fileID: 7221273667573682772, guid: 38f8839dbecbdab41a0df508706bb81c, type: 3}
       propertyPath: m_Name
       value: followAttack
+      objectReference: {fileID: 0}
+    - target: {fileID: 7914820725405712742, guid: 38f8839dbecbdab41a0df508706bb81c, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7914820725405712742, guid: 38f8839dbecbdab41a0df508706bb81c, type: 3}
+      propertyPath: m_Parameters.widthMultiplier
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8141139432754463949, guid: 38f8839dbecbdab41a0df508706bb81c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.030000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 8329843711097823227, guid: 38f8839dbecbdab41a0df508706bb81c, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8329843711097823227, guid: 38f8839dbecbdab41a0df508706bb81c, type: 3}
+      propertyPath: m_Parameters.widthMultiplier
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
