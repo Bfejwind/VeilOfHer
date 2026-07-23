@@ -9,6 +9,8 @@ TagManager:
   - Bullet
   - CinemachineTarget
   - Lockdown
+  - DisableLaser
+  - RockLaser
   layers:
   - Default
   - TransparentFX

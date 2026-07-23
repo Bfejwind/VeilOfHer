@@ -117,7 +117,7 @@ public class Boss1Behaviour : MonoBehaviour
                 GameObject followAttack = Instantiate(followAttackPrefab, firePoint.position, Quaternion.identity);
             }
             yield return new WaitForSeconds(WaveAttackDelay);
-            GameObject waveAttack = Instantiate(bossWavePrefab, firePoint.position, transform.rotation * Quaternion.Euler(90,0,0));
+            GameObject waveAttack = Instantiate(bossWavePrefab, firePoint.position, transform.rotation);
             waveAttack.GetComponent<Rigidbody>().AddForce(firePoint.forward.normalized * WaveAttackVelocity, ForceMode.Impulse);
             yield return new WaitForSeconds(SummonAttackDelay);
             //Shining Animation to show absorbing

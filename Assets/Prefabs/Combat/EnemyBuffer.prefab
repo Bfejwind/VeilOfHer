@@ -580,6 +580,7 @@ MonoBehaviour:
   visionRange: 25
   attackRange: 20
   isPlayerVisible: 0
+  isPlayerInRange: 0
   controlEffects: 0
 --- !u!114 &2419770502229468345
 MonoBehaviour:
@@ -593,12 +594,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef34d047b9c9935429a19b74565e55ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHP
+  boss1Behaviour: {fileID: 0}
   enemyHealth: 0
   enemyHealthWidth: 0
   enemyHealthHeight: 0
-  enemyMaxHealth: 100
+  enemyMaxHealth: 50
   damageAmt: 10
   healthSlider: {fileID: 393407703486499009}
+  shotAt: 0
 --- !u!54 &3496630099283184374
 Rigidbody:
   m_ObjectHideFlags: 0
