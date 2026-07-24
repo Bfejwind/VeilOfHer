@@ -18,6 +18,7 @@ public class FinalBossMovement : MonoBehaviour
     [SerializeField] private float teleportInterval = 5.0f;
     public bool canTeleport => controlEffects == 0;
     public bool isTeleporting;
+    [SerializeField] private FinalBossAudio bossAudio;
 
     [Header("Ability Interactions")]
     public int controlEffects;
@@ -38,6 +39,10 @@ public class FinalBossMovement : MonoBehaviour
                 playerTransform = playerObj.transform;
             }
         }
+        if (bossAudio == null)
+        {
+            bossAudio = GetComponent<FinalBossAudio>();
+        }
     }
     private void Update()
     {
@@ -48,8 +53,7 @@ public class FinalBossMovement : MonoBehaviour
             isTeleporting = true;
             teleportTimer = 0;
             currentPosition ++;
-            //Teleport Animation
-            TeleportBoss(WrapNum(currentPosition, BossPositions.Count));
+            StartCoroutine(TeleportBoss(WrapNum(currentPosition, BossPositions.Count)));
             isTeleporting = false;
         }
     }
@@ -82,9 +86,11 @@ public class FinalBossMovement : MonoBehaviour
     {
         return (value %  max + max) % max;
     }
-    private void TeleportBoss(int posNum)
+    private IEnumerator TeleportBoss(int posNum)
     {
+        bossAudio.PlayTeleportOut();
+        yield return new WaitForSeconds(0.2f);
         transform.position = BossPositions[posNum].position;
-        
+        bossAudio.PlayTeleportIn();
     }
 }

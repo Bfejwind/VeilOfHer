@@ -80,11 +80,6 @@ public class Weapon : MonoBehaviour
         }
         else if (currentShootingMode == ShootingMode.Single || currentShootingMode == ShootingMode.Burst)
         {
-            // if (Input.GetKey(KeyCode.Mouse0) && !isCharging)
-            // {
-            //     isCharging = Input.GetKey(KeyCode.Mouse0);
-            // }
-            //Clicking once left mouse
             isShooting = Input.GetKeyDown(KeyCode.Mouse0);
         }
         if (readyToShoot && isShooting && bulletsLeft > 0)
@@ -92,10 +87,6 @@ public class Weapon : MonoBehaviour
             burstBulletsLeft = bulletsPerBurst;
             FireWeapon();
         }
-        // if (readyToShoot && isCharging && bulletsLeft > 0)
-        // {
-        //     ChargedShot();
-        // }
         //Ammo UI
         if (AmmoManager.Instance.ammoDisplay != null)
         {
@@ -154,7 +145,7 @@ public class Weapon : MonoBehaviour
     // }
     private void OnReload()
     {
-        if (bulletsLeft < magazineSize && isReloading == false)
+        if (!isShooting && bulletsLeft < magazineSize && isReloading == false)
         {
             readyToShoot = false;
             isReloading = true;
