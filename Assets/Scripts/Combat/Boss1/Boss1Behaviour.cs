@@ -97,10 +97,6 @@ public class Boss1Behaviour : MonoBehaviour
             attackStarted = true;
         }
     }
-    private void UpdateBossState()
-    {
-        
-    }
     private IEnumerator BossAOE()
     {
         while (true)

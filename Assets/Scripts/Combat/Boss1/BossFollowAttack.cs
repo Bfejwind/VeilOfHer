@@ -40,17 +40,22 @@ public class BossFollowAttack : MonoBehaviour
             //print("hit" + other.gameObject.name);
             Destroy(gameObject);
         }
+        if (other.TryGetComponent(out LaserBehaviour laserState))
+        {
+            if (laserState.laserOn)
+            {
+                //print("hit" + other.gameObject.name);
+                Destroy(gameObject);
+            }
+            else
+            {
+                return;
+            }
+        }
         if (other.TryGetComponent(out PlayerHealth playerHP))
         {
             //print("hit" + other.gameObject.name);
             playerHP.TakeDamage(damage);
-            Destroy(gameObject);
-        }
-    }
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("RockLaser"))
-        {
             Destroy(gameObject);
         }
     }
