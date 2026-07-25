@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyMeleeBehaviour : MonoBehaviour
+public class Tier2EnemyMeleeBehaviour : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private NavMeshAgent navAgent;
@@ -26,7 +26,7 @@ public class EnemyMeleeBehaviour : MonoBehaviour
     private bool hasPatrolPoint;
 
     [Header("Attack Settings")]
-    [SerializeField] private float attackCooldown = 1f;
+    [SerializeField] private float attackCooldown = 5f;
     private bool isOnAttackCooldown;
     [SerializeField] private float chargeSpeed = 30.0f;
     [SerializeField] private float chargeDistance= 20.0f;
@@ -201,8 +201,9 @@ public class EnemyMeleeBehaviour : MonoBehaviour
             //PreCharge Animation
             warned = true;
             yield return new WaitForSeconds(1.5f);
+            yield return StartCoroutine(PerformCharge());
+            yield return StartCoroutine(PerformCharge());
             StartCoroutine(AttackCooldownRoutine());
-            StartCoroutine(PerformCharge());
         }
         //Attack script
         else
