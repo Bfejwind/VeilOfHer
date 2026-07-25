@@ -40,6 +40,8 @@ public class Boss1Behaviour : MonoBehaviour
     [SerializeField] private Transform summonPoint1;
     [SerializeField] private Transform summonPoint2;
     [SerializeField] private float SummonAttackDelay = 2f;
+    private bool isBuffed;
+    public bool channelledUpon;
     [Header("Difficulty Settings")]
     [SerializeField] private float damageTimer = 0f;
     [SerializeField] private float damageTimerThreshold = 10.0f;
@@ -126,7 +128,29 @@ public class Boss1Behaviour : MonoBehaviour
             damageTaken = 0;
             yield return new WaitForSeconds(abilityAttackDelay);
         }
-
+    }
+    public void ApplyAttackSpeedBuff(float duration, float effect)
+    {
+        StartCoroutine(AttackSpeedBuff(duration,effect));
+    }
+    public IEnumerator AttackSpeedBuff(float duration, float effect)
+    {
+        if (!isBuffed)
+        {
+            isBuffed = true;    
+            WaveAttackDelay = Mathf.Max(0, WaveAttackDelay - effect);
+            SummonAttackDelay = Mathf.Max(0, SummonAttackDelay - effect);
+            abilityAttackDelay = Mathf.Max(0, abilityAttackDelay - effect);
+            Debug.Log("AbilityDelay: " + abilityAttackDelay);
+            Debug.Log("WaveDelay: " + WaveAttackDelay);
+            yield return new WaitForSeconds(duration);
+            WaveAttackDelay = WaveAttackDelay + effect;
+            SummonAttackDelay = SummonAttackDelay + effect;
+            abilityAttackDelay = abilityAttackDelay + effect;
+            Debug.Log("AbilityDelayRestored: " + abilityAttackDelay);
+            Debug.Log("WaveDelayResotred: " + WaveAttackDelay);
+            isBuffed = false;
+        }
     }
 
 }

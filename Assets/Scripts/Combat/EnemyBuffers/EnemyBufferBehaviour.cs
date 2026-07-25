@@ -6,6 +6,7 @@ public class EnemyBufferBehaviour : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private NavMeshAgent navAgent;
+    [SerializeField] private Boss1Behaviour boss1Behaviour;
     [SerializeField] private Transform bossTransform;
     [SerializeField] private Transform channellingSpawnPoint;
     [SerializeField] private float channelDistance = 5f;
@@ -14,7 +15,10 @@ public class EnemyBufferBehaviour : MonoBehaviour
     private bool isChannelling;
     private float channellingTimer;
     [SerializeField] private float channellingSuccessTime = 5.0f;
+    [Header("Buff Settings")]
     private bool buffApplied;
+    [SerializeField] private float buffDuration = 10.0f;
+    [SerializeField] private float buffEffect = 2.0f;
     [SerializeField] private VisualEffect channellingEffect;
     [Header("Layers")]
     [SerializeField] private LayerMask terrainLayer;
@@ -30,6 +34,14 @@ public class EnemyBufferBehaviour : MonoBehaviour
         if (navAgent == null)
         {
             navAgent = GetComponent<NavMeshAgent>();
+        }
+        if (boss1Behaviour == null)
+        {
+            GameObject bossObj = GameObject.Find("Boss1");
+            if (bossObj != null)
+            {
+                boss1Behaviour = bossObj.GetComponent<Boss1Behaviour>();
+            }
         }
         if (bossTransform == null)
         {
@@ -62,6 +74,7 @@ public class EnemyBufferBehaviour : MonoBehaviour
             buffApplied = true;
             channellingEffect.SetFloat("spawnRate", 0f);
             // Apply the buff to the boss here
+            boss1Behaviour.ApplyAttackSpeedBuff(buffDuration,buffEffect);
             Debug.Log("Buff applied to the boss!");
             DestroySelf();
         }
@@ -94,6 +107,7 @@ public class EnemyBufferBehaviour : MonoBehaviour
             navAgent.SetDestination(transform.position);
             transform.LookAt(bossTransform.position);
             isChannelling = true;
+            boss1Behaviour.channelledUpon = true;
             channellingTimer += Time.deltaTime;
             channellingEffect.SetFloat("spawnRate", 16f);
             return;
@@ -121,6 +135,11 @@ public class EnemyBufferBehaviour : MonoBehaviour
     }
     private void DestroySelf()
     {
+        boss1Behaviour.channelledUpon = false;
         Destroy(gameObject);
+    }
+    private void OnDestroy()
+    {
+        boss1Behaviour.channelledUpon = false;
     }
 }

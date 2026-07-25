@@ -9,6 +9,7 @@ public class FinalBossMovement : MonoBehaviour
     [Header("References")]
     [SerializeField] private NavMeshAgent navAgent;
     [SerializeField] private Transform playerTransform;
+    [SerializeField] private Boss1Behaviour boss1Behaviour;
     [Header("Positions")]
     [SerializeField] private List<Transform>BossPositions = new List<Transform>();
     [SerializeField] private int currentPosition = 0;
@@ -31,6 +32,14 @@ public class FinalBossMovement : MonoBehaviour
         {
             navAgent = GetComponent<NavMeshAgent>();
         }
+        if (boss1Behaviour == null)
+        {
+            GameObject bossObj = GameObject.Find("Boss1");
+            if (bossObj != null)
+            {
+                boss1Behaviour = bossObj.GetComponent<Boss1Behaviour>();
+            }
+        }
         if (playerTransform == null)
         {
             GameObject playerObj = GameObject.Find("aimTarget");
@@ -48,7 +57,7 @@ public class FinalBossMovement : MonoBehaviour
     {
         UpdateBehaviourState();
         teleportTimer += Time.deltaTime;
-        if (teleportTimer >= teleportInterval && canTeleport && !isTeleporting)
+        if (teleportTimer >= teleportInterval && canTeleport && !isTeleporting && !boss1Behaviour.channelledUpon)
         {
             isTeleporting = true;
             teleportTimer = 0;
