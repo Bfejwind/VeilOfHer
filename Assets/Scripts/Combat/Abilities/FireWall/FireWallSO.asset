@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FireWallAbilityData
   abilityName: FireWall
   description: A wall of fire
+  abilityIndicator: {fileID: 343664358333673487, guid: 873e26093ed1ad74db60bef0b99f6d5a, type: 3}
   icon: {fileID: 0}
   visualEffectPrefab: {fileID: 0}
   range: 20

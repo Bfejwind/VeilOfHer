@@ -9,6 +9,7 @@ public class CommandCaster : MonoBehaviour
     [SerializeField]private Camera playerCamera;
     [SerializeField]private float maxRange = 20f;
     [SerializeField]private LayerMask aimMask;
+    [SerializeField] private Transform abilityIndicatorOrigin;
     //Animations
     [SerializeField] private HandAnimScript handAnim;
 
@@ -39,7 +40,11 @@ public class CommandCaster : MonoBehaviour
         public AbilityData ability;
     }
     //Targeting
-    private AbilityData currentAbility;
+    public AbilityData currentAbility;
+    private GameObject currentIndicator;
+    private Rigidbody indicatorRB;
+    [SerializeField] private float indicatorLaunchForce = 10.0f;
+    public Vector3 impactPoint;
     private Coroutine slowMoCoroutine;
     //Delay weapon Firing
     [SerializeField] private float scuffedWeaponDelay = 0.2f;
@@ -59,13 +64,18 @@ public class CommandCaster : MonoBehaviour
     }
     void Update()
     {
-        if (currentAbility != null && Input.GetKeyDown(KeyCode.Mouse0))
+        if (currentAbility != null)
         {
-            CastAbility(currentAbility);
-            StartCoroutine(ScuffedAbilityLoad());
-            //Turn on weapon after ability is fired
-            //EndTargeting();
-            currentAbility = null;
+
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                //Shoot Ball Indicator
+                LaunchIndicator();
+                StartCoroutine(ScuffedAbilityLoad());
+                //Turn on weapon after ability is fired
+                //EndTargeting();
+                currentAbility = null;
+            }
         }
     }
     public void ExecuteCommand(string input)
@@ -87,12 +97,38 @@ public class CommandCaster : MonoBehaviour
                 StartCoroutine(CooldownIconRoutine());
             }
             currentAbility = ability;
-            //slowMoCoroutine = StartCoroutine(SlowTime());
-            //CastAbility(ability);
+            //Ability Distinguishing Indicators
+            if (currentAbility is ControlAbilityData control)
+            {
+                currentIndicator = Instantiate(control.abilityIndicator,abilityIndicatorOrigin.position,Quaternion.identity, transform);
+                
+            }
+            if (currentAbility is AOEAbilityData aoe)
+            {
+                currentIndicator = Instantiate(aoe.abilityIndicator,abilityIndicatorOrigin.position,Quaternion.identity, transform);
+            }
+            if (currentAbility is FireWallAbilityData firewall)
+            {
+                currentIndicator = Instantiate(firewall.abilityIndicator,abilityIndicatorOrigin.position,Quaternion.identity, transform);
+            }
             StartCoroutine(RechargeCharge());
             //Animations
             handAnim.PlayHandsAbilityStart();
         }
+    }
+    private void LaunchIndicator()
+    {
+        if (currentIndicator != null && indicatorRB == null)
+        {
+            handAnim.PlayHandsAbilityShoot();
+            Vector3 targetPoint = GetTargetPoint();
+            Vector3 launchDirection = (targetPoint - abilityIndicatorOrigin.position).normalized;
+            indicatorRB = currentIndicator.GetComponent<Rigidbody>();
+            indicatorRB.AddForce(launchDirection * indicatorLaunchForce,ForceMode.Impulse);
+            currentIndicator.transform.SetParent(null);
+        }
+        indicatorRB = null;
+        currentIndicator = null;
     }
     private IEnumerator CooldownIconRoutine()
     {
@@ -126,17 +162,11 @@ public class CommandCaster : MonoBehaviour
         yield return new WaitForSeconds(rechargeTime);
         currentCharges = Mathf.Min(currentCharges + 1, maxCharges);
     }
-    private void CastAbility(AbilityData ability)
+    public void CastAbility(AbilityData ability,Vector3 targetPoint)
     {
-        //Animations
-        handAnim.PlayHandsAbilityShoot();
-        Vector3 targetPoint = GetTargetPoint();
         if (ability is ControlAbilityData control)
         {
-            GameObject bubble = Instantiate(control.bubblePrefab, targetPoint, Quaternion.identity);
-            var bubbleLogic = bubble.GetComponent<LockdownAbility>(); 
-            bubbleLogic.radius = control.bubbleRadius;
-            bubbleLogic.duration = control.bubbleDuration;
+            Lockdown(control, targetPoint);
             return;
         }
         if (ability is AOEAbilityData aoe)
@@ -146,17 +176,16 @@ public class CommandCaster : MonoBehaviour
         }
         if (ability is FireWallAbilityData firewall)
         {
-            Vector3 directionToFace = playerCamera.transform.position - targetPoint;
-            directionToFace.y = 0;
-            Quaternion rotation = Quaternion.LookRotation(directionToFace);
-            GameObject firewallObject = Instantiate(firewall.fireWallPrefab, targetPoint,rotation);
-            var firewallLogic = firewallObject.GetComponent<FireWallBehaviour>();
-            firewallLogic.fireWallCurrentWidth = firewall.fireWallBaseWidth;
-            firewallLogic.fireWallDuration = firewall.fireWallBaseDuration;
-            firewallLogic.fireWallMaxHP = firewall.fireWallBaseMaxHP;
+            Firewall(firewall, targetPoint);
             return;
-
         }
+    }
+    private void Lockdown(ControlAbilityData control, Vector3 targetPoint)
+    {
+        GameObject bubble = Instantiate(control.bubblePrefab, targetPoint, Quaternion.identity);
+        var bubbleLogic = bubble.GetComponent<LockdownAbility>(); 
+        bubbleLogic.radius = control.bubbleRadius;
+        bubbleLogic.duration = control.bubbleDuration;
     }
     private IEnumerator AOEStrike(AOEAbilityData aoe, Vector3 targetPoint)
     {
@@ -168,6 +197,17 @@ public class CommandCaster : MonoBehaviour
         aoeLogic.AOEDamageCalc(aoeFinalDamage);
         //Debug.Log("AOE activated");
         aoeAnim.StartExplosion();
+    }
+    private void Firewall(FireWallAbilityData firewall, Vector3 targetPoint)
+    {
+        Vector3 directionToFace = playerCamera.transform.position - targetPoint;
+        directionToFace.y = 0;
+        Quaternion rotation = Quaternion.LookRotation(directionToFace);
+        GameObject firewallObject = Instantiate(firewall.fireWallPrefab, targetPoint,rotation);
+        var firewallLogic = firewallObject.GetComponent<FireWallBehaviour>();
+        firewallLogic.fireWallCurrentWidth = firewall.fireWallBaseWidth;
+        firewallLogic.fireWallDuration = firewall.fireWallBaseDuration;
+        firewallLogic.fireWallMaxHP = firewall.fireWallBaseMaxHP;
     }
     private Vector3 GetTargetPoint()
     {

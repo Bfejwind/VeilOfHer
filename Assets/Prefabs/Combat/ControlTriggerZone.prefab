@@ -127,9 +127,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf53d615ed20ddd419dfeefe71ebf2a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LockdownAbility
-  radius: 0.5
+  radius: 5
   duration: 3
   affectedEnemies: []
+  affectedBosses: []
 --- !u!1001 &5359499063290302427
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -214,15 +215,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4321358288067726026, guid: 460babe280fe4aa41adc3fefd46f0c0b, type: 3}
       propertyPath: InitialModule.startSize.scalar
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4321358288067726026, guid: 460babe280fe4aa41adc3fefd46f0c0b, type: 3}
       propertyPath: InitialModule.startSize.minScalar
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7966731087305637596, guid: 460babe280fe4aa41adc3fefd46f0c0b, type: 3}
       propertyPath: m_Name
       value: vfx_Tornado_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 7966731087305637596, guid: 460babe280fe4aa41adc3fefd46f0c0b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8709216932701153501, guid: 460babe280fe4aa41adc3fefd46f0c0b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -230,7 +235,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8709216932701153501, guid: 460babe280fe4aa41adc3fefd46f0c0b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.011
       objectReference: {fileID: 0}
     - target: {fileID: 8709216932701153501, guid: 460babe280fe4aa41adc3fefd46f0c0b, type: 3}
       propertyPath: m_LocalPosition.z

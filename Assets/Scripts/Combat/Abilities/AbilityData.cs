@@ -6,6 +6,7 @@ public abstract class AbilityData : ScriptableObject
     public string abilityName;
     [TextArea(3, 10)]
     public string description;
+    public GameObject abilityIndicator;
     [Space]
     [Header("Visuals")]
     public Sprite icon;

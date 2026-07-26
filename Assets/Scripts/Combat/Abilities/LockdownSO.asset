@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ControlAbilityData
   abilityName: Lockdown
   description: Stuns enemies
+  abilityIndicator: {fileID: 8728606297049587773, guid: a8d53e9a14e88444fb64f54548bff4bc, type: 3}
   icon: {fileID: 0}
   visualEffectPrefab: {fileID: 0}
   range: 20
