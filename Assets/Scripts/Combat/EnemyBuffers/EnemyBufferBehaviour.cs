@@ -18,7 +18,7 @@ public class EnemyBufferBehaviour : MonoBehaviour
     [Header("Buff Settings")]
     private bool buffApplied;
     [SerializeField] private float buffDuration = 10.0f;
-    [SerializeField] private float buffEffect = 2.0f;
+    [SerializeField] private float buffEffect = -2.0f;
     [SerializeField] private VisualEffect channellingEffect;
     [Header("Layers")]
     [SerializeField] private LayerMask terrainLayer;

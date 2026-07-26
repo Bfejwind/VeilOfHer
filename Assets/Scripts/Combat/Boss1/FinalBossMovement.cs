@@ -25,6 +25,8 @@ public class FinalBossMovement : MonoBehaviour
     public int controlEffects;
     public bool canMove => controlEffects == 0;
     public bool canAttack => controlEffects == 0;
+    public float nerfDuration;
+    [SerializeField] private float nerfEffect = 2.0f;
 
     private void Awake()
     {
@@ -78,18 +80,14 @@ public class FinalBossMovement : MonoBehaviour
     public void ApplyControl()
     {
         controlEffects++;
-        UpdateMovementState();
     }
     public void RemoveControl()
     {
         controlEffects = Mathf.Max(0, controlEffects-1);
-        UpdateMovementState();
     }
     private void UpdateMovementState()
     {
-        navAgent.SetDestination(transform.position);
-        navAgent.isStopped = !canMove;
-        navAgent.velocity = Vector3.zero;
+        boss1Behaviour.ApplyAttackSpeedNerf(nerfDuration, nerfEffect);
     }
     private int WrapNum(int value, int max)
     {

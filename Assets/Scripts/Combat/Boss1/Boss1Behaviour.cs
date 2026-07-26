@@ -42,6 +42,7 @@ public class Boss1Behaviour : MonoBehaviour
     [SerializeField] private float SummonAttackDelay = 2f;
     private bool isBuffed;
     public bool channelledUpon;
+    private bool isNerfed;
     [Header("Difficulty Settings")]
     [SerializeField] private float damageTimer = 0f;
     [SerializeField] private float damageTimerThreshold = 10.0f;
@@ -138,18 +139,41 @@ public class Boss1Behaviour : MonoBehaviour
         if (!isBuffed)
         {
             isBuffed = true;    
-            WaveAttackDelay = Mathf.Max(0, WaveAttackDelay - effect);
-            SummonAttackDelay = Mathf.Max(0, SummonAttackDelay - effect);
-            abilityAttackDelay = Mathf.Max(0, abilityAttackDelay - effect);
+            WaveAttackDelay = Mathf.Max(0, WaveAttackDelay + effect);
+            SummonAttackDelay = Mathf.Max(0, SummonAttackDelay + effect);
+            abilityAttackDelay = Mathf.Max(0, abilityAttackDelay + effect);
             Debug.Log("AbilityDelay: " + abilityAttackDelay);
             Debug.Log("WaveDelay: " + WaveAttackDelay);
             yield return new WaitForSeconds(duration);
-            WaveAttackDelay = WaveAttackDelay + effect;
-            SummonAttackDelay = SummonAttackDelay + effect;
-            abilityAttackDelay = abilityAttackDelay + effect;
+            WaveAttackDelay = WaveAttackDelay - effect;
+            SummonAttackDelay = SummonAttackDelay - effect;
+            abilityAttackDelay = abilityAttackDelay - effect;
             Debug.Log("AbilityDelayRestored: " + abilityAttackDelay);
             Debug.Log("WaveDelayResotred: " + WaveAttackDelay);
             isBuffed = false;
+        }
+    }
+    public void ApplyAttackSpeedNerf(float duration, float effect)
+    {
+        StartCoroutine(AttackSpeedNerf(duration,effect));
+    }
+    public IEnumerator AttackSpeedNerf(float duration, float effect)
+    {
+        if (!isNerfed)
+        {
+            isNerfed = true;    
+            WaveAttackDelay = Mathf.Max(0, WaveAttackDelay + effect);
+            SummonAttackDelay = Mathf.Max(0, SummonAttackDelay + effect);
+            abilityAttackDelay = Mathf.Max(0, abilityAttackDelay + effect);
+            Debug.Log("AbilityDelay: " + abilityAttackDelay);
+            Debug.Log("WaveDelay: " + WaveAttackDelay);
+            yield return new WaitForSeconds(duration);
+            WaveAttackDelay = WaveAttackDelay - effect;
+            SummonAttackDelay = SummonAttackDelay - effect;
+            abilityAttackDelay = abilityAttackDelay - effect;
+            Debug.Log("AbilityDelayRestored: " + abilityAttackDelay);
+            Debug.Log("WaveDelayResotred: " + WaveAttackDelay);
+            isNerfed = false;
         }
     }
 
