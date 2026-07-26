@@ -46,6 +46,14 @@ namespace StarterAssets
 		public float GroundedRadius = 0.5f;
 		[Tooltip("What layers the character uses as ground")]
 		public LayerMask GroundLayers;
+		[Header("Healing")]
+		[Tooltip("How much each Heal gives")]
+		public float healAmount = 30.0f;
+		[Tooltip("How long it takes to heal the healAmount")]
+		public float healDuration = 3.0f;
+		[Tooltip("Maximum heals that can be held")]
+		public int maxHeals = 2;
+		private int currentHeals;
 
 		[Header("Cinemachine")]
 		[Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
@@ -129,6 +137,7 @@ namespace StarterAssets
 			standHeight = _controller.height;
 			originalCamHeight = CinemachineCameraTarget.transform.localPosition.y;
 			originalAimHeight = aimTarget.transform.localPosition.y;
+			currentHeals = maxHeals;
 		}
 
 		private void Update()
@@ -305,7 +314,10 @@ namespace StarterAssets
 				_verticalVelocity += Gravity * Time.deltaTime;
 			}
 		}
-
+		private void DebuggerHeal()
+		{
+			
+		}
 		private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
 		{
 			if (lfAngle < -360f) lfAngle += 360f;

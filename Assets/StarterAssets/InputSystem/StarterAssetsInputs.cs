@@ -15,6 +15,7 @@ namespace StarterAssets
 		public bool dash;
 		public bool crouch;
 		public bool fire;
+		public bool heal;
 		[Header("Movement Settings")]
 		public bool analogMovement;
 
@@ -57,6 +58,10 @@ namespace StarterAssets
 		{
 			FireInput(value.isPressed);
 		}
+		public void OnHeal(InputValue value)
+		{
+			HealInput(value.isPressed);
+		}
 #endif
 
 
@@ -90,6 +95,10 @@ namespace StarterAssets
 		public void FireInput(bool newFireState)
 		{
 			fire = newFireState;
+		}
+		public void HealInput(bool newHealState)
+		{
+			heal = newHealState;
 		}
 		
 		private void OnApplicationFocus(bool hasFocus)
