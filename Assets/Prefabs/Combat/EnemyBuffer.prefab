@@ -642,10 +642,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBufferBehaviour
   navAgent: {fileID: 2181150578454172129}
+  boss1Behaviour: {fileID: 0}
   bossTransform: {fileID: 0}
   channellingSpawnPoint: {fileID: 0}
-  channelDistance: 2
+  channelDistance: 5
   channellingSuccessTime: 5
+  buffDuration: 10
+  buffEffect: -2
   channellingEffect: {fileID: 0}
   terrainLayer:
     serializedVersion: 2

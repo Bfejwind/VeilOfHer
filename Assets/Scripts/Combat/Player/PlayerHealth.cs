@@ -13,6 +13,15 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private GameObject Shield;
     //ScreenShake
     [SerializeField] private ScreenShakeEffects screenShake;
+    [Header("Audio")]
+    [SerializeField] private PlayerAudio playerAudio;
+    void Awake()
+    {
+        if (playerAudio == null)
+        {
+            playerAudio = GetComponent<PlayerAudio>();
+        }
+    }
 
     void Start()
     {
@@ -28,6 +37,7 @@ public class PlayerHealth : MonoBehaviour
     {
         playerHealth -= amount;
         healthSlider.value = playerHealth;
+        playerAudio.PlayerHurt();
     }
     public IEnumerator DashInvulnerability(float duration)
     {
