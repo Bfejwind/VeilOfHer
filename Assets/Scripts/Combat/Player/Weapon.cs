@@ -88,9 +88,9 @@ public class Weapon : MonoBehaviour
             FireWeapon();
         }
         //Ammo UI
-        if (AmmoManager.Instance.ammoDisplay != null)
+        if (PlayerDataManager.Instance.ammoDisplay != null)
         {
-            AmmoManager.Instance.ammoDisplay.text = $"{bulletsLeft}/{magazineSize}";
+            PlayerDataManager.Instance.ammoDisplay.text = $"{bulletsLeft}/{magazineSize}";
         }
     }
 
