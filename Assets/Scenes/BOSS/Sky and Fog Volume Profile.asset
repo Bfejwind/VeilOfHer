@@ -450,7 +450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f034cba68ab55e046ae1445a42f18c0e, type: 3}
   m_Name: IndirectLightingController
   m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.IndirectLightingController
-  active: 0
+  active: 1
   indirectDiffuseLightingMultiplier:
     m_OverrideState: 1
     m_Value: 0.95
@@ -459,7 +459,7 @@ MonoBehaviour:
     m_Value: 65535
   reflectionLightingMultiplier:
     m_OverrideState: 1
-    m_Value: 0.88
+    m_Value: 0.84
   reflectionLightingLayers:
     m_OverrideState: 1
     m_Value: 65535
