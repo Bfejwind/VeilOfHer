@@ -14,6 +14,9 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
 
     public TextMeshProUGUI dialogueText;
     public string[] dialogueLines;
+    [Header("Dialogue Audio")]
+    [SerializeField] private AudioSource dialogueAudioSource;
+    [SerializeField] private AudioClip[] dialogueAudioClips;
     public float textSpeed;
     public bool dialogueActive = false;
 
@@ -84,18 +87,57 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
             return;
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (!Input.GetMouseButtonDown(0))
         {
-            if (dialogueText.text == dialogueLines[index])
-            {
-                NextLine();
-            }
-            else
-            {
-                StopAllCoroutines();
-                dialogueText.text = dialogueLines[index];
-            }
+            return;
         }
+
+        bool textFinished =
+            dialogueText.text == dialogueLines[index];
+
+        if (!textFinished)
+        {
+            // First click: reveal the full subtitle,
+            // but allow the voice to continue.
+            StopAllCoroutines();
+            dialogueText.text = dialogueLines[index];
+            return;
+        }
+
+        // Second click: stop the current voice and go forward.
+        if (dialogueAudioSource != null)
+        {
+            dialogueAudioSource.Stop();
+        }
+
+        NextLine();
+    }
+
+    private void PlayCurrentVoiceLine()
+    {
+        if (dialogueAudioSource == null)
+        {
+            return;
+        }
+
+        dialogueAudioSource.Stop();
+
+        if (dialogueAudioClips == null ||
+            index < 0 ||
+            index >= dialogueAudioClips.Length)
+        {
+            return;
+        }
+
+        AudioClip currentClip = dialogueAudioClips[index];
+
+        if (currentClip == null)
+        {
+            return;
+        }
+
+        dialogueAudioSource.clip = currentClip;
+        dialogueAudioSource.Play();
     }
 
     public void StartDialogue()
@@ -120,6 +162,7 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
         dialogueText.text = "";
 
         UpdatePortraitVisibility();
+        PlayCurrentVoiceLine();
 
         foreach (char character in currentLine)
         {
@@ -162,6 +205,11 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
             }
 
             onDialogueFinished?.Invoke();
+            
+            if (dialogueAudioSource != null)
+            {
+                dialogueAudioSource.Stop();
+            }
         }
     }
 
