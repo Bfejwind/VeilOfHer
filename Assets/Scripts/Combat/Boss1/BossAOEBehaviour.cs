@@ -15,9 +15,17 @@ public class BossAOEBehaviour : MonoBehaviour
     private bool hitPlayer;
     [SerializeField] private ParticleSystem[] aoeShards;
     [SerializeField] private VisualEffect aoeTrail;
+    [Header("Audio")]
+    [SerializeField] public AudioSource shardSource;
+    [SerializeField] public AudioSource trailSource;
+    [SerializeField] private AudioClip bigShardsSFX;
+    [SerializeField] private AudioClip trailSFX;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        trailSource.clip = trailSFX;
+        trailSource.loop = true;
+        trailSource.Play();
         targetPosition = transform.position + transform.forward * distance;
     }
     void Update()
@@ -41,13 +49,22 @@ public class BossAOEBehaviour : MonoBehaviour
     {
         if (other.TryGetComponent(out PlayerHealth playerHP))
         {
-            //print("hit" + other.gameObject.name);
-            hitPlayer = true;
-            playerHP.TakeDamage(damage);
+            if (playerHP.IsInvulnerable)
+            {
+                return;
+            }
+            else
+            {
+                hitPlayer = true;
+                playerHP.TakeDamage(damage);
+            }
         }
     }
     private IEnumerator AOEShardBurst()
     {
+        //Audio
+        
+
         Vector3 impactPoint = transform.position;
         Collider[] hits = Physics.OverlapSphere(impactPoint,explosionRadius);
         foreach (Collider hit in hits)
@@ -62,8 +79,10 @@ public class BossAOEBehaviour : MonoBehaviour
         {
             shards.Play();
         }
+        shardSource.PlayOneShot(bigShardsSFX);
         yield return new WaitForSeconds(0.5f);
         aoeTrail.Stop();
+        trailSource.Stop();
         yield return new WaitForSeconds(5.0f);
         Destroy(gameObject);
     }

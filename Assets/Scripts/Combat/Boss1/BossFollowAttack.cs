@@ -9,6 +9,9 @@ public class BossFollowAttack : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private GameObject boss;
     private Boss1Behaviour boss1Behaviour;
+    [Header("Audio")]
+    [SerializeField] public AudioSource audioSource;
+    [SerializeField] private AudioClip followSFX;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -25,6 +28,7 @@ public class BossFollowAttack : MonoBehaviour
     }
     void Start()
     {
+        audioSource.PlayOneShot(followSFX);
         speed = boss1Behaviour.followAttackVelocity;
         duration = boss1Behaviour.followAttackDuration;
         Destroy(gameObject, duration);

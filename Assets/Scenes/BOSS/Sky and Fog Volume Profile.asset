@@ -459,7 +459,7 @@ MonoBehaviour:
     m_Value: 65535
   reflectionLightingMultiplier:
     m_OverrideState: 1
-    m_Value: 0.84
+    m_Value: 4
   reflectionLightingLayers:
     m_OverrideState: 1
     m_Value: 65535
