@@ -14,9 +14,14 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
 
     public TextMeshProUGUI dialogueText;
     public string[] dialogueLines;
+
     [Header("Dialogue Audio")]
-    [SerializeField] private AudioSource dialogueAudioSource;
-    [SerializeField] private AudioClip[] dialogueAudioClips;
+    [SerializeField] 
+    private AudioSource dialogueAudioSource;
+
+    [SerializeField] 
+    private AudioClip[] dialogueAudioClips;
+
     public float textSpeed;
     public bool dialogueActive = false;
 
@@ -30,10 +35,6 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
 
     [Header("Dialogue Events")]
     [SerializeField] private UnityEvent onDialogueFinished;
-
-    [Header("Visual Settings")]
-    // [SerializeField] private Color activeColor = Color.white; // Full brightness (1,1,1,1)
-    // [SerializeField] private Color dimmedColor = new Color(0.4f, 0.4f, 0.4f, 1f); // Dimmed brightness (0.4,0.4,0.4,1)
 
     private int index;
 

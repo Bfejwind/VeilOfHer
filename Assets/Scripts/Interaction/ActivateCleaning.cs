@@ -4,36 +4,61 @@ using TMPro;
 
 public class ActivateCleaning : MonoBehaviour, IInteractable
 {
+    [Header("Cleaning Objects")]
+    [Tooltip("The mop object that the player can pick up.")]
     [SerializeField]
     GameObject mop;
 
+    [Header("Inventory Objects")]
+    [Tooltip("The inventory object that represents the mop in the player's inventory.")]
     [SerializeField]
     GameObject mopInventory;
 
+    [Header("Interaction UI")]
+    [Tooltip("The UI element that prompts the player to interact with the mop.")]
     [SerializeField]
     GameObject interactionPromt;
 
+    [Header("Mop Placement")]
+    [Tooltip("The location where the mop will be placed when it is put down.")]
+    [SerializeField]
+    GameObject mopPlacement;
+
+    [Header("Mop Taken?")]
     public static bool mopTaken = false;
 
 
-    public void Interact()
+    public void Interact() // This function is called when the player interacts with the mop object
     {
-        if (mopTaken)
+        if (mopTaken) // If the mop has already been taken, put it down
         {
+            mopTaken = false;
+            mopPlacement.SetActive(false);
+            mopInventory.SetActive(false);
+            mop.SetActive(true);
+            interactionPromt.SetActive(false);
             return;
         }
-        else
+        else // If the mop has not been taken yet, pick it up
         {
             mopTaken = true;
             mop.SetActive(false);
             interactionPromt.SetActive(false);
             mopInventory.SetActive(true);
+            mopPlacement.SetActive(true);
         }
         
     }
 
     public string GetDescription()
     {
-        return "Pick up the mop";
+        if (mopTaken)
+        {
+            return "Put down the mop";
+        }
+        else
+        {
+            return "Pick up the mop";
+        }
     }
 }
