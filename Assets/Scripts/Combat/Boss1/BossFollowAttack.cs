@@ -35,11 +35,6 @@ public class BossFollowAttack : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Environment"))
-        {
-            //print("hit" + other.gameObject.name);
-            Destroy(gameObject);
-        }
         if (other.TryGetComponent(out LaserBehaviour laserState))
         {
             if (laserState.laserOn)
@@ -56,6 +51,11 @@ public class BossFollowAttack : MonoBehaviour
         {
             //print("hit" + other.gameObject.name);
             playerHP.TakeDamage(damage);
+            Destroy(gameObject);
+        }
+        else if (other.gameObject.CompareTag("Environment"))
+        {
+            //print("hit" + other.gameObject.name);
             Destroy(gameObject);
         }
     }

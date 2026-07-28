@@ -290,7 +290,7 @@ public class Tier2EnemyMeleeBehaviour : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Vector3 direction = (other.transform.position - transform.position).normalized;
-            playerController.AddKnockback(direction * knockbackMagnitude);
+            playerController.AddKnockback(direction , knockbackMagnitude);
             if (isCharging)
             {
                 //Stun effect

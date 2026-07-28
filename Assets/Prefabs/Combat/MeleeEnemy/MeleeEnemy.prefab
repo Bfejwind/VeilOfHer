@@ -407,7 +407,7 @@ MonoBehaviour:
   playerCC: {fileID: 0}
   playerController: {fileID: 0}
   enemyCollider: {fileID: 6314157019096111776}
-  knockbackMagnitude: 10
+  knockbackMagnitude: 6
   visionRange: 20
   attackRange: 9
   isPlayerVisible: 0

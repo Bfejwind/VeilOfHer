@@ -4,7 +4,6 @@ using UnityEngine;
 public class LaserBehaviour : MonoBehaviour
 {
     [SerializeField] private float damage = 20.0f;
-    [SerializeField] private float laserDownTime = 10.0f;
     public bool laserOn = true;
     //[Header("Layers")]
     void OnTriggerEnter(Collider other)

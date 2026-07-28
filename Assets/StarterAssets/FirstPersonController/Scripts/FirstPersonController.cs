@@ -244,9 +244,12 @@ namespace StarterAssets
 			_controller.Move(finalMovement * Time.deltaTime);
 			knockbackVelocity = Vector3.MoveTowards(knockbackVelocity,Vector3.zero,knockbackDecay * Time.deltaTime);
 		}
-		public void AddKnockback(Vector3 force)
+		public void AddKnockback(Vector3 explosionPosition, float force)
 		{
-			knockbackVelocity += force;
+			Vector3 direction = (transform.position - explosionPosition).normalized;
+			direction.y += 0.5f;
+			direction.Normalize();
+			knockbackVelocity += direction * force;
 		}
 		private void UpdateControllerCollider()
 		{

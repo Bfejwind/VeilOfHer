@@ -11,6 +11,7 @@ TagManager:
   - Lockdown
   - DisableLaser
   - RockLaser
+  - Enemy
   layers:
   - Default
   - TransparentFX

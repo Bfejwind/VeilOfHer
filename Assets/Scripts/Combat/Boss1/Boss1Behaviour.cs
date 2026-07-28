@@ -107,8 +107,10 @@ public class Boss1Behaviour : MonoBehaviour
             if (isPlayerInRange)
             {
                 //Debug.Log("Boss AOE Attack");
-                GameObject bossAOE = Instantiate(bossAOEPrefab, firePoint.position, Quaternion.identity);
-                bossAOE.GetComponent<Rigidbody>().AddForce(firePoint.forward.normalized * aoeAttackVelocity, ForceMode.Impulse);
+                Vector3 aoeFirePoint = firePoint.position;
+                aoeFirePoint.y = 0f;
+                GameObject bossAOE = Instantiate(bossAOEPrefab, aoeFirePoint, transform.rotation);
+                
             }
             else
             {
