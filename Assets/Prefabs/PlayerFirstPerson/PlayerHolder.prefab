@@ -194,6 +194,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 8800654775026061082}
     m_Modifications:
     - target: {fileID: 92758658360049068, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
+      propertyPath: playerAudio
+      value: 
+      objectReference: {fileID: 8701699751502234073}
+    - target: {fileID: 92758658360049068, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
       propertyPath: screenShake
       value: 
       objectReference: {fileID: 4227361113674740992}
@@ -201,14 +205,38 @@ PrefabInstance:
       propertyPath: playerCamera
       value: 
       objectReference: {fileID: 3337115835763537213}
+    - target: {fileID: 2069476012305243150, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.304
+      objectReference: {fileID: 0}
+    - target: {fileID: 2069476012305243150, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.271
+      objectReference: {fileID: 0}
+    - target: {fileID: 2069476012305243150, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.867
+      objectReference: {fileID: 0}
+    - target: {fileID: 2981932531964261959, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
+      propertyPath: handAnim
+      value: 
+      objectReference: {fileID: 82411283409419670}
     - target: {fileID: 2981932531964261959, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
       propertyPath: playerCamera
       value: 
       objectReference: {fileID: 3337115835763537213}
     - target: {fileID: 7700945183161574105, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
+      propertyPath: handAnim
+      value: 
+      objectReference: {fileID: 82411283409419670}
+    - target: {fileID: 7700945183161574105, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
       propertyPath: playerCamera
       value: 
       objectReference: {fileID: 3337115835763537213}
+    - target: {fileID: 8616685848737228371, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
+      propertyPath: _controller
+      value: 
+      objectReference: {fileID: 5837922353270413342}
     - target: {fileID: 8616685848737228372, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
       propertyPath: m_Name
       value: Player
@@ -259,9 +287,25 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
+--- !u!114 &82411283409419670 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2860948992575587286, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
+  m_PrefabInstance: {fileID: 2778977514119298624}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc9ca2efc94d8c6409655e90b905ac6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HandAnimScript
 --- !u!4 &2302021410929451336 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4135013735270702856, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
+  m_PrefabInstance: {fileID: 2778977514119298624}
+  m_PrefabAsset: {fileID: 0}
+--- !u!143 &5837922353270413342 stripped
+CharacterController:
+  m_CorrespondingSourceObject: {fileID: 8616685848737228382, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
   m_PrefabInstance: {fileID: 2778977514119298624}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &6507604565046493870 stripped
@@ -269,6 +313,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8997996947095583982, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
   m_PrefabInstance: {fileID: 2778977514119298624}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8701699751502234073 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6796578905823494041, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
+  m_PrefabInstance: {fileID: 2778977514119298624}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c0b041fdcc9c11448c16fedb31ce4c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAudio
 --- !u!1001 &5960278062286097112
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -311,7 +366,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9005220659476430818, guid: 2d3a85ecde41a8246a79669975912b74, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.6569998
+      value: 1.657
       objectReference: {fileID: 0}
     - target: {fileID: 9005220659476430818, guid: 2d3a85ecde41a8246a79669975912b74, type: 3}
       propertyPath: m_LocalPosition.z
@@ -319,7 +374,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9005220659476430818, guid: 2d3a85ecde41a8246a79669975912b74, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7348151
+      value: 0.7348152
       objectReference: {fileID: 0}
     - target: {fileID: 9005220659476430818, guid: 2d3a85ecde41a8246a79669975912b74, type: 3}
       propertyPath: m_LocalRotation.x
