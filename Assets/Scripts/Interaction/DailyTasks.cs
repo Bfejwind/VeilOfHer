@@ -11,6 +11,12 @@ public class DailyTasks : MonoBehaviour
     [SerializeField]
     public static int dirtCleaned = 0;
 
+    [SerializeField]
+    public int collectedMemento = 0;
+
+    [SerializeField]
+    TMP_Text mementoText;
+
 
     public void Start()
     {
@@ -37,5 +43,11 @@ public class DailyTasks : MonoBehaviour
             Debug.Log("All tasks completed!");
             // You can add additional logic here for when all tasks are completed.
         }
+    }
+
+    public void CollectedMemento()
+    {
+        collectedMemento += 1; 
+        mementoText.text = "Memento Collected: " + collectedMemento.ToString() + "/4";
     }
 }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using StarterAssets;
 
 public class PlayerInteraction : MonoBehaviour
 {
@@ -10,10 +11,16 @@ public class PlayerInteraction : MonoBehaviour
     public GameObject interactionPrompt;
     public TextMeshProUGUI interactionText;
 
+    [Header("Memento Canvas")]
+    public GameObject mementoCanvas;
+
+    StarterAssetsInputs input;
+
 
     public void Start()
     {
         interactionPrompt.SetActive(false);
+        input = GetComponent<StarterAssetsInputs>();
     }
 
     private void Update()
@@ -45,7 +52,7 @@ public class PlayerInteraction : MonoBehaviour
                     hitSomething = true;
                     interactionText.text = interactable.GetDescription();
 
-                    if (Input.GetKeyDown(KeyCode.F))
+                    if (Input.GetKeyDown(KeyCode.E))
                     {
                         interactable.Interact();
                     }
@@ -54,5 +61,23 @@ public class PlayerInteraction : MonoBehaviour
         }
 
         interactionPrompt.SetActive(hitSomething);
+    }
+
+    public void OnMemento()
+    {
+        mementoCanvas.SetActive(true);
+        OpenMementoUI();
+    }
+
+    public void OpenMementoUI()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    public void CloseMementoUI()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 }

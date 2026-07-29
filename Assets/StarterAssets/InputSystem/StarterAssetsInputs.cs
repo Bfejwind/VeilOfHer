@@ -16,6 +16,7 @@ namespace StarterAssets
 		public bool crouch;
 		public bool fire;
 		public bool heal;
+		public bool memento;
 		[Header("Movement Settings")]
 		public bool analogMovement;
 
@@ -62,6 +63,10 @@ namespace StarterAssets
 		{
 			HealInput(value.isPressed);
 		}
+		public void OnMemento(InputValue value)
+		{
+			MementoInput(value.isPressed);
+		}
 #endif
 
 
@@ -99,6 +104,11 @@ namespace StarterAssets
 		public void HealInput(bool newHealState)
 		{
 			heal = newHealState;
+		}
+
+		public void MementoInput(bool newMementoState)
+		{
+			memento = newMementoState;
 		}
 		
 		private void OnApplicationFocus(bool hasFocus)

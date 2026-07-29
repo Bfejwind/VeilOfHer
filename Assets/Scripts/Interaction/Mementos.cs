@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections;
+using TMPro;
+using StarterAssets;
 
 public class Mementos : MonoBehaviour, IInteractable
 {
@@ -20,7 +22,16 @@ public class Mementos : MonoBehaviour, IInteractable
     [Header("Memento found?")]
     public bool mementoFound = false;
 
+    [Header("Memento Canvas")]
+    public GameObject mementoCanvas;
+    public GameObject currentMemento;
 
+    StarterAssetsInputs input;
+
+    void Start()
+    {
+        input = GetComponent<StarterAssetsInputs>();
+    }
 
     void MementoInventory() // This function is called when the player interacts with the memento object
     {
@@ -29,12 +40,26 @@ public class Mementos : MonoBehaviour, IInteractable
         Sparkle.SetActive(false);
     }
 
+    void OpenMementoUI()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        if (input != null)
+        {
+            input.enabled = false;
+        }
+    }
+
     public void Interact() // This function is called when the player interacts with the memento object
     {
         if (!mementoFound) // If the memento has not been found yet
         {
             MementoInventory(); // Call the MementoInventory function to update the UI
             mementoFound = true; // Set the mementoFound variable to true so that the player cannot pick up the memento again
+            currentMemento.SetActive(true);
+            mementoCanvas.SetActive(true);
+            OpenMementoUI();
         }
     }
 

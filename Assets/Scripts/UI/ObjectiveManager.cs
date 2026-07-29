@@ -19,11 +19,13 @@ public class ObjectiveManager : MonoBehaviour
     [SerializeField] private Transform generatorTarget;
     [SerializeField] private Transform zyr4Target;
     [SerializeField] private Transform foodTarget;
+    [SerializeField] private Transform dailyTarget;
 
     [Header("Interaction Objects")]
     [SerializeField] private GameObject generatorInteraction;
     [SerializeField] private GameObject zyr4Interaction;
     [SerializeField] private GameObject foodInteraction;
+    [SerializeField] private GameObject dailyInteraction;
 
     [Header("Timing")]
     [SerializeField] private float nextTaskDelay = 1.5f;
@@ -42,7 +44,8 @@ public class ObjectiveManager : MonoBehaviour
         SetInteractionStates(
             generatorActive: true,
             zyr4Active: false,
-            foodActive: false
+            foodActive: false,
+            dailyTaskActive: false
         );
 
         taskUI.ShowTask("Repair the power unit");
@@ -73,7 +76,8 @@ public class ObjectiveManager : MonoBehaviour
         SetInteractionStates(
             generatorActive: false,
             zyr4Active: true,
-            foodActive: false
+            foodActive: false,
+            dailyTaskActive: false
         );
 
         taskUI.ShowTask("Return inside and talk to Zyr4");
@@ -104,7 +108,8 @@ public class ObjectiveManager : MonoBehaviour
         SetInteractionStates(
             generatorActive: false,
             zyr4Active: false,
-            foodActive: true
+            foodActive: true,
+            dailyTaskActive: false
         );
 
         taskUI.ShowTask("Eat breakfast");
@@ -126,13 +131,47 @@ public class ObjectiveManager : MonoBehaviour
         taskUI.CompleteTask();
     }
 
+    private IEnumerator StartDailyTasksAfterDelay()
+    {
+     yield return new WaitForSecondsRealtime(nextTaskDelay);
+
+     currentStage = ObjectiveStage.DailyTask;
+
+        SetInteractionStates(
+            generatorActive: false,
+            zyr4Active: false,
+            foodActive: false,
+            dailyTaskActive: true
+        );
+
+        taskUI.ShowTask("Complete Daily Tasks: \n 1. Clean the dirt in the house \n 2. Clean the solar panels");
+        waypointUI.SetTarget(dailyTarget);
+        waypointUI.ShowWaypoint();  
+    }
+
+    public void CompleteDailyObjective()
+    {
+        if (currentStage != ObjectiveStage.DailyTask)
+        {
+            return;
+        }
+
+        currentStage = ObjectiveStage.Complete;
+
+        dailyInteraction.SetActive(false);
+        waypointUI.HideWaypoint();
+        taskUI.CompleteTask();
+    } 
+
     private void SetInteractionStates(
         bool generatorActive,
         bool zyr4Active,
-        bool foodActive)
+        bool foodActive,
+        bool dailyTaskActive)
     {
         generatorInteraction.SetActive(generatorActive);
         zyr4Interaction.SetActive(zyr4Active);
         foodInteraction.SetActive(foodActive);
+        dailyInteraction.SetActive(dailyTaskActive);
     }
 }
