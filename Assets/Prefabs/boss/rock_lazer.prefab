@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7339289658303132419}
   m_Layer: 0
   m_Name: lazer_holder
-  m_TagString: Untagged
+  m_TagString: RockLaser
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -70,7 +70,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LaserBehaviour
   damage: 20
-  laserDownTime: 10
   laserOn: 1
 --- !u!82 &2648273906830763691
 AudioSource:

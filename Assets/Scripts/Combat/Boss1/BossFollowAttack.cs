@@ -41,7 +41,7 @@ public class BossFollowAttack : MonoBehaviour
     {
         if (other.TryGetComponent(out LaserBehaviour laserState))
         {
-            if (laserState.laserOn)
+            if (laserState.laserOn && !other.CompareTag("RockLaser"))
             {
                 //print("hit" + other.gameObject.name);
                 Destroy(gameObject);
