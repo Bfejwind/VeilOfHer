@@ -93,7 +93,7 @@ AudioSource:
   Priority: 162
   DopplerLevel: 1
   MinDistance: 0.8
-  MaxDistance: 2
+  MaxDistance: 20
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -747,7 +747,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c7a1aa0904068442890ba237b22e94f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RockBehaviour
-  rotationSpeed: 10
+  rotationSpeed: 15
   laserHolder: {fileID: 47031377179442034}
   laserDownTime: 10
   laserOn: 1

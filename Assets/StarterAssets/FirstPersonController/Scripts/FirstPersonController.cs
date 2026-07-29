@@ -235,6 +235,10 @@ namespace StarterAssets
 				// move
 				inputDirection = transform.right * _input.move.x + transform.forward * _input.move.y;
 			}
+			if (knockbackVelocity != Vector3.zero)
+			{
+				inputDirection = Vector3.zero;
+			}
 			Vector3 horizontalMovement = inputDirection.normalized * _speed;
 
 			Vector3 verticalMovement = new Vector3(0f, _verticalVelocity, 0f);
