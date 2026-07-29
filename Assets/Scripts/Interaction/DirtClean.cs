@@ -9,8 +9,7 @@ public class DirtClean : MonoBehaviour
     [Header("Scrubbing Settings")]
     [Tooltip("The speed at which the dirt is scrubbed away.")]
     [SerializeField]
-    public float scrubSpeed = 0.000000001f;
-
+    public float scrubSpeed = 0.00000000001f;
 
     [Header("Particle System")]
     [Tooltip("The particle system that plays when scrubbing dirt.")]

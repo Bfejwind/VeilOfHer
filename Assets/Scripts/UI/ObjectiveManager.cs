@@ -8,6 +8,8 @@ public class ObjectiveManager : MonoBehaviour
         RepairGenerator,
         TalkToZyr4,
         EatBreakfast,
+        DailyTask,
+
         Complete
     }
 
@@ -25,7 +27,8 @@ public class ObjectiveManager : MonoBehaviour
     [SerializeField] private GameObject generatorInteraction;
     [SerializeField] private GameObject zyr4Interaction;
     [SerializeField] private GameObject foodInteraction;
-    [SerializeField] private GameObject dailyInteraction;
+    [SerializeField] private GameObject dirt;
+    [SerializeField] public bool dailyTaskCompleted;
 
     [Header("Timing")]
     [SerializeField] private float nextTaskDelay = 1.5f;
@@ -129,6 +132,8 @@ public class ObjectiveManager : MonoBehaviour
         foodInteraction.SetActive(false);
         waypointUI.HideWaypoint();
         taskUI.CompleteTask();
+
+        StartCoroutine(StartDailyTasksAfterDelay());
     }
 
     private IEnumerator StartDailyTasksAfterDelay()
@@ -144,7 +149,8 @@ public class ObjectiveManager : MonoBehaviour
             dailyTaskActive: true
         );
 
-        taskUI.ShowTask("Complete Daily Tasks: \n 1. Clean the dirt in the house \n 2. Clean the solar panels");
+        dirt.SetActive(true);
+        taskUI.ShowTask("Complete Daily Tasks: \n \n 1. Clean the dirt in the house 0/5 \n \n 2. Clean the solar panels");
         waypointUI.SetTarget(dailyTarget);
         waypointUI.ShowWaypoint();  
     }
@@ -155,12 +161,13 @@ public class ObjectiveManager : MonoBehaviour
         {
             return;
         }
+        else if (dailyTaskCompleted)
+        {
+            currentStage = ObjectiveStage.Complete;
 
-        currentStage = ObjectiveStage.Complete;
-
-        dailyInteraction.SetActive(false);
-        waypointUI.HideWaypoint();
-        taskUI.CompleteTask();
+            waypointUI.HideWaypoint();
+            taskUI.CompleteTask(); 
+        }
     } 
 
     private void SetInteractionStates(
@@ -172,6 +179,6 @@ public class ObjectiveManager : MonoBehaviour
         generatorInteraction.SetActive(generatorActive);
         zyr4Interaction.SetActive(zyr4Active);
         foodInteraction.SetActive(foodActive);
-        dailyInteraction.SetActive(dailyTaskActive);
+        dirt.SetActive(dailyTaskActive);
     }
 }
