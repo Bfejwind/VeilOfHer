@@ -61,6 +61,7 @@ public class PlayerHealth : MonoBehaviour
         {
             playerHealth += healAmount;
             healthSlider.value = playerHealth;
+            playerAudio.PlayHealSFX();
             if (playerHealth > playerMaxHealth)
             {
                 playerHealth = playerMaxHealth;
@@ -76,12 +77,14 @@ public class PlayerHealth : MonoBehaviour
         {
             currentRecharge += amount;
             rechargeSlider.value = currentRecharge;
+            playerAudio.PlayHealOrbPickUpSFX();
             if (currentRecharge >= maxRecharge)
             {
                 currentRecharge = 0f;
                 rechargeSlider.value = currentRecharge;
                 currentHealNum++;
                 currentHealNumText.text = currentHealNum.ToString();
+                playerAudio.PlayHealRechargedSFX();
             }
             
         }
