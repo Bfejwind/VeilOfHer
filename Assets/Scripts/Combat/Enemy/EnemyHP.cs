@@ -29,7 +29,7 @@ public class EnemyHP : MonoBehaviour
     {
         shotAt = true;
         enemyHealth -= amount;
-        if (boss1Behaviour != null)
+        if (boss1Behaviour != null && boss1Behaviour.damageTimer != 0)
         {
             boss1Behaviour.damageTaken += amount;
         }

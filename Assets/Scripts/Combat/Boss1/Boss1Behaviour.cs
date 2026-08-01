@@ -13,6 +13,10 @@ public class Boss1Behaviour : MonoBehaviour
     [SerializeField] private FinalBossMovement finalBossMovement;
     private EnemyHP enemyHP;
     private bool attackStarted;
+    [SerializeField] private float S_AttackDelay = 0.5f;
+    [SerializeField] private float M_AttackDelay = 2f;
+    [SerializeField] private float L_AttackDelay = 5f;
+    private bool isAbsorbing;
     [Header("Layers")]
     [SerializeField] private LayerMask terrainLayer;
     [SerializeField] private LayerMask playerLayerMask;
@@ -44,7 +48,7 @@ public class Boss1Behaviour : MonoBehaviour
     public bool channelledUpon;
     private bool isNerfed;
     [Header("Difficulty Settings")]
-    [SerializeField] private float damageTimer = 0f;
+    [SerializeField] public float damageTimer = 0f;
     [SerializeField] private float damageTimerThreshold = 10.0f;
     public float damageTaken = 0f;
     [SerializeField] private float damageTakenThreshold = 50f;
@@ -95,10 +99,14 @@ public class Boss1Behaviour : MonoBehaviour
         }
         if (!attackStarted && isPlayerVisible)
         {
-            damageTimer += Time.deltaTime;
             StartCoroutine(BossAOE());
             attackStarted = true;
         }
+        if (isAbsorbing)
+        {
+            Absorb();
+        }
+        //Absorption Timer
     }
     private IEnumerator BossAOE()
     {
@@ -107,9 +115,9 @@ public class Boss1Behaviour : MonoBehaviour
             if (isPlayerInRange)
             {
                 //Debug.Log("Boss AOE Attack");
-                Vector3 aoeFirePoint = firePoint.position;
-                aoeFirePoint.y = 0f;
-                GameObject bossAOE = Instantiate(bossAOEPrefab, aoeFirePoint, transform.rotation);
+                Vector3 KBFirePoint = firePoint.position;
+                KBFirePoint.y = 0f;
+                GameObject bossAOE = Instantiate(bossAOEPrefab, KBFirePoint, transform.rotation);
                 
             }
             else
@@ -122,15 +130,50 @@ public class Boss1Behaviour : MonoBehaviour
             waveAttack.GetComponent<Rigidbody>().AddForce(firePoint.forward.normalized * WaveAttackVelocity, ForceMode.Impulse);
             yield return new WaitForSeconds(SummonAttackDelay);
             //Shining Animation to show absorbing
-            if (damageTimer <= damageTimerThreshold && damageTaken >= damageTakenThreshold)
-            {
-                GameObject summon1 = Instantiate(summonPrefab, summonPoint1.position, Quaternion.identity);
-                GameObject summon2 = Instantiate(summonPrefab, summonPoint2.position, Quaternion.identity);
-            }
-            damageTimer = 0;
-            damageTaken = 0;
+            isAbsorbing = true;
             yield return new WaitForSeconds(abilityAttackDelay);
         }
+    }
+    private void FollowAttack()
+    {
+        GameObject followAttack = Instantiate(followAttackPrefab, firePoint.position, Quaternion.identity);
+    }
+    private void WaveAttack()
+    {
+        GameObject waveAttack = Instantiate(bossWavePrefab, firePoint.position, transform.rotation);
+        waveAttack.GetComponent<Rigidbody>().AddForce(firePoint.forward.normalized * WaveAttackVelocity, ForceMode.Impulse);
+    }
+    private void KnockbackAttack()
+    {
+        Vector3 KBFirePoint = firePoint.position;
+        KBFirePoint.y = 0f;
+        GameObject bossAOE = Instantiate(bossAOEPrefab, KBFirePoint, transform.rotation);
+        
+    }
+    private void Absorb()
+    {
+        damageTimer += Time.deltaTime;
+        if (damageTimer >= damageTimerThreshold && damageTaken < damageTakenThreshold)
+        {
+            ResetSummonTrackers();
+            return;
+        }
+        else if (damageTimer >= damageTimerThreshold && damageTaken >= damageTakenThreshold)
+        {
+            SummonAttack();
+            ResetSummonTrackers();
+        }
+    }
+    private void ResetSummonTrackers()
+    {
+        isAbsorbing = false;
+        damageTimer = 0;
+        damageTaken = 0;
+    }
+    private void SummonAttack()
+    {
+        GameObject summon1 = Instantiate(summonPrefab, summonPoint1.position, Quaternion.identity);
+        GameObject summon2 = Instantiate(summonPrefab, summonPoint2.position, Quaternion.identity);
     }
     public void ApplyAttackSpeedBuff(float duration, float effect)
     {
