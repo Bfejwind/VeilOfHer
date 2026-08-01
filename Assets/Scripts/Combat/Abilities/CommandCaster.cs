@@ -39,7 +39,8 @@ public class CommandCaster : MonoBehaviour
         public string command;
         public AbilityData ability;
     }
-    //Targeting
+    [Header("Targeting")]
+    [SerializeField] private GameObject groundIndicatorPrefab;
     public AbilityData currentAbility;
     private GameObject currentIndicator;
     private Rigidbody indicatorRB;
@@ -61,14 +62,16 @@ public class CommandCaster : MonoBehaviour
     void Start()
     {
         currentCharges = maxCharges;
+        groundIndicatorPrefab.SetActive(false);
     }
     void Update()
     {
         if (currentAbility != null)
         {
-
+            DrawProjection();
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
+                groundIndicatorPrefab.SetActive(false);
                 //Shoot Ball Indicator
                 LaunchIndicator();
                 StartCoroutine(ScuffedAbilityLoad());
@@ -114,6 +117,22 @@ public class CommandCaster : MonoBehaviour
             StartCoroutine(RechargeCharge());
             //Animations
             handAnim.PlayHandsAbilityStart();
+        }
+    }
+    private void DrawProjection()
+    {
+        if (currentIndicator != null)
+        {
+            if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out RaycastHit hit, maxDistance: maxRange, aimMask))
+            {
+                groundIndicatorPrefab.SetActive(true);
+                groundIndicatorPrefab.transform.position = hit.point;
+                groundIndicatorPrefab.transform.position += hit.point * 0.02f;
+            }
+            else
+            {
+                groundIndicatorPrefab.SetActive(false);
+            }
         }
     }
     private void LaunchIndicator()
