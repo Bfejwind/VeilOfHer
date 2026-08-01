@@ -124,35 +124,25 @@ public class Weapon : MonoBehaviour
             Invoke("FireWeapon", shootingDelay);
         }
         audioSource.PlayOneShot(keyboardSound[UnityEngine.Random.Range(0, keyboardSound.Length)]);
+        if (bulletsLeft <= 0)
+        {
+            Invoke("ReloadWeapon", 0.5f);
+        }
     }
-    // private void ChargedShot()
-    // {
-    //     readyToShoot = false;
-    //     bulletsLeft--;
-    //     float finalDamage = (baseDamage + playerStats.bulletDamageUpgrade) * playerStats.bulletDamageMultiplier;
-
-    //     Vector3 shootingDirection = CalculateDirectionAndSpread().normalized;
-    //     //Instantiate bullet
-    //     GameObject bigBullet = Instantiate(chargedBulletPrefab, bulletSpawn.position, Quaternion.identity);
-    //     //Calculate damage
-    //     bigBullet.GetComponent<Bullet>().DamageCalculation(finalDamage);
-    //     //Point at shooting direction
-    //     bigBullet.transform.forward = shootingDirection;
-    //     //Apply force to bullet
-    //     bigBullet.GetComponent<Rigidbody>().AddForce(bulletSpawn.forward.normalized*bulletVelocity, ForceMode.Impulse);
-    //     //destroy bullet
-    //     StartCoroutine(destroyBulletAfterTime(bigBullet,bulletLifetime));
-    // }
     private void OnReload()
     {
         if (!isShooting && bulletsLeft < magazineSize && isReloading == false)
         {
-            readyToShoot = false;
-            isReloading = true;
-            handAnim.PlayReload();
-            audioSource.PlayOneShot(reloadSfx);
-            Invoke("ReloadCompleted", reloadTime);
+            ReloadWeapon();
         }
+    }
+    private void ReloadWeapon()
+    {
+        readyToShoot = false;
+        isReloading = true;
+        handAnim.PlayReload();
+        audioSource.PlayOneShot(reloadSfx);
+        Invoke("ReloadCompleted", reloadTime);
     }
     private void ReloadCompleted()
     {

@@ -4,7 +4,6 @@ public class IndicatorBehaviour : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private CommandCaster command;
-    private float duration = 5.0f;
     private AbilityData currentAbility;
     private void Awake()
     {

@@ -170,7 +170,7 @@ RectTransform:
   m_Father: {fileID: 9153967479942933536}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.36, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -237,7 +237,7 @@ Transform:
   m_GameObject: {fileID: 2371308721785007751}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.01, z: 1}
+  m_LocalPosition: {x: 0, y: 2.27, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -293,13 +293,15 @@ GameObject:
   - component: {fileID: 814519882940700833}
   - component: {fileID: 2310377799330336562}
   - component: {fileID: 9163747816944343554}
+  - component: {fileID: 2788677520620995617}
+  - component: {fileID: 8024851353143872618}
   m_Layer: 0
   m_Name: Boss1
-  m_TagString: Target
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6294842387101051937
 Transform:
   m_ObjectHideFlags: 0
@@ -308,7 +310,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3158938040297594093}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.9300003, y: 0.2, z: -12.304132}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
@@ -483,6 +485,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Boss1Behaviour
   playerTransform: {fileID: 0}
   finalBossMovement: {fileID: 814519882940700833}
+  S_AttackDelay: 0.5
+  M_AttackDelay: 2
+  L_AttackDelay: 5
   terrainLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -490,7 +495,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   visionRange: 40
-  attackRange: 22.9
+  attackRange: 18
   isPlayerVisible: 0
   isPlayerInRange: 0
   abilityAttackDelay: 2
@@ -501,7 +506,7 @@ MonoBehaviour:
   firePoint: {fileID: 6959506000905461071}
   aoeAttackVelocity: 50
   bossWavePrefab: {fileID: 4473355488232339141, guid: 6951ff33c3bad044296a457d73fe6c97, type: 3}
-  WaveAttackVelocity: 20
+  WaveAttackVelocity: 40
   WaveAttackDelay: 5
   summonPrefab: {fileID: 8941305048270414665, guid: 16a99d8fd12dd75468802f5d9a86e874, type: 3}
   summonPoint1: {fileID: 4890696936193559416}
@@ -526,14 +531,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FinalBossMovement
   navAgent: {fileID: 4079995196795316905}
   playerTransform: {fileID: 0}
-  boss1Behaviour: {fileID: 0}
+  boss1Behaviour: {fileID: 3796875390199823691}
   BossPositions:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   currentPosition: 0
-  teleportInterval: 15
+  teleportInterval: 20
   isTeleporting: 0
   bossAudio: {fileID: 9163747816944343554}
   controlEffects: 0
@@ -651,6 +656,122 @@ MonoBehaviour:
   audioSource: {fileID: 2310377799330336562}
   teleportOut: {fileID: 8300000, guid: a8bbb7cdc797bac4783d7852efe36939, type: 3}
   teleportIn: {fileID: 8300000, guid: ede8400a2c993b048a433649865eece5, type: 3}
+  waveStartSource: {fileID: 2788677520620995617}
+  waveStartSFX: {fileID: 8300000, guid: 34a2e3e2d1f437f40882dc86bf0806df, type: 3}
+--- !u!82 &2788677520620995617
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3158938040297594093}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 5
+  MaxDistance: 100
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &8024851353143872618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3158938040297594093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fba8c31b00bba6c4a88c0d9af0c877ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealOrbsLoot
+  orbNumber: 0
+  healOrbPrefab: {fileID: 1236620008543692077, guid: e73b8534c45b7e7458b9a793dfafc5c1, type: 3}
+  spawnRadius: 1
+  spawnHeight: 0.5
+  spawnForce: 5
 --- !u!1 &4466274674622920775
 GameObject:
   m_ObjectHideFlags: 0

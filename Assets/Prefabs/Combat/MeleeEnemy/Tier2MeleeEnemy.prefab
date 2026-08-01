@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3733192779870628676}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: HPBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 7750251659406921004}
   - component: {fileID: 7876812383319134980}
   - component: {fileID: 4526825637152789685}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: HealthText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -183,7 +183,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7141011573863598478}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: WarningRaycastOrigin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -214,7 +214,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8292636023820504898}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: melee (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -251,7 +251,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4266196079038206804}
   - component: {fileID: 8611991415794730802}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: HealthSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -339,7 +339,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4794515509673428343}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -377,7 +377,7 @@ GameObject:
   - component: {fileID: 7994555184934210079}
   - component: {fileID: 6422533486011914730}
   - component: {fileID: 1416522216497175851}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: pCylinder4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -467,7 +467,7 @@ GameObject:
   - component: {fileID: 6011297845820677833}
   - component: {fileID: 1438193307268951147}
   - component: {fileID: 6817370226272626453}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: pCylinder5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -557,7 +557,7 @@ GameObject:
   - component: {fileID: 381483014592113012}
   - component: {fileID: 4251114393820808480}
   - component: {fileID: 5786858841712283136}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: pCylinder7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -653,7 +653,7 @@ GameObject:
   - component: {fileID: 7959351700525809084}
   - component: {fileID: 5900176972329499422}
   - component: {fileID: 7490470848953630418}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Tier2MeleeEnemy
   m_TagString: Target
   m_Icon: {fileID: 0}
@@ -890,7 +890,7 @@ GameObject:
   - component: {fileID: 5155814138312788032}
   - component: {fileID: 3836730845002080215}
   - component: {fileID: 399864989867754479}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: melee orb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1060,7 +1060,7 @@ GameObject:
   - component: {fileID: 2949220901360432822}
   - component: {fileID: 6180471824319277637}
   - component: {fileID: 3824263527016941624}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: EnemyHPCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1174,7 +1174,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8800161223045847410}
   - component: {fileID: 2897493209043506594}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: melee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1230,7 +1230,7 @@ GameObject:
   - component: {fileID: 4309576351969877736}
   - component: {fileID: 2912918019155954636}
   - component: {fileID: 82791627073293721}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1305,7 +1305,7 @@ GameObject:
   - component: {fileID: 7003832480022959755}
   - component: {fileID: 666750164411169060}
   - component: {fileID: 1912392143232060305}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1380,7 +1380,7 @@ GameObject:
   - component: {fileID: 5145964157048131989}
   - component: {fileID: 6399626675108174863}
   - component: {fileID: 9118242249235633406}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: pCylinder6
   m_TagString: Untagged
   m_Icon: {fileID: 0}

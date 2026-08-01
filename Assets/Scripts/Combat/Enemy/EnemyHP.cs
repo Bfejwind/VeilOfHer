@@ -10,6 +10,7 @@ public class EnemyHP : MonoBehaviour
     public float damageAmt;
     public Slider healthSlider;
     public bool shotAt;
+    private HealOrbsLoot healOrbsLoot;
     private void Awake()
     {
         if (boss1Behaviour == null)
@@ -20,6 +21,7 @@ public class EnemyHP : MonoBehaviour
 
     void Start()
     {
+        healOrbsLoot = GetComponent<HealOrbsLoot>();
         shotAt = false;
         enemyHealth = enemyMaxHealth;
         healthSlider.maxValue = enemyMaxHealth;
@@ -38,5 +40,9 @@ public class EnemyHP : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+    private void OnDestroy()
+    {
+        healOrbsLoot.GenerateHealOrbs();
     }
 }
