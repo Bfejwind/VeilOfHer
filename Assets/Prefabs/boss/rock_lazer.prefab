@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 4587204999573232725}
   - component: {fileID: 2648273906830763691}
   - component: {fileID: 7339289658303132419}
-  m_Layer: 0
+  - component: {fileID: 8766026726001268539}
+  m_Layer: 16
   m_Name: lazer_holder
   m_TagString: RockLaser
   m_Icon: {fileID: 0}
@@ -182,6 +183,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LaserAudio
   laserLoopSource: {fileID: 2648273906830763691}
   laserConstantSFX: {fileID: 8300000, guid: d5a4b720f71f935408c8c03de900bb0a, type: 3}
+--- !u!54 &8766026726001268539
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 47031377179442034}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 2
 --- !u!1 &2261702810284995913
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,7 +221,7 @@ GameObject:
   - component: {fileID: 7968053612956271079}
   - component: {fileID: 6455411197246532686}
   - component: {fileID: 6168279976802671448}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -432,7 +460,7 @@ GameObject:
   - component: {fileID: 8884426216341397720}
   - component: {fileID: 691306700631964896}
   - component: {fileID: 4033364277567746551}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: New VFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -577,7 +605,7 @@ GameObject:
   - component: {fileID: 8398749824502210119}
   - component: {fileID: 1581686995342568228}
   - component: {fileID: 3018556713724019723}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: frac_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -670,7 +698,7 @@ GameObject:
   - component: {fileID: 4385419630389785177}
   - component: {fileID: 1408382099548663256}
   - component: {fileID: 2222106686462715072}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: rock_lazer
   m_TagString: Environment
   m_Icon: {fileID: 0}

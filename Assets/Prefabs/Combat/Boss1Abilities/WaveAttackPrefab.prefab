@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 8461589473098139395}
   - component: {fileID: -7090421150362711040}
   - component: {fileID: 2134649129095152877}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: WaveAttackPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1849,6 +1849,18 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 7.86
       objectReference: {fileID: 0}
+    - target: {fileID: 877934699127486478, guid: 42e69cf9938018f4d8ba245dec557e81, type: 3}
+      propertyPath: m_Layer
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 1061921980209446812, guid: 42e69cf9938018f4d8ba245dec557e81, type: 3}
+      propertyPath: m_Layer
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 1688392459199000648, guid: 42e69cf9938018f4d8ba245dec557e81, type: 3}
+      propertyPath: m_Layer
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 2278485429971480285, guid: 42e69cf9938018f4d8ba245dec557e81, type: 3}
       propertyPath: InitialModule.startSize.scalar
       value: 0.5
@@ -1856,6 +1868,10 @@ PrefabInstance:
     - target: {fileID: 2667441631459716846, guid: 42e69cf9938018f4d8ba245dec557e81, type: 3}
       propertyPath: m_Name
       value: slash
+      objectReference: {fileID: 0}
+    - target: {fileID: 2667441631459716846, guid: 42e69cf9938018f4d8ba245dec557e81, type: 3}
+      propertyPath: m_Layer
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 2687798994045735596, guid: 42e69cf9938018f4d8ba245dec557e81, type: 3}
       propertyPath: m_LocalScale.x
@@ -1868,6 +1884,18 @@ PrefabInstance:
     - target: {fileID: 3145108397420184427, guid: 42e69cf9938018f4d8ba245dec557e81, type: 3}
       propertyPath: m_LocalPosition.z
       value: 3.74
+      objectReference: {fileID: 0}
+    - target: {fileID: 3265420085415224757, guid: 42e69cf9938018f4d8ba245dec557e81, type: 3}
+      propertyPath: m_Layer
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3341601406531886727, guid: 42e69cf9938018f4d8ba245dec557e81, type: 3}
+      propertyPath: m_Layer
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3988661139442297203, guid: 42e69cf9938018f4d8ba245dec557e81, type: 3}
+      propertyPath: m_Layer
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 4007124104513207150, guid: 42e69cf9938018f4d8ba245dec557e81, type: 3}
       propertyPath: m_LocalScale.x
@@ -1917,6 +1945,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4707830612541331686, guid: 42e69cf9938018f4d8ba245dec557e81, type: 3}
+      propertyPath: m_Layer
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 5431260483958999873, guid: 42e69cf9938018f4d8ba245dec557e81, type: 3}
       propertyPath: m_CastShadows
       value: 0
@@ -1953,6 +1985,10 @@ PrefabInstance:
       propertyPath: m_Parameters.widthMultiplier
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 6697173972198573806, guid: 42e69cf9938018f4d8ba245dec557e81, type: 3}
+      propertyPath: m_Layer
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 7875193446275174921, guid: 42e69cf9938018f4d8ba245dec557e81, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.7181934
@@ -1980,6 +2016,10 @@ PrefabInstance:
     - target: {fileID: 8284115417285385364, guid: 42e69cf9938018f4d8ba245dec557e81, type: 3}
       propertyPath: m_Parameters.widthMultiplier
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8626810938258369145, guid: 42e69cf9938018f4d8ba245dec557e81, type: 3}
+      propertyPath: m_Layer
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 8827957414491707414, guid: 42e69cf9938018f4d8ba245dec557e81, type: 3}
       propertyPath: InitialModule.startColor.maxColor.b

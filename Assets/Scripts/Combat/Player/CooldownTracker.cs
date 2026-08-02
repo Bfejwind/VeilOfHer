@@ -3,17 +3,22 @@ using TMPro;
 using UnityEngine.UI;
 public class CooldownTracker : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI cmdCooldownText;
+    //[SerializeField] private TextMeshProUGUI cmdCooldownText;
     [SerializeField] private TextMeshProUGUI cmdChargesText;
 
     [Header("Cooldown Image")]
     [SerializeField] private Image cmdCooldownImage;
 
-    public void CMDCooldownTracker(string time)
+    // public void CMDCooldownTracker(string time)
+    // {
+    //     cmdCooldownText.text = time;
+    //     if (cmdCooldownText != null)
+    //         cmdCooldownText.text = time;
+    // }
+    private void Start()
     {
-        cmdCooldownText.text = time;
-        if (cmdCooldownText != null)
-            cmdCooldownText.text = time;
+        if (cmdCooldownImage != null)
+            cmdCooldownImage.fillAmount = 0;
     }
 
     public void CMDChargesTracker(string num)

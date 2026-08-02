@@ -10,6 +10,10 @@ public class PlayerAudio : MonoBehaviour
     [SerializeField] private AudioClip healOrbPickUpSFX;
     [SerializeField] private AudioClip healRechargedSFX;
     [SerializeField] private AudioClip healSFX;
+    [Header("Dash")]
+    [SerializeField] private AudioSource mutedSource;
+    [SerializeField] private AudioClip dashSFX;
+    [SerializeField] private AudioClip dashThroughSFX;
 
     public void PlayerHurt()
     {
@@ -28,6 +32,14 @@ public class PlayerAudio : MonoBehaviour
     public void PlayHealSFX()
     {
         audioSource.PlayOneShot(healSFX);
+    }
+    public void PlayDashSFX()
+    {
+        mutedSource.PlayOneShot(dashSFX);
+    }
+    public void PlayDashThroughSFX()
+    {
+        audioSource.PlayOneShot(dashThroughSFX);
     }
 
 }

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1978543899780434570}
   - component: {fileID: 2961623025016527712}
   - component: {fileID: 1984635872369587303}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: EnemyBullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -275,3 +275,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3644954c79bdfec439926dee7ee82cd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBullet
+  damage: 20

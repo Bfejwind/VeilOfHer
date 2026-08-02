@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6487952826514276216}
   - component: {fileID: 7542210646946933331}
   - component: {fileID: 1502039484572916015}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: StoneShardsL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4921,7 +4921,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7529516548887083448}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: BossAOEParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4959,7 +4959,7 @@ GameObject:
   - component: {fileID: 2244207085693073822}
   - component: {fileID: 4693847718129420839}
   - component: {fileID: 6611415546528800518}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: StoneShardsM
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9871,7 +9871,7 @@ GameObject:
   - component: {fileID: 1057499060769233248}
   - component: {fileID: 2108876050147838555}
   - component: {fileID: 5570919410558226400}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: aoe trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9989,7 +9989,7 @@ GameObject:
   - component: {fileID: 5618789984483964206}
   - component: {fileID: 1460102136887192808}
   - component: {fileID: 6202989397259548436}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: StoneShardsS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14883,7 +14883,7 @@ GameObject:
   - component: {fileID: 5746947448152530810}
   - component: {fileID: 7423511356916646625}
   - component: {fileID: 2454135280746631165}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: StoneShardsS
   m_TagString: Untagged
   m_Icon: {fileID: 0}

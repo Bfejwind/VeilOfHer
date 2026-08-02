@@ -10,6 +10,7 @@ public class CommandCaster : MonoBehaviour
     [SerializeField]private float maxRange = 20f;
     [SerializeField]private LayerMask aimMask;
     [SerializeField] private Transform abilityIndicatorOrigin;
+    [SerializeField] private Transform handsTransform;
     //Animations
     [SerializeField] private HandAnimScript handAnim;
 
@@ -18,7 +19,7 @@ public class CommandCaster : MonoBehaviour
     public int currentCharges;
     public float rechargeTime = 10f;
     private float rechargeCountdown;
-    public float RechargeTimer => rechargeCountdown;
+    public bool isRecharging;
     [SerializeField] private CooldownTracker cdTracker;
     [Space]
     [Header("Player Stats")]
@@ -46,7 +47,6 @@ public class CommandCaster : MonoBehaviour
     private Rigidbody indicatorRB;
     [SerializeField] private float indicatorLaunchForce = 10.0f;
     public Vector3 impactPoint;
-    private Coroutine slowMoCoroutine;
     //Delay weapon Firing
     [SerializeField] private float scuffedWeaponDelay = 0.2f;
     private void Awake()
@@ -97,28 +97,31 @@ public class CommandCaster : MonoBehaviour
             if (cdTracker != null)
             {
                 cdTracker.CMDChargesTracker(currentCharges.ToString());
-                StartCoroutine(CooldownIconRoutine());
+                if (!isRecharging)
+                {
+                    StartCoroutine(CMDCooldown());
+                }
             }
             currentAbility = ability;
             //Ability Distinguishing Indicators
             if (currentAbility is ControlAbilityData control)
             {
-                currentIndicator = Instantiate(control.abilityIndicator,abilityIndicatorOrigin.position,Quaternion.identity, transform);
+                currentIndicator = Instantiate(control.abilityIndicator,abilityIndicatorOrigin.position,Quaternion.identity, handsTransform);
                 
             }
             if (currentAbility is AOEAbilityData aoe)
             {
-                currentIndicator = Instantiate(aoe.abilityIndicator,abilityIndicatorOrigin.position,Quaternion.identity, transform);
+                currentIndicator = Instantiate(aoe.abilityIndicator,abilityIndicatorOrigin.position,Quaternion.identity, handsTransform);
             }
             if (currentAbility is FireWallAbilityData firewall)
             {
-                currentIndicator = Instantiate(firewall.abilityIndicator,abilityIndicatorOrigin.position,Quaternion.identity, transform);
+                currentIndicator = Instantiate(firewall.abilityIndicator,abilityIndicatorOrigin.position,Quaternion.identity, handsTransform);
             }
-            StartCoroutine(RechargeCharge());
             //Animations
             handAnim.PlayHandsAbilityStart();
         }
     }
+
     private void DrawProjection()
     {
         if (currentIndicator != null)
@@ -149,8 +152,9 @@ public class CommandCaster : MonoBehaviour
         indicatorRB = null;
         currentIndicator = null;
     }
-    private IEnumerator CooldownIconRoutine()
+    private IEnumerator CMDCooldown()
     {
+        isRecharging = true;
         float timer = rechargeTime;
 
         while (timer > 0)
@@ -161,25 +165,22 @@ public class CommandCaster : MonoBehaviour
             {
                 cdTracker.SetCMDCooldownFill(progress);
 
-                cdTracker.CMDCooldownTracker(
-                    Mathf.CeilToInt(timer).ToString()
-                );
+                // cdTracker.CMDCooldownTracker(
+                //     Mathf.CeilToInt(timer).ToString()
+                // );
             }
 
-            timer -= Time.unscaledDeltaTime;
+            timer -= Time.deltaTime;
             yield return null;
         }
-
-        if (cdTracker != null)
-        {
-            cdTracker.SetCMDCooldownFill(0f);
-            cdTracker.CMDCooldownTracker("");
-        }
-    }
-    private IEnumerator RechargeCharge()
-    {
-        yield return new WaitForSeconds(rechargeTime);
         currentCharges = Mathf.Min(currentCharges + 1, maxCharges);
+        cdTracker.CMDChargesTracker(currentCharges.ToString());
+        cdTracker.SetCMDCooldownFill(0f);
+        isRecharging = false;
+        if (currentCharges < maxCharges)
+        {
+            StartCoroutine(CMDCooldown());
+        }
     }
     public void CastAbility(AbilityData ability,Vector3 targetPoint)
     {

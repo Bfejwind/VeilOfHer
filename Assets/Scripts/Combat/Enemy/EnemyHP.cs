@@ -38,11 +38,8 @@ public class EnemyHP : MonoBehaviour
         healthSlider.value = enemyHealth;
         if (enemyHealth <= 0)
         {
+            healOrbsLoot.GenerateHealOrbs();
             Destroy(gameObject);
         }
-    }
-    private void OnDestroy()
-    {
-        healOrbsLoot.GenerateHealOrbs();
     }
 }

@@ -24,9 +24,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 956259794899226621}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.99920034, z: -0, w: 0.03998505}
+  m_LocalRotation: {x: -0, y: -0.99920034, z: -0, w: 0.03998506}
   m_LocalPosition: {x: 0.37710825, y: 1.6359999, z: 0.6619836}
-  m_LocalScale: {x: 0.18986207, y: 0.1898621, z: 0.18986207}
+  m_LocalScale: {x: 0.18986209, y: 0.1898621, z: 0.18986209}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8997996947095583982}
@@ -883,6 +883,7 @@ MonoBehaviour:
   crouch: 0
   fire: 0
   heal: 0
+  memento: 0
   analogMovement: 0
   cursorLocked: 1
   cursorInputForLook: 1
@@ -1126,6 +1127,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 576
   abilityIndicatorOrigin: {fileID: 622582001823911256}
+  handsTransform: {fileID: 0}
   handAnim: {fileID: 0}
   maxCharges: 2
   currentCharges: 0
@@ -1141,6 +1143,7 @@ MonoBehaviour:
     ability: {fileID: 11400000, guid: ecf63a96542f2ee43867e85e5fc24ad0, type: 2}
   - command: wwww
     ability: {fileID: 11400000, guid: b7494226f10c5414785fb201bcc57a6c, type: 2}
+  groundIndicatorPrefab: {fileID: 0}
   currentAbility: {fileID: 0}
   indicatorLaunchForce: 20
   impactPoint: {x: 0, y: 0, z: 0}
@@ -1162,6 +1165,11 @@ MonoBehaviour:
   playerHealthHeight: 0
   playerMaxHealth: 100
   healthSlider: {fileID: 0}
+  currentHealNum: 0
+  currentRecharge: 0
+  rechargeSlider: {fileID: 0}
+  currentHealNumText: {fileID: 0}
+  healAmount: 30
   Shield: {fileID: 5479846622405780191}
   screenShake: {fileID: 0}
   playerAudio: {fileID: 0}
@@ -1179,6 +1187,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StarterAssetsHeadBob
   cameraRoot: {fileID: 4135013735270702856}
   handPos: {fileID: 388923964357875705}
+  indicatorPos: {fileID: 0}
   controller: {fileID: 8616685848737228382}
   alwaysTestBob: 0
   bobSpeed: 13
@@ -1322,6 +1331,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 0ef06c90a3facbd4fa8049daf55145ba, type: 3}
   - {fileID: 8300000, guid: 86e808adb96ee8846907004b17a5faa0, type: 3}
   - {fileID: 8300000, guid: e874e9125be2a3349a21a37e2ffb4997, type: 3}
+  healOrbPickUpSFX: {fileID: 0}
+  healRechargedSFX: {fileID: 0}
+  healSFX: {fileID: 0}
 --- !u!1001 &1378887108650660760
 PrefabInstance:
   m_ObjectHideFlags: 0

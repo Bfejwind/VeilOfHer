@@ -5,6 +5,7 @@ public class StarterAssetsHeadBob : MonoBehaviour
     [Header("References")]
     public Transform cameraRoot;
     public Transform handPos;
+    public Transform indicatorPos;
     public CharacterController controller;
 
     [Header("Test")]
@@ -24,7 +25,6 @@ public class StarterAssetsHeadBob : MonoBehaviour
     {
         if (cameraRoot == null)
         {
-            Debug.LogError("HeadBob: Camera Root is not assigned.");
             enabled = false;
             return;
         }
@@ -40,8 +40,6 @@ public class StarterAssetsHeadBob : MonoBehaviour
 
         originalLocalPosition = cameraRoot.localPosition;
         originalHandLocalPosition = handPos.localPosition;
-
-        Debug.Log("HeadBob started on: " + gameObject.name);
     }
 
     void LateUpdate()
@@ -74,11 +72,7 @@ public class StarterAssetsHeadBob : MonoBehaviour
             timer = 0f;
         }
 
-        cameraRoot.localPosition = Vector3.Lerp(
-            cameraRoot.localPosition,
-            targetPosition,
-            Time.deltaTime * smooth
-        );
+        cameraRoot.localPosition = Vector3.Lerp(cameraRoot.localPosition,targetPosition,Time.deltaTime * smooth);
         handPos.localPosition = Vector3.Lerp(handPos.localPosition,handTargetPosition,Time.deltaTime * smooth);
     }
 }
