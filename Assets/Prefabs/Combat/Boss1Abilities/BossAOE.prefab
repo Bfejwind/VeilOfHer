@@ -133,7 +133,7 @@ MonoBehaviour:
   speed: 10
   damage: 5
   explosionRadius: 4
-  explosionForce: 20
+  explosionForce: 5
   aoeShards:
   - {fileID: 32198045724074040}
   - {fileID: 3024966277187321932}

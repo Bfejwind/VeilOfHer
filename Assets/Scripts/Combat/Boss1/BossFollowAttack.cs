@@ -53,9 +53,14 @@ public class BossFollowAttack : MonoBehaviour
         }
         if (other.TryGetComponent(out PlayerHealth playerHP))
         {
-            //print("hit" + other.gameObject.name);
-            playerHP.TakeDamage(damage);
-            Destroy(gameObject);
+            if (playerHP.IsInvulnerable)
+            {
+                return;
+            }
+            else
+            {
+                playerHP.TakeDamage(damage);
+            }
         }
         else if (other.gameObject.CompareTag("Environment"))
         {
