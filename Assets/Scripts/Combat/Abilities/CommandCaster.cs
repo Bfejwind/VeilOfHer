@@ -58,6 +58,10 @@ public class CommandCaster : MonoBehaviour
         {
             commandLookup[pair.command] = pair.ability; //Add [pair.command.ToLower()] if you want to ignore case sensitivity
         }
+        if (groundIndicatorPrefab == null)
+        {
+            groundIndicatorPrefab = GameObject.Find("TargetingCircle");
+        }
     }
     void Start()
     {
