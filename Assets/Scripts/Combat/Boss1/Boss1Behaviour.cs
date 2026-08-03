@@ -11,7 +11,7 @@ public class Boss1Behaviour : MonoBehaviour
     [Header("References")]
     [SerializeField] private Transform playerTransform;
     [SerializeField] private FinalBossMovement finalBossMovement;
-    private EnemyHP enemyHP;
+    private EnemyHP bossHP;
     private bool attackStarted;
     [SerializeField] private float S_AttackDelay = 0.5f;
     [SerializeField] private float M_AttackDelay = 2f;
@@ -31,7 +31,7 @@ public class Boss1Behaviour : MonoBehaviour
     [SerializeField] private GameObject followAttackPrefab;
     [SerializeField] public float followAttackDuration = 15.0f;
     [SerializeField] public float followAttackVelocity = 10f;
-    [Header("AOE Attack")]
+    [Header("Knockback Attack")]
     [SerializeField] private GameObject bossAOEPrefab;
     [SerializeField] private Transform firePoint;
     [SerializeField] private float aoeAttackVelocity = 10f;
@@ -39,6 +39,9 @@ public class Boss1Behaviour : MonoBehaviour
     [SerializeField] private GameObject bossWavePrefab;
     [SerializeField] private float WaveAttackVelocity = 10f;
     [SerializeField] private float WaveAttackDelay = 1f;
+    [Header("Normal Attack")]
+    [SerializeField] private GameObject bossNormalAttackPrefab;
+    [SerializeField] private float normalAttackVelocity = 10f;
     [Header("Summons")]
     [SerializeField] private GameObject summonPrefab;
     [SerializeField] private Transform summonPoint1;
@@ -66,9 +69,9 @@ public class Boss1Behaviour : MonoBehaviour
         {
             firePoint = transform.Find("FirePoint");
         }
-        if (enemyHP == null)
+        if (bossHP == null)
         {
-            enemyHP = GetComponent<EnemyHP>();
+            bossHP = GetComponent<EnemyHP>();
         }
         if (finalBossMovement == null)
         {
@@ -99,7 +102,7 @@ public class Boss1Behaviour : MonoBehaviour
         }
         if (!attackStarted && isPlayerVisible)
         {
-            StartCoroutine(BossAOE());
+            StartCoroutine(BossFightBegins());
             attackStarted = true;
         }
         if (isAbsorbing)
@@ -108,30 +111,39 @@ public class Boss1Behaviour : MonoBehaviour
         }
         //Absorption Timer
     }
-    private IEnumerator BossAOE()
+    private IEnumerator BossFightBegins()
     {
-        while (true)
+        //Boss Music
+        yield return new WaitForSeconds(3.0f);
+        StartCoroutine(BossAbove50());
+    }
+    private IEnumerator BossAbove50()
+    {
+        while (bossHP.enemyHealth > bossHP.enemyMaxHealth * 0.5f)
         {
-            if (isPlayerInRange)
-            {
-                //Debug.Log("Boss AOE Attack");
-                Vector3 KBFirePoint = firePoint.position;
-                KBFirePoint.y = 0f;
-                GameObject bossAOE = Instantiate(bossAOEPrefab, KBFirePoint, transform.rotation);
-                
-            }
-            else
-            {
-                //Debug.Log("Boss Follow Attack");
-                GameObject followAttack = Instantiate(followAttackPrefab, firePoint.position, Quaternion.identity);
-            }
-            yield return new WaitForSeconds(WaveAttackDelay);
-            GameObject waveAttack = Instantiate(bossWavePrefab, firePoint.position, transform.rotation);
-            waveAttack.GetComponent<Rigidbody>().AddForce(firePoint.forward.normalized * WaveAttackVelocity, ForceMode.Impulse);
-            yield return new WaitForSeconds(SummonAttackDelay);
-            //Shining Animation to show absorbing
-            isAbsorbing = true;
-            yield return new WaitForSeconds(abilityAttackDelay);
+            FollowAttack();
+            yield return new WaitForSeconds(S_AttackDelay);
+            FollowAttack();
+            yield return new WaitForSeconds(S_AttackDelay);
+            FollowAttack();
+            yield return new WaitForSeconds(M_AttackDelay);
+            KnockbackAttack();
+            yield return new WaitForSeconds(M_AttackDelay);
+            WaveSpreadAttack();
+            yield return new WaitForSeconds(S_AttackDelay);
+            FollowAttack();
+            yield return new WaitForSeconds(S_AttackDelay);
+            FollowAttack();
+            yield return new WaitForSeconds(S_AttackDelay);
+            FollowAttack();
+            yield return new WaitForSeconds(M_AttackDelay);
+            NormalSpreadAttack();
+            yield return new WaitForSeconds(S_AttackDelay);
+            NormalSpreadAttack();
+            yield return new WaitForSeconds(S_AttackDelay);
+            NormalSpreadAttack();
+
+
         }
     }
     private void FollowAttack()
@@ -142,6 +154,30 @@ public class Boss1Behaviour : MonoBehaviour
     {
         GameObject waveAttack = Instantiate(bossWavePrefab, firePoint.position, transform.rotation);
         waveAttack.GetComponent<Rigidbody>().AddForce(firePoint.forward.normalized * WaveAttackVelocity, ForceMode.Impulse);
+    }
+    private void WaveSpreadAttack()
+    {
+        int projectileCount = 3;
+        float spreadAngle = 30f;
+        for (int i = 0; i < projectileCount; i++)
+        {
+            float angle = -spreadAngle/2 + (spreadAngle/(projectileCount - 1)) * i;
+            Quaternion rotation = firePoint.rotation * Quaternion.Euler(0,angle,0);
+            GameObject waveAttack = Instantiate(bossWavePrefab, firePoint.position, rotation);
+            waveAttack.GetComponent<Rigidbody>().AddForce(rotation * Vector3.forward * WaveAttackVelocity, ForceMode.Impulse);
+        }
+    }
+    private void NormalSpreadAttack()
+    {
+        int projectileCount = 8;
+        float spreadAngle = 120f;
+        for (int i = 0; i < projectileCount; i++)
+        {
+            float angle = -spreadAngle/2 + (spreadAngle/(projectileCount - 1)) * i;
+            Quaternion rotation = firePoint.rotation * Quaternion.Euler(0,angle,0);
+            GameObject normalAttack = Instantiate(bossNormalAttackPrefab, firePoint.position, rotation);
+            normalAttack.GetComponent<Rigidbody>().AddForce(rotation * Vector3.forward * normalAttackVelocity, ForceMode.Impulse);
+        }
     }
     private void KnockbackAttack()
     {

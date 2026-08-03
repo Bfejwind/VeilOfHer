@@ -55,11 +55,12 @@ public class BossFollowAttack : MonoBehaviour
         {
             if (playerHP.IsInvulnerable)
             {
-                return;
+                Destroy(gameObject);
             }
             else
             {
                 playerHP.TakeDamage(damage);
+                Destroy(gameObject);
             }
         }
         else if (other.gameObject.CompareTag("Environment"))
