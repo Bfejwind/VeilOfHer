@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Splines;
 
 
 public class Boss1Behaviour : MonoBehaviour
@@ -27,6 +28,8 @@ public class Boss1Behaviour : MonoBehaviour
     public bool isPlayerVisible;
     public bool isPlayerInRange;
     [SerializeField] private float abilityAttackDelay = 5.0f;
+    [Header("Boss Routine")]
+    private bool halfHPRoutineStarted;
     [Header("Follow Attack")]
     [SerializeField] private GameObject followAttackPrefab;
     [SerializeField] public float followAttackDuration = 15.0f;
@@ -42,6 +45,15 @@ public class Boss1Behaviour : MonoBehaviour
     [Header("Normal Attack")]
     [SerializeField] private GameObject bossNormalAttackPrefab;
     [SerializeField] private float normalAttackVelocity = 10f;
+    [Header("Laser Arena")]
+    [SerializeField] private GameObject N_S_M;
+    [SerializeField] private GameObject S_N_M;
+    [SerializeField] private GameObject E_W_M;
+    [SerializeField] private GameObject W_E_M;
+    [SerializeField] private SplineAnimate N_S_M_Spline;
+    [SerializeField] private SplineAnimate S_N_M_Spline;
+    [SerializeField] private SplineAnimate E_W_M_Spline;
+    [SerializeField] private SplineAnimate W_E_M_Spline;
     [Header("Summons")]
     [SerializeField] private GameObject summonPrefab;
     [SerializeField] private Transform summonPoint1;
@@ -77,6 +89,17 @@ public class Boss1Behaviour : MonoBehaviour
         {
             finalBossMovement = GetComponent<FinalBossMovement>();
         }
+        N_S_M_Spline = GetComponent<SplineAnimate>();
+        S_N_M_Spline = GetComponent<SplineAnimate>();
+        E_W_M_Spline = GetComponent<SplineAnimate>();
+        W_E_M_Spline = GetComponent<SplineAnimate>();
+    }
+    private void Start()
+    {
+        N_S_M.SetActive(false);
+        S_N_M.SetActive(false);
+        E_W_M.SetActive(false);
+        W_E_M.SetActive(false);
     }
     private void DetectPlayer()
     {
@@ -104,6 +127,11 @@ public class Boss1Behaviour : MonoBehaviour
         {
             StartCoroutine(BossFightBegins());
             attackStarted = true;
+        }
+        if (bossHP.enemyHealth <= bossHP.enemyMaxHealth * 0.5f && !halfHPRoutineStarted)
+        {
+            StartCoroutine(BossAt50());
+            halfHPRoutineStarted = true;
         }
         if (isAbsorbing)
         {
@@ -142,9 +170,23 @@ public class Boss1Behaviour : MonoBehaviour
             NormalSpreadAttack();
             yield return new WaitForSeconds(S_AttackDelay);
             NormalSpreadAttack();
-
-
+            yield return new WaitForSeconds(M_AttackDelay);
         }
+    }
+    private IEnumerator BossAt50()
+    {
+        N_S_M.SetActive(true);
+        N_S_M_Spline.Play();
+        yield return new WaitForSeconds(S_AttackDelay);
+        S_N_M.SetActive(true);
+        S_N_M_Spline.Play();
+        yield return new WaitForSeconds(S_AttackDelay);
+        E_W_M.SetActive(true);
+        E_W_M_Spline.Play();
+        yield return new WaitForSeconds(S_AttackDelay);
+        W_E_M.SetActive(true);
+        W_E_M_Spline.Play();
+        yield return new WaitForSeconds(M_AttackDelay);
     }
     private void FollowAttack()
     {
