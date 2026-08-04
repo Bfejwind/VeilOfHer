@@ -16,10 +16,10 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
     public string[] dialogueLines;
 
     [Header("Dialogue Audio")]
-    [SerializeField] 
+    [SerializeField]
     private AudioSource dialogueAudioSource;
 
-    [SerializeField] 
+    [SerializeField]
     private AudioClip[] dialogueAudioClips;
 
     public float textSpeed;
@@ -34,6 +34,7 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
     public RawImage rightPortraitImage;
 
     [Header("Dialogue Events")]
+    [SerializeField] private UnityEvent onDialogueStarted;
     [SerializeField] private UnityEvent onDialogueFinished;
 
     private int index;
@@ -62,6 +63,8 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
             Debug.LogError("Dialogue Lines are empty.");
             return;
         }
+
+        onDialogueStarted?.Invoke();
 
         // Open the UI first.
         dialogueBox.SetActive(true);
@@ -206,7 +209,7 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
             }
 
             onDialogueFinished?.Invoke();
-            
+
             if (dialogueAudioSource != null)
             {
                 dialogueAudioSource.Stop();
