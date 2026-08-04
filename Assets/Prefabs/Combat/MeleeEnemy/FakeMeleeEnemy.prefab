@@ -211,16 +211,13 @@ GameObject:
   m_Component:
   - component: {fileID: 8614786500218546865}
   - component: {fileID: 4709960373959662589}
-  - component: {fileID: 6314157019096111776}
   - component: {fileID: 4670962116581481661}
   - component: {fileID: 4788285827566058531}
   - component: {fileID: 734843385060391147}
   - component: {fileID: 4213268559284787034}
-  - component: {fileID: 1500145074680164654}
-  - component: {fileID: 2160568797451258359}
-  - component: {fileID: 6660126036794867389}
+  - component: {fileID: 1608066782153627995}
   m_Layer: 16
-  m_Name: MeleeEnemy
+  m_Name: FakeMeleeEnemy
   m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -252,29 +249,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 738671438471907088}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!136 &6314157019096111776
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 738671438471907088}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.99
-  m_Height: 2.19
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.8, z: 0}
 --- !u!195 &4670962116581481661
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -376,56 +350,16 @@ MonoBehaviour:
   chargeDmg: 20
   playerCC: {fileID: 0}
   playerController: {fileID: 0}
-  enemyCollider: {fileID: 6314157019096111776}
+  enemyCollider: {fileID: 0}
   knockbackMagnitude: 6
   visionRange: 20
   attackRange: 9
   isPlayerVisible: 0
   isPlayerInRange: 0
-  audioSource: {fileID: 6660126036794867389}
-  chargeSFX: {fileID: 0}
+  audioSource: {fileID: 1608066782153627995}
+  chargeSFX: {fileID: 8300000, guid: f076019cca7273e4c8b25f9dca6ba36d, type: 3}
   controlEffects: 0
---- !u!136 &1500145074680164654
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 738671438471907088}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.99
-  m_Height: 2.19
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.8, z: 0}
---- !u!114 &2160568797451258359
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 738671438471907088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fba8c31b00bba6c4a88c0d9af0c877ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HealOrbsLoot
-  orbNumber: 0
-  healOrbPrefab: {fileID: 1236620008543692077, guid: e73b8534c45b7e7458b9a793dfafc5c1, type: 3}
-  spawnRadius: 1
-  spawnHeight: 0.5
-  spawnForce: 5
---- !u!82 &6660126036794867389
+--- !u!82 &1608066782153627995
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -438,16 +372,16 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0
   m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 99
+  Priority: 256
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 30
+  MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -482,7 +416,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0

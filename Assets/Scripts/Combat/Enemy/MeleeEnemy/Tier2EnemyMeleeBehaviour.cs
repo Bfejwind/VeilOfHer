@@ -48,6 +48,9 @@ public class Tier2EnemyMeleeBehaviour : MonoBehaviour
     [SerializeField] private float attackRange = 10f;
     public bool isPlayerVisible;
     public bool isPlayerInRange;
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip chargeSFX;
 
     [Header("Ability Interactions")]
     public int controlEffects;
@@ -87,6 +90,10 @@ public class Tier2EnemyMeleeBehaviour : MonoBehaviour
             }
         }
         rb = GetComponent<Rigidbody>();
+    }
+    private void Start()
+    {
+        audioSource.PlayOneShot(chargeSFX);
     }
     private void Update()
     {
@@ -200,8 +207,12 @@ public class Tier2EnemyMeleeBehaviour : MonoBehaviour
             Instantiate(warningPrefab, warningPosition, transform.rotation, transform);
             //PreCharge Animation
             warned = true;
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(1.0f);
+            audioSource.PlayOneShot(chargeSFX);
+            yield return new WaitForSeconds(0.8f);
             yield return StartCoroutine(PerformCharge());
+            audioSource.PlayOneShot(chargeSFX);
+            yield return new WaitForSeconds(0.8f);
             yield return StartCoroutine(PerformCharge());
             StartCoroutine(AttackCooldownRoutine());
         }

@@ -72,7 +72,7 @@ public class FinalBossMovement : MonoBehaviour
     {
         if (controlEffects > 0)
         {
-            UpdateMovementState();
+            // UpdateMovementState();
             return;
         }
         
@@ -85,10 +85,10 @@ public class FinalBossMovement : MonoBehaviour
     {
         controlEffects = Mathf.Max(0, controlEffects-1);
     }
-    private void UpdateMovementState()
-    {
-        boss1Behaviour.ApplyAttackSpeedNerf(nerfDuration, nerfEffect);
-    }
+    // private void UpdateMovementState()
+    // {
+    //     boss1Behaviour.ApplyAttackSpeedNerf(nerfDuration, nerfEffect);
+    // }
     private int WrapNum(int value, int max)
     {
         return (value %  max + max) % max;

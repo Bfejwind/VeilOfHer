@@ -68,16 +68,16 @@ public class EnemyBufferBehaviour : MonoBehaviour
             DetectBoss();
             UpdateBehaviourState();
         }
-        if (isChannelling && channellingTimer >= channellingSuccessTime)
-        {
-            Debug.Log("Channelling complete");
-            buffApplied = true;
-            channellingEffect.SetFloat("spawnRate", 0f);
-            // Apply the buff to the boss here
-            boss1Behaviour.ApplyAttackSpeedBuff(buffDuration,buffEffect);
-            Debug.Log("Buff applied to the boss!");
-            DestroySelf();
-        }
+        // if (isChannelling && channellingTimer >= channellingSuccessTime)
+        // {
+        //     Debug.Log("Channelling complete");
+        //     buffApplied = true;
+        //     channellingEffect.SetFloat("spawnRate", 0f);
+        //     // Apply the buff to the boss here
+        //     boss1Behaviour.ApplyAttackSpeedBuff(buffDuration,buffEffect);
+        //     Debug.Log("Buff applied to the boss!");
+        //     DestroySelf();
+        // }
     }
 
     private void DetectBoss()

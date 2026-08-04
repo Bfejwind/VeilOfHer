@@ -13,8 +13,15 @@ public class HealOrbRecharge : MonoBehaviour
     {
         if (other.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
         {
-            playerHealth.RechargeHeal(rechargeAmt);
-            Destroy(gameObject);
+            if (playerHealth.currentRecharge < playerHealth.maxRecharge)
+            {
+                playerHealth.RechargeHeal(rechargeAmt);
+                Destroy(gameObject);
+            }
+            else
+            {
+                return;
+            }
         }
     }
 }

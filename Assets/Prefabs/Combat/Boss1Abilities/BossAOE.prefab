@@ -129,8 +129,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 714d2096b21c33a4bada6ab092080ff5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossAOEBehaviour
-  distance: 40
-  speed: 10
+  distance: 30
+  speed: 15
   damage: 5
   explosionRadius: 4
   explosionForce: 5

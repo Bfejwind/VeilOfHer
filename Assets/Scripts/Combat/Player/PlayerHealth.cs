@@ -13,7 +13,7 @@ public class PlayerHealth : MonoBehaviour
     public int currentHealNum;
     private int maxHealNum = 2;
     public float currentRecharge;
-    private float maxRecharge = 100f;
+    public float maxRecharge = 100f;
     public Slider rechargeSlider;
     public TextMeshProUGUI currentHealNumText;
     [SerializeField] private float healAmount = 30.0f;

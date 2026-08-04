@@ -30,12 +30,12 @@ public class Boss1Behaviour : MonoBehaviour
     public bool isPlayerInRange;
     [SerializeField] private float abilityAttackDelay = 5.0f;
     [Header("Boss Routine")]
-    private bool halfHPRoutineStarted;
-    private bool halfHPRoutineEnded;
-    private bool afterHalfBeforeQuarterStarted;
-    private bool quarterHPRoutineStarted;
-    private bool quarterHPRoutineEnded;
-    private bool finalQuarterRoutineStarted;
+    public bool laserRoutine1Started;
+    public bool laserRoutine1Ended;
+    private bool phase2RoutineStarted;
+    public bool laserRoutine2Started;
+    public bool laserRoutine2Ended;
+    private bool phase3RoutineStarted;
     [Header("Follow Attack")]
     [SerializeField] private GameObject followAttackPrefab;
     [SerializeField] public float followAttackDuration = 15.0f;
@@ -55,6 +55,9 @@ public class Boss1Behaviour : MonoBehaviour
     [SerializeField] private GameObject[] splineObjects;
     private SplineAnimate[] splineAnimators;
     [Header("Summons")]
+    [SerializeField] private Transform[] summonSpawnPos;
+    [SerializeField] private GameObject realSummon;
+    [SerializeField] private GameObject fakeSummon;
     [SerializeField] private GameObject summonPrefab;
     [SerializeField] private Transform summonPoint1;
     [SerializeField] private Transform summonPoint2;
@@ -137,27 +140,27 @@ public class Boss1Behaviour : MonoBehaviour
             StartCoroutine(BossFightBegins());
             attackStarted = true;
         }
-        if (bossHP.enemyHealth <= bossHP.enemyMaxHealth * 0.5f && !halfHPRoutineStarted)
+        if (bossHP.enemyHealth <= bossHP.enemyMaxHealth * 0.75f && !laserRoutine1Started)
         {
-            StopCoroutine(BossAbove50());
-            StartCoroutine(BossAt50());
-            halfHPRoutineStarted = true;
+            StopCoroutine(Phase1Projectiles());
+            StartCoroutine(LaserArena1());
+            laserRoutine1Started = true;
         }
-        if (halfHPRoutineEnded && !afterHalfBeforeQuarterStarted)
+        if (laserRoutine1Ended && !phase2RoutineStarted)
         {
-            StartCoroutine(After50Before25());
-            afterHalfBeforeQuarterStarted = true;
+            StartCoroutine(Phase2projectiles());
+            phase2RoutineStarted = true;
         }
-        if (bossHP.enemyHealth <= bossHP.enemyMaxHealth * 0.25f && !quarterHPRoutineStarted)
+        if (bossHP.enemyHealth <= bossHP.enemyMaxHealth * 0.25f && !laserRoutine2Started)
         {
-            StopCoroutine(After50Before25());
-            StartCoroutine(BossAt25());
-            quarterHPRoutineStarted = true;
+            StopCoroutine(Phase2projectiles());
+            StartCoroutine(LaserArena2());
+            laserRoutine2Started = true;
         }
-        if (quarterHPRoutineEnded && !finalQuarterRoutineStarted)
+        if (laserRoutine2Ended && !phase3RoutineStarted)
         {
-            StartCoroutine(After25());
-            finalQuarterRoutineStarted = true;
+            StartCoroutine(Phase3Projectiles());
+            phase3RoutineStarted = true;
         }
         if (bossHP.enemyHealth <= 0)
         {
@@ -168,9 +171,9 @@ public class Boss1Behaviour : MonoBehaviour
     {
         //Boss Music
         yield return new WaitForSeconds(3.0f);
-        StartCoroutine(BossAbove50());
+        StartCoroutine(Phase1Projectiles());
     }
-    private IEnumerator BossAbove50()
+    private IEnumerator Phase1Projectiles()
     {
         while (bossHP.enemyHealth > bossHP.enemyMaxHealth * 0.5f)
         {
@@ -202,8 +205,10 @@ public class Boss1Behaviour : MonoBehaviour
             yield return new WaitForSeconds(M_AttackDelay);
         }
     }
-    private IEnumerator BossAt50()
+    private IEnumerator LaserArena1()
     {
+        bossHP.Invulnerable();
+        SummonAttack();
         splineObjects[0].SetActive(true);
         splineAnimators[0].Play();
         yield return new WaitForSeconds(S_AttackDelay);
@@ -216,9 +221,10 @@ public class Boss1Behaviour : MonoBehaviour
         splineObjects[3].SetActive(true);
         splineAnimators[3].Play();
         yield return new WaitForSeconds(L_AttackDelay);
-        halfHPRoutineEnded = true;
+        laserRoutine1Ended = true;
+        bossHP.Vulnerable();
     }
-    private IEnumerator After50Before25()
+    private IEnumerator Phase2projectiles()
     {
         while (bossHP.enemyHealth > bossHP.enemyMaxHealth * 0.25f)
         {
@@ -256,8 +262,10 @@ public class Boss1Behaviour : MonoBehaviour
             yield return new WaitForSeconds(M_AttackDelay);
         }
     }
-    private IEnumerator BossAt25()
+    private IEnumerator LaserArena2()
     {
+        bossHP.Invulnerable();
+        SummonIllusions();
         splineObjects[0].SetActive(true);
         splineAnimators[0].Restart(true);
         yield return new WaitForSeconds(S_AttackDelay);
@@ -270,9 +278,10 @@ public class Boss1Behaviour : MonoBehaviour
         splineObjects[3].SetActive(true);
         splineAnimators[3].Restart(true);
         yield return new WaitForSeconds(L_AttackDelay);
-        quarterHPRoutineEnded = true;
+        laserRoutine2Ended = true;
+        bossHP.Vulnerable();
     }
-    private IEnumerator After25()
+    private IEnumerator Phase3Projectiles()
     {
         while (bossHP.enemyHealth > 0)
         {
@@ -350,76 +359,96 @@ public class Boss1Behaviour : MonoBehaviour
         Quaternion randomRotation = firePoint.rotation * Quaternion.Euler(0, randomAngle, 0);
         GameObject bossAOE = Instantiate(bossAOEPrefab, KBFirePoint, randomRotation);
     }
-    private void Absorb()
-    {
-        damageTimer += Time.deltaTime;
-        if (damageTimer >= damageTimerThreshold && damageTaken < damageTakenThreshold)
-        {
-            ResetSummonTrackers();
-            return;
-        }
-        else if (damageTimer >= damageTimerThreshold && damageTaken >= damageTakenThreshold)
-        {
-            SummonAttack();
-            ResetSummonTrackers();
-        }
-    }
-    private void ResetSummonTrackers()
-    {
-        isAbsorbing = false;
-        damageTimer = 0;
-        damageTaken = 0;
-    }
     private void SummonAttack()
     {
         GameObject summon1 = Instantiate(summonPrefab, summonPoint1.position, Quaternion.identity);
         GameObject summon2 = Instantiate(summonPrefab, summonPoint2.position, Quaternion.identity);
     }
-    public void ApplyAttackSpeedBuff(float duration, float effect)
+    private void SummonIllusions()
     {
-        StartCoroutine(AttackSpeedBuff(duration,effect));
-    }
-    public IEnumerator AttackSpeedBuff(float duration, float effect)
-    {
-        if (!isBuffed)
+        int realSpawn1 = Random.Range(0,summonSpawnPos.Length);
+        int realSpawn2 = realSpawn1;
+        while (realSpawn2 == realSpawn1)
         {
-            isBuffed = true;    
-            WaveAttackDelay = Mathf.Max(0, WaveAttackDelay + effect);
-            SummonAttackDelay = Mathf.Max(0, SummonAttackDelay + effect);
-            abilityAttackDelay = Mathf.Max(0, abilityAttackDelay + effect);
-            Debug.Log("AbilityDelay: " + abilityAttackDelay);
-            Debug.Log("WaveDelay: " + WaveAttackDelay);
-            yield return new WaitForSeconds(duration);
-            WaveAttackDelay = WaveAttackDelay - effect;
-            SummonAttackDelay = SummonAttackDelay - effect;
-            abilityAttackDelay = abilityAttackDelay - effect;
-            Debug.Log("AbilityDelayRestored: " + abilityAttackDelay);
-            Debug.Log("WaveDelayResotred: " + WaveAttackDelay);
-            isBuffed = false;
+            realSpawn2 = Random.Range(0,summonSpawnPos.Length);
+        }
+        for (int i = 0; i < summonSpawnPos.Length; i++)
+        {
+            if (i == realSpawn1 || i == realSpawn2)
+            {
+                Instantiate(realSummon, summonSpawnPos[i].position, Quaternion.identity);
+            }
+            else
+            {
+                Instantiate(fakeSummon, summonSpawnPos[i].position, Quaternion.identity);
+            }
         }
     }
-    public void ApplyAttackSpeedNerf(float duration, float effect)
-    {
-        StartCoroutine(AttackSpeedNerf(duration,effect));
-    }
-    public IEnumerator AttackSpeedNerf(float duration, float effect)
-    {
-        if (!isNerfed)
-        {
-            isNerfed = true;    
-            WaveAttackDelay = Mathf.Max(0, WaveAttackDelay + effect);
-            SummonAttackDelay = Mathf.Max(0, SummonAttackDelay + effect);
-            abilityAttackDelay = Mathf.Max(0, abilityAttackDelay + effect);
-            Debug.Log("AbilityDelay: " + abilityAttackDelay);
-            Debug.Log("WaveDelay: " + WaveAttackDelay);
-            yield return new WaitForSeconds(duration);
-            WaveAttackDelay = WaveAttackDelay - effect;
-            SummonAttackDelay = SummonAttackDelay - effect;
-            abilityAttackDelay = abilityAttackDelay - effect;
-            Debug.Log("AbilityDelayRestored: " + abilityAttackDelay);
-            Debug.Log("WaveDelayResotred: " + WaveAttackDelay);
-            isNerfed = false;
-        }
-    }
+    // private void Absorb()
+    // {
+    //     damageTimer += Time.deltaTime;
+    //     if (damageTimer >= damageTimerThreshold && damageTaken < damageTakenThreshold)
+    //     {
+    //         ResetSummonTrackers();
+    //         return;
+    //     }
+    //     else if (damageTimer >= damageTimerThreshold && damageTaken >= damageTakenThreshold)
+    //     {
+    //         SummonAttack();
+    //         ResetSummonTrackers();
+    //     }
+    // }
+    // private void ResetSummonTrackers()
+    // {
+    //     isAbsorbing = false;
+    //     damageTimer = 0;
+    //     damageTaken = 0;
+    // }
+    // public void ApplyAttackSpeedBuff(float duration, float effect)
+    // {
+    //     StartCoroutine(AttackSpeedBuff(duration,effect));
+    // }
+    // public IEnumerator AttackSpeedBuff(float duration, float effect)
+    // {
+    //     if (!isBuffed)
+    //     {
+    //         isBuffed = true;    
+    //         WaveAttackDelay = Mathf.Max(0, WaveAttackDelay + effect);
+    //         SummonAttackDelay = Mathf.Max(0, SummonAttackDelay + effect);
+    //         abilityAttackDelay = Mathf.Max(0, abilityAttackDelay + effect);
+    //         Debug.Log("AbilityDelay: " + abilityAttackDelay);
+    //         Debug.Log("WaveDelay: " + WaveAttackDelay);
+    //         yield return new WaitForSeconds(duration);
+    //         WaveAttackDelay = WaveAttackDelay - effect;
+    //         SummonAttackDelay = SummonAttackDelay - effect;
+    //         abilityAttackDelay = abilityAttackDelay - effect;
+    //         Debug.Log("AbilityDelayRestored: " + abilityAttackDelay);
+    //         Debug.Log("WaveDelayResotred: " + WaveAttackDelay);
+    //         isBuffed = false;
+    //     }
+    // }
+    // public void ApplyAttackSpeedNerf(float duration, float effect)
+    // {
+    //     StartCoroutine(AttackSpeedNerf(duration,effect));
+    // }
+    // public IEnumerator AttackSpeedNerf(float duration, float effect)
+    // {
+    //     if (!isNerfed)
+    //     {
+    //         isNerfed = true;    
+    //         WaveAttackDelay = Mathf.Max(0, WaveAttackDelay + effect);
+    //         SummonAttackDelay = Mathf.Max(0, SummonAttackDelay + effect);
+    //         abilityAttackDelay = Mathf.Max(0, abilityAttackDelay + effect);
+    //         Debug.Log("AbilityDelay: " + abilityAttackDelay);
+    //         Debug.Log("WaveDelay: " + WaveAttackDelay);
+    //         yield return new WaitForSeconds(duration);
+    //         WaveAttackDelay = WaveAttackDelay - effect;
+    //         SummonAttackDelay = SummonAttackDelay - effect;
+    //         abilityAttackDelay = abilityAttackDelay - effect;
+    //         Debug.Log("AbilityDelayRestored: " + abilityAttackDelay);
+    //         Debug.Log("WaveDelayResotred: " + WaveAttackDelay);
+    //         isNerfed = false;
+    //     }
+    // }
 
 }

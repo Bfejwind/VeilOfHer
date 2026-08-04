@@ -11,6 +11,7 @@ public class EnemyHP : MonoBehaviour
     public Slider healthSlider;
     public bool shotAt;
     private HealOrbsLoot healOrbsLoot;
+    public bool isInvulnerable;
     private void Awake()
     {
         if (boss1Behaviour == null)
@@ -29,17 +30,32 @@ public class EnemyHP : MonoBehaviour
     }
     public void TakingDamage(float amount)
     {
-        shotAt = true;
-        enemyHealth -= amount;
-        if (boss1Behaviour != null && boss1Behaviour.damageTimer != 0)
+        if (!isInvulnerable)
         {
-            boss1Behaviour.damageTaken += amount;
+            shotAt = true;
+            enemyHealth -= amount;
+            // if (boss1Behaviour != null && boss1Behaviour.damageTimer != 0)
+            // {
+            //     boss1Behaviour.damageTaken += amount;
+            // }
+            healthSlider.value = enemyHealth;
+            if (enemyHealth <= 0)
+            {
+                healOrbsLoot.GenerateHealOrbs();
+                Destroy(gameObject);
+            }
         }
-        healthSlider.value = enemyHealth;
-        if (enemyHealth <= 0)
+        else
         {
-            healOrbsLoot.GenerateHealOrbs();
-            Destroy(gameObject);
+            return;
         }
+    }
+    public void Invulnerable()
+    {
+        isInvulnerable = true;
+    }
+    public void Vulnerable()
+    {
+        isInvulnerable = false;
     }
 }
