@@ -24,6 +24,7 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
     [SerializeField] private DialogueVideoController videoController;
     [SerializeField] private VideoClip[] dialogueVideoClips;
     [SerializeField] private bool[] dialogueVideoLoops;
+    [SerializeField] private float[] dialogueVideoSpeeds;
 
     [SerializeField]
     private AudioClip[] dialogueAudioClips;
@@ -262,12 +263,23 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
         bool shouldLoop = true;
 
         if (dialogueVideoLoops != null &&
-            index >= 0 &&
             index < dialogueVideoLoops.Length)
         {
             shouldLoop = dialogueVideoLoops[index];
         }
 
-        videoController.PlayClip(currentVideo, shouldLoop);
+        float playbackSpeed = 1f;
+
+        if (dialogueVideoSpeeds != null &&
+            index < dialogueVideoSpeeds.Length &&
+            dialogueVideoSpeeds[index] > 0f)
+        {
+            playbackSpeed = dialogueVideoSpeeds[index];
+        }
+
+        videoController.PlayClip(
+            currentVideo,
+            shouldLoop,
+            playbackSpeed);
     }
 }

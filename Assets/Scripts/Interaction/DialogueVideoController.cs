@@ -50,15 +50,17 @@ public class DialogueVideoController : MonoBehaviour
         }
     }
 
-    public void PlayClip(VideoClip newClip, bool shouldLoop)
+    public void PlayClip(
+        VideoClip newClip,
+        bool shouldLoop,
+        float playbackSpeed)
     {
         if (newClip == null || videoPlayer == null)
         {
             return;
         }
 
-        // If this exact clip is already playing, keep it running.
-        // This allows dialogue lines 1, 2 and 3 to share Clip 2.
+        // Keep the same clip running without restarting it.
         if (currentClip == newClip && videoPlayer.isPlaying)
         {
             return;
@@ -69,19 +71,22 @@ public class DialogueVideoController : MonoBehaviour
             StopCoroutine(switchCoroutine);
         }
 
-        switchCoroutine =
-            StartCoroutine(SwitchClipRoutine(newClip, shouldLoop));
+        switchCoroutine = StartCoroutine(
+            SwitchClipRoutine(newClip, shouldLoop, playbackSpeed));
     }
 
     private IEnumerator SwitchClipRoutine(
         VideoClip newClip,
-        bool shouldLoop)
+        bool shouldLoop,
+        float playbackSpeed)
     {
         yield return Fade(0f, 1f);
 
         videoPlayer.Stop();
         videoPlayer.clip = newClip;
         videoPlayer.isLooping = shouldLoop;
+
+        videoPlayer.playbackSpeed = Mathf.Max(0.1f, playbackSpeed);
 
         currentClip = newClip;
 
