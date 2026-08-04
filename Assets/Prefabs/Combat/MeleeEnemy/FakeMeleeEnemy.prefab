@@ -216,6 +216,7 @@ GameObject:
   - component: {fileID: 734843385060391147}
   - component: {fileID: 4213268559284787034}
   - component: {fileID: 1608066782153627995}
+  - component: {fileID: 8873962228819019571}
   m_Layer: 16
   m_Name: FakeMeleeEnemy
   m_TagString: Target
@@ -350,7 +351,7 @@ MonoBehaviour:
   chargeDmg: 20
   playerCC: {fileID: 0}
   playerController: {fileID: 0}
-  enemyCollider: {fileID: 0}
+  enemyCollider: {fileID: 8873962228819019571}
   knockbackMagnitude: 6
   visionRange: 20
   attackRange: 9
@@ -456,6 +457,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!135 &8873962228819019571
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 738671438471907088}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1025674272718070426
 GameObject:
   m_ObjectHideFlags: 0

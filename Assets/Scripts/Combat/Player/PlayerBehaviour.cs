@@ -17,6 +17,7 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private GameObject bossObject;
     private Boss1Behaviour bossBehavior;
     [SerializeField] private Camera playerCamera;
+    private bool isHacked;
     private bool isHacking;
     private float currentHackAmt;
     private float maxHackAmt = 100.0f;
@@ -24,44 +25,34 @@ public class PlayerBehaviour : MonoBehaviour
     private float hackDecrement = 5.0f;
     [SerializeField] private GameObject hackBar;
     [SerializeField] private Slider hackSlider;
+    private Coroutine hackCoroutine;
 
     void Awake()
     {
         shieldObject.SetActive(false);
         shieldReady = true;
         shieldDeployed = false;
+        currentHackAmt = 0;
+        hackSlider.value = currentHackAmt;
+        hackSlider.maxValue = maxHackAmt;
+        bossObject = GameObject.Find("Boss1");
         if (bossObject != null)
         {
             bossBehavior = bossObject.GetComponent<Boss1Behaviour>();
         }
-        currentHackAmt = 0;
-        hackSlider.value = currentHackAmt;
+        hackBar.SetActive(false);
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        if (bossObject != null)
+        if (bossBehavior != null)
         {
-            if (bossBehavior.laserRoutine1Started && !bossBehavior.laserRoutine1Ended)
+            if (bossBehavior.laserArenaState && !isHacking)
             {
-                if (!isHacking)
-                {
-                    hackBar.SetActive(true);
-                    isHacking = true;
-                }
-                //Turn on hack Bar
-                if (!bossVisible())
-                {
-                    StartCoroutine(HackingStarted());
-                    //Increase Hack bar
-                }
-                else
-                {
-                    //reduce hack bar
-                }
-                
+                Debug.Log("Hacking");
+                StartCoroutine(HackingStarted());
             }
         }
         // if (shieldReady && !shieldDeployed)
@@ -112,16 +103,40 @@ public class PlayerBehaviour : MonoBehaviour
     }
     private IEnumerator HackingStarted()
     {
-        while (!bossVisible())
+        hackBar.SetActive(true);
+        isHacking = true;
+        while (bossBehavior.laserArenaState)
         {
-            yield return new WaitForSeconds(2.0f);
-            currentHackAmt += hackIncrement;
-            UpdateHackBar();
+            if (isHacked)
+            {
+                Debug.Log("Hacked");
+                hackBar.SetActive(false);
+                isHacking = false;
+                yield break;
+            }
+            if (!bossVisible())
+            {
+                yield return new WaitForSeconds(0.5f);
+                currentHackAmt += hackIncrement;
+                UpdateHackBar();
+                if (currentHackAmt == maxHackAmt)
+                {
+                    isHacked = true;
+                }
+            }
+            else
+            {
+                yield return new WaitForSeconds(2.0f);
+                currentHackAmt -= hackDecrement;
+                UpdateHackBar();
+            }
         }
-
+        hackBar.SetActive(false);
+        isHacking = false;
     }
     private void UpdateHackBar()
     {
+        currentHackAmt = Mathf.Clamp(currentHackAmt,0,maxHackAmt);
         hackSlider.value = currentHackAmt;
     }
 }

@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossAOEBehaviour
   distance: 30
-  speed: 15
+  speed: 10
   damage: 5
   explosionRadius: 4
   explosionForce: 5

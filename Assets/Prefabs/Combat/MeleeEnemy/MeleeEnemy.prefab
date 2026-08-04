@@ -377,13 +377,13 @@ MonoBehaviour:
   playerCC: {fileID: 0}
   playerController: {fileID: 0}
   enemyCollider: {fileID: 6314157019096111776}
-  knockbackMagnitude: 6
+  knockbackMagnitude: 3
   visionRange: 20
   attackRange: 9
   isPlayerVisible: 0
   isPlayerInRange: 0
   audioSource: {fileID: 6660126036794867389}
-  chargeSFX: {fileID: 0}
+  chargeSFX: {fileID: 8300000, guid: f076019cca7273e4c8b25f9dca6ba36d, type: 3}
   controlEffects: 0
 --- !u!136 &1500145074680164654
 CapsuleCollider:

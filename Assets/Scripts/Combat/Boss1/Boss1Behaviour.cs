@@ -36,6 +36,7 @@ public class Boss1Behaviour : MonoBehaviour
     public bool laserRoutine2Started;
     public bool laserRoutine2Ended;
     private bool phase3RoutineStarted;
+    public bool laserArenaState;
     [Header("Follow Attack")]
     [SerializeField] private GameObject followAttackPrefab;
     [SerializeField] public float followAttackDuration = 15.0f;
@@ -184,9 +185,9 @@ public class Boss1Behaviour : MonoBehaviour
             FollowAttack();
             yield return new WaitForSeconds(M_AttackDelay);
             KnockbackAttack();
-            yield return new WaitForSeconds(mini_AttackDelay);
+            yield return new WaitForSeconds(S_AttackDelay);
             KnockbackAttack();
-            yield return new WaitForSeconds(mini_AttackDelay);
+            yield return new WaitForSeconds(S_AttackDelay);
             KnockbackAttack();
             yield return new WaitForSeconds(M_AttackDelay);
             WaveSpreadAttack();
@@ -207,6 +208,7 @@ public class Boss1Behaviour : MonoBehaviour
     }
     private IEnumerator LaserArena1()
     {
+        laserArenaState = true;
         bossHP.Invulnerable();
         SummonAttack();
         splineObjects[0].SetActive(true);
@@ -223,6 +225,7 @@ public class Boss1Behaviour : MonoBehaviour
         yield return new WaitForSeconds(L_AttackDelay);
         laserRoutine1Ended = true;
         bossHP.Vulnerable();
+        laserArenaState = false;
     }
     private IEnumerator Phase2projectiles()
     {
@@ -231,11 +234,11 @@ public class Boss1Behaviour : MonoBehaviour
             KnockbackAttack();
             yield return new WaitForSeconds(S_AttackDelay);
             FollowAttack();
-            yield return new WaitForSeconds(mini_AttackDelay);
+            yield return new WaitForSeconds(S_AttackDelay);
             KnockbackAttack();
             yield return new WaitForSeconds(S_AttackDelay);
             FollowAttack();
-            yield return new WaitForSeconds(mini_AttackDelay);
+            yield return new WaitForSeconds(S_AttackDelay);
             KnockbackAttack();
             yield return new WaitForSeconds(S_AttackDelay);
             FollowAttack();
@@ -251,11 +254,11 @@ public class Boss1Behaviour : MonoBehaviour
             FollowAttack();
             yield return new WaitForSeconds(S_AttackDelay);
             KnockbackAttack();
-            yield return new WaitForSeconds(mini_AttackDelay);
+            yield return new WaitForSeconds(S_AttackDelay);
             FollowAttack();
             yield return new WaitForSeconds(S_AttackDelay);
             KnockbackAttack();
-            yield return new WaitForSeconds(mini_AttackDelay);
+            yield return new WaitForSeconds(S_AttackDelay);
             FollowAttack();
             yield return new WaitForSeconds(S_AttackDelay);
             KnockbackAttack();
@@ -264,6 +267,7 @@ public class Boss1Behaviour : MonoBehaviour
     }
     private IEnumerator LaserArena2()
     {
+        laserArenaState = true;
         bossHP.Invulnerable();
         SummonIllusions();
         splineObjects[0].SetActive(true);
@@ -280,6 +284,7 @@ public class Boss1Behaviour : MonoBehaviour
         yield return new WaitForSeconds(L_AttackDelay);
         laserRoutine2Ended = true;
         bossHP.Vulnerable();
+        laserArenaState = false;
     }
     private IEnumerator Phase3Projectiles()
     {
