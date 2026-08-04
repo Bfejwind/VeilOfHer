@@ -8,6 +8,7 @@ public class PlayerHealth : MonoBehaviour
     public float playerHealth,playerHealthWidth,playerHealthHeight;
     public float playerMaxHealth = 100f;
     public Slider healthSlider;
+    [SerializeField] private TextMeshProUGUI healthText;
     [Header("Healing")]
     public int currentHealNum;
     private int maxHealNum = 2;
@@ -43,7 +44,7 @@ public class PlayerHealth : MonoBehaviour
         currentHealNumText.text = currentHealNum.ToString();
         playerHealth = playerMaxHealth;
         healthSlider.maxValue = playerMaxHealth;
-        healthSlider.value = playerHealth;
+        UpdateHealthSlider();
         if (screenShake == null)
         {
             screenShake = Camera.main.GetComponent<ScreenShakeEffects>();
@@ -52,8 +53,8 @@ public class PlayerHealth : MonoBehaviour
     public void TakeDamage(float amount)
     {
         playerHealth -= amount;
-        playerHealth = Mathf.Clamp(playerHealth, 0f, playerMaxHealth);
-        healthSlider.value = playerHealth;
+        UpdateHealthSlider();
+        StartCoroutine(DashInvulnerability(0.5f));
         playerAudio.PlayerHurt();
     }
     public void OnHeal()
@@ -61,8 +62,7 @@ public class PlayerHealth : MonoBehaviour
         if (currentHealNum > 0 && playerHealth < playerMaxHealth)
         {
             playerHealth += healAmount;
-            playerHealth = Mathf.Clamp(playerHealth, 0f, playerMaxHealth);
-            healthSlider.value = playerHealth;
+            UpdateHealthSlider();
             playerAudio.PlayHealSFX();
             currentHealNum--;
             currentHealNumText.text = currentHealNum.ToString();
@@ -97,6 +97,12 @@ public class PlayerHealth : MonoBehaviour
     public void CameraEffect()
     {
         screenShake.ScreenShake();
+    }
+    private void UpdateHealthSlider()
+    {
+        playerHealth = Mathf.Clamp(playerHealth, 0f, playerMaxHealth);
+        healthSlider.value = playerHealth;
+        healthText.text = playerHealth + "/" + playerMaxHealth;
     }
     // void OnTriggerEnter(Collider other)
     // {

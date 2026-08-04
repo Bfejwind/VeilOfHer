@@ -1,13 +1,23 @@
 using System;
 using System.Collections;
 using StarterAssets;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class Dash : MonoBehaviour
 {
     FirstPersonController moveScript;
+    private float currentStamina;
+    public float maxStamina = 100.0f;
+    public float staminaCost = 25.0f;
+    public float staminaRefund = 15.0f;
+    public float staminaRegenRate = 10.0f;
+    private Coroutine regenCoroutine;
+    [SerializeField] private Slider staminaSlider;
+    [SerializeField] private TextMeshProUGUI staminaText;
     private bool isDashing;
     public bool dashThrough;
     public float dashSpeed;
@@ -33,9 +43,20 @@ public class Dash : MonoBehaviour
         moveScript = GetComponent<FirstPersonController>();
         playerHealth = GetComponent<PlayerHealth>();
         invulnerableDuration = dashTime;
+        currentStamina = maxStamina;
+        staminaSlider.maxValue = maxStamina;
+        UpdateStaminaSlider();
     }
     void Update()
     {
+        if (currentStamina >= staminaCost)
+        {
+            canDash = true;
+        }
+        else
+        {
+            canDash = false;
+        }
         if (Input.GetKeyDown(dashKey) && canDash)
         {
             if (!isDashing)
@@ -49,6 +70,7 @@ public class Dash : MonoBehaviour
     {
         isDashing = true;
         dashThrough = false;
+        currentStamina -= staminaCost;
         float startTime = Time.time;
         playerAudio.PlayDashSFX();
         while (Time.time < startTime + dashTime)
@@ -57,16 +79,51 @@ public class Dash : MonoBehaviour
             yield return null;
         }
         isDashing = false;
-        canDash = false;
         if (dashThrough)
         {
-            yield return new WaitForSeconds(reducedCD);
+            currentStamina += staminaRefund;
         }
-        else
+        UpdateStaminaSlider();
+        if (regenCoroutine != null)
         {
-            yield return new WaitForSeconds(dashCooldown);
+            StopCoroutine(regenCoroutine);
         }
-        canDash = true;
+        regenCoroutine = StartCoroutine(RegenStamina());
+    }
+    // private IEnumerator Dashing()
+    // {
+    //     isDashing = true;
+    //     dashThrough = false;
+    //     float startTime = Time.time;
+    //     playerAudio.PlayDashSFX();
+    //     while (Time.time < startTime + dashTime)
+    //     {
+    //         moveScript._controller.Move(moveScript.inputDirection * (dashSpeed * Time.deltaTime));
+    //         yield return null;
+    //     }
+    //     isDashing = false;
+    //     canDash = false;
+    //     if (dashThrough)
+    //     {
+    //         yield return new WaitForSeconds(reducedCD);
+    //     }
+    //     else
+    //     {
+    //         yield return new WaitForSeconds(dashCooldown);
+    //     }
+    //     canDash = true;
+    // }
+    private IEnumerator RegenStamina()
+    {
+        yield return new WaitForSeconds(2f);
+
+        while (currentStamina < maxStamina)
+        {
+            currentStamina += staminaRegenRate;
+            UpdateStaminaSlider();
+            yield return new WaitForSeconds(2.0f);
+        }
+        regenCoroutine = null;
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -76,5 +133,11 @@ public class Dash : MonoBehaviour
             playerAudio.PlayDashThroughSFX();
 
         }
+    }
+    private void UpdateStaminaSlider()
+    {
+        currentStamina = Mathf.Clamp(currentStamina, 0, maxStamina);
+        staminaText.text = currentStamina + "/" + maxStamina;
+        staminaSlider.value = currentStamina;
     }
 }

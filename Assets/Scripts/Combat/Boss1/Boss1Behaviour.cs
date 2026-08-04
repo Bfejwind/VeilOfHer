@@ -181,6 +181,10 @@ public class Boss1Behaviour : MonoBehaviour
             FollowAttack();
             yield return new WaitForSeconds(M_AttackDelay);
             KnockbackAttack();
+            yield return new WaitForSeconds(mini_AttackDelay);
+            KnockbackAttack();
+            yield return new WaitForSeconds(mini_AttackDelay);
+            KnockbackAttack();
             yield return new WaitForSeconds(M_AttackDelay);
             WaveSpreadAttack();
             yield return new WaitForSeconds(S_AttackDelay);
@@ -218,9 +222,15 @@ public class Boss1Behaviour : MonoBehaviour
     {
         while (bossHP.enemyHealth > bossHP.enemyMaxHealth * 0.25f)
         {
-            FollowAttack();
+            KnockbackAttack();
             yield return new WaitForSeconds(S_AttackDelay);
             FollowAttack();
+            yield return new WaitForSeconds(mini_AttackDelay);
+            KnockbackAttack();
+            yield return new WaitForSeconds(S_AttackDelay);
+            FollowAttack();
+            yield return new WaitForSeconds(mini_AttackDelay);
+            KnockbackAttack();
             yield return new WaitForSeconds(S_AttackDelay);
             FollowAttack();
             yield return new WaitForSeconds(M_AttackDelay);
@@ -234,10 +244,14 @@ public class Boss1Behaviour : MonoBehaviour
             yield return new WaitForSeconds(S_AttackDelay);
             FollowAttack();
             yield return new WaitForSeconds(S_AttackDelay);
+            KnockbackAttack();
+            yield return new WaitForSeconds(mini_AttackDelay);
             FollowAttack();
             yield return new WaitForSeconds(S_AttackDelay);
+            KnockbackAttack();
+            yield return new WaitForSeconds(mini_AttackDelay);
             FollowAttack();
-            yield return new WaitForSeconds(M_AttackDelay);
+            yield return new WaitForSeconds(S_AttackDelay);
             KnockbackAttack();
             yield return new WaitForSeconds(M_AttackDelay);
         }
@@ -278,13 +292,13 @@ public class Boss1Behaviour : MonoBehaviour
             yield return new WaitForSeconds(S_AttackDelay);
             WaveSpreadAttack();
             yield return new WaitForSeconds(M_AttackDelay);
+            NormalSpreadAttack(0);
+            KnockbackRandomAttack();
+            yield return new WaitForSeconds(S_AttackDelay);
             NormalSpreadAttack(5);
             KnockbackRandomAttack();
             yield return new WaitForSeconds(S_AttackDelay);
             NormalSpreadAttack(10);
-            KnockbackRandomAttack();
-            yield return new WaitForSeconds(S_AttackDelay);
-            NormalSpreadAttack(15);
             KnockbackRandomAttack();
             yield return new WaitForSeconds(M_AttackDelay);
         }
