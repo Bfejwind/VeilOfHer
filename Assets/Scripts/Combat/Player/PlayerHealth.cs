@@ -52,6 +52,7 @@ public class PlayerHealth : MonoBehaviour
     public void TakeDamage(float amount)
     {
         playerHealth -= amount;
+        playerHealth = Mathf.Clamp(playerHealth, 0f, playerMaxHealth);
         healthSlider.value = playerHealth;
         playerAudio.PlayerHurt();
     }
@@ -60,13 +61,9 @@ public class PlayerHealth : MonoBehaviour
         if (currentHealNum > 0 && playerHealth < playerMaxHealth)
         {
             playerHealth += healAmount;
+            playerHealth = Mathf.Clamp(playerHealth, 0f, playerMaxHealth);
             healthSlider.value = playerHealth;
             playerAudio.PlayHealSFX();
-            if (playerHealth > playerMaxHealth)
-            {
-                playerHealth = playerMaxHealth;
-                healthSlider.value = playerHealth;
-            }
             currentHealNum--;
             currentHealNumText.text = currentHealNum.ToString();
         }

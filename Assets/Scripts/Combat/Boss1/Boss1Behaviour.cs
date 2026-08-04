@@ -14,6 +14,7 @@ public class Boss1Behaviour : MonoBehaviour
     [SerializeField] private FinalBossMovement finalBossMovement;
     private EnemyHP bossHP;
     private bool attackStarted;
+    [SerializeField] private float mini_AttackDelay = 0.5f;
     [SerializeField] private float S_AttackDelay = 0.5f;
     [SerializeField] private float M_AttackDelay = 2f;
     [SerializeField] private float L_AttackDelay = 5f;
@@ -30,6 +31,11 @@ public class Boss1Behaviour : MonoBehaviour
     [SerializeField] private float abilityAttackDelay = 5.0f;
     [Header("Boss Routine")]
     private bool halfHPRoutineStarted;
+    private bool halfHPRoutineEnded;
+    private bool afterHalfBeforeQuarterStarted;
+    private bool quarterHPRoutineStarted;
+    private bool quarterHPRoutineEnded;
+    private bool finalQuarterRoutineStarted;
     [Header("Follow Attack")]
     [SerializeField] private GameObject followAttackPrefab;
     [SerializeField] public float followAttackDuration = 15.0f;
@@ -46,14 +52,8 @@ public class Boss1Behaviour : MonoBehaviour
     [SerializeField] private GameObject bossNormalAttackPrefab;
     [SerializeField] private float normalAttackVelocity = 10f;
     [Header("Laser Arena")]
-    [SerializeField] private GameObject N_S_M;
-    [SerializeField] private GameObject S_N_M;
-    [SerializeField] private GameObject E_W_M;
-    [SerializeField] private GameObject W_E_M;
-    [SerializeField] private SplineAnimate N_S_M_Spline;
-    [SerializeField] private SplineAnimate S_N_M_Spline;
-    [SerializeField] private SplineAnimate E_W_M_Spline;
-    [SerializeField] private SplineAnimate W_E_M_Spline;
+    [SerializeField] private GameObject[] splineObjects;
+    private SplineAnimate[] splineAnimators;
     [Header("Summons")]
     [SerializeField] private GameObject summonPrefab;
     [SerializeField] private Transform summonPoint1;
@@ -89,17 +89,26 @@ public class Boss1Behaviour : MonoBehaviour
         {
             finalBossMovement = GetComponent<FinalBossMovement>();
         }
-        N_S_M_Spline = GetComponent<SplineAnimate>();
-        S_N_M_Spline = GetComponent<SplineAnimate>();
-        E_W_M_Spline = GetComponent<SplineAnimate>();
-        W_E_M_Spline = GetComponent<SplineAnimate>();
+        splineAnimators = new SplineAnimate[splineObjects.Length];
+        for (int i = 0; i < splineObjects.Length; i++)
+        {
+            splineAnimators[i] = splineObjects[i].GetComponent<SplineAnimate>();
+        }
+        for (int i = 0; i < splineAnimators.Length; i++)
+        {
+            SplineAnimate spline = splineAnimators[i];
+            spline.Completed += () =>
+            {
+                spline.gameObject.SetActive(false);
+            };
+        }
     }
     private void Start()
     {
-        N_S_M.SetActive(false);
-        S_N_M.SetActive(false);
-        E_W_M.SetActive(false);
-        W_E_M.SetActive(false);
+        foreach (GameObject splineObj in splineObjects)
+        {
+            splineObj.SetActive(false);
+        }
     }
     private void DetectPlayer()
     {
@@ -130,14 +139,30 @@ public class Boss1Behaviour : MonoBehaviour
         }
         if (bossHP.enemyHealth <= bossHP.enemyMaxHealth * 0.5f && !halfHPRoutineStarted)
         {
+            StopCoroutine(BossAbove50());
             StartCoroutine(BossAt50());
             halfHPRoutineStarted = true;
         }
-        if (isAbsorbing)
+        if (halfHPRoutineEnded && !afterHalfBeforeQuarterStarted)
         {
-            Absorb();
+            StartCoroutine(After50Before25());
+            afterHalfBeforeQuarterStarted = true;
         }
-        //Absorption Timer
+        if (bossHP.enemyHealth <= bossHP.enemyMaxHealth * 0.25f && !quarterHPRoutineStarted)
+        {
+            StopCoroutine(After50Before25());
+            StartCoroutine(BossAt25());
+            quarterHPRoutineStarted = true;
+        }
+        if (quarterHPRoutineEnded && !finalQuarterRoutineStarted)
+        {
+            StartCoroutine(After25());
+            finalQuarterRoutineStarted = true;
+        }
+        if (bossHP.enemyHealth <= 0)
+        {
+            StopAllCoroutines();
+        }
     }
     private IEnumerator BossFightBegins()
     {
@@ -165,28 +190,104 @@ public class Boss1Behaviour : MonoBehaviour
             yield return new WaitForSeconds(S_AttackDelay);
             FollowAttack();
             yield return new WaitForSeconds(M_AttackDelay);
-            NormalSpreadAttack();
-            yield return new WaitForSeconds(S_AttackDelay);
-            NormalSpreadAttack();
-            yield return new WaitForSeconds(S_AttackDelay);
-            NormalSpreadAttack();
+            NormalSpreadAttack(0);
+            yield return new WaitForSeconds(mini_AttackDelay);
+            NormalSpreadAttack(5);
+            yield return new WaitForSeconds(mini_AttackDelay);
+            NormalSpreadAttack(10);
             yield return new WaitForSeconds(M_AttackDelay);
         }
     }
     private IEnumerator BossAt50()
     {
-        N_S_M.SetActive(true);
-        N_S_M_Spline.Play();
+        splineObjects[0].SetActive(true);
+        splineAnimators[0].Play();
         yield return new WaitForSeconds(S_AttackDelay);
-        S_N_M.SetActive(true);
-        S_N_M_Spline.Play();
+        splineObjects[1].SetActive(true);
+        splineAnimators[1].Play();
         yield return new WaitForSeconds(S_AttackDelay);
-        E_W_M.SetActive(true);
-        E_W_M_Spline.Play();
+        splineObjects[2].SetActive(true);
+        splineAnimators[2].Play();
         yield return new WaitForSeconds(S_AttackDelay);
-        W_E_M.SetActive(true);
-        W_E_M_Spline.Play();
-        yield return new WaitForSeconds(M_AttackDelay);
+        splineObjects[3].SetActive(true);
+        splineAnimators[3].Play();
+        yield return new WaitForSeconds(L_AttackDelay);
+        halfHPRoutineEnded = true;
+    }
+    private IEnumerator After50Before25()
+    {
+        while (bossHP.enemyHealth > bossHP.enemyMaxHealth * 0.25f)
+        {
+            FollowAttack();
+            yield return new WaitForSeconds(S_AttackDelay);
+            FollowAttack();
+            yield return new WaitForSeconds(S_AttackDelay);
+            FollowAttack();
+            yield return new WaitForSeconds(M_AttackDelay);
+            NormalSpreadAttack(0);
+            yield return new WaitForSeconds(S_AttackDelay);
+            NormalSpreadAttack(5);
+            yield return new WaitForSeconds(S_AttackDelay);
+            NormalSpreadAttack(10);
+            yield return new WaitForSeconds(M_AttackDelay);
+            WaveSpreadAttack();
+            yield return new WaitForSeconds(S_AttackDelay);
+            FollowAttack();
+            yield return new WaitForSeconds(S_AttackDelay);
+            FollowAttack();
+            yield return new WaitForSeconds(S_AttackDelay);
+            FollowAttack();
+            yield return new WaitForSeconds(M_AttackDelay);
+            KnockbackAttack();
+            yield return new WaitForSeconds(M_AttackDelay);
+        }
+    }
+    private IEnumerator BossAt25()
+    {
+        splineObjects[0].SetActive(true);
+        splineAnimators[0].Restart(true);
+        yield return new WaitForSeconds(S_AttackDelay);
+        splineObjects[1].SetActive(true);
+        splineAnimators[1].Restart(true);
+        yield return new WaitForSeconds(S_AttackDelay);
+        splineObjects[2].SetActive(true);
+        splineAnimators[2].Restart(true);
+        yield return new WaitForSeconds(S_AttackDelay);
+        splineObjects[3].SetActive(true);
+        splineAnimators[3].Restart(true);
+        yield return new WaitForSeconds(L_AttackDelay);
+        quarterHPRoutineEnded = true;
+    }
+    private IEnumerator After25()
+    {
+        while (bossHP.enemyHealth > 0)
+        {
+            FollowAttack();
+            yield return new WaitForSeconds(S_AttackDelay);
+            FollowAttack();
+            yield return new WaitForSeconds(S_AttackDelay);
+            FollowAttack();
+            yield return new WaitForSeconds(S_AttackDelay);
+            FollowAttack();
+            yield return new WaitForSeconds(S_AttackDelay);
+            FollowAttack();
+            yield return new WaitForSeconds(M_AttackDelay);
+            WaveSpreadAttack();
+            yield return new WaitForSeconds(S_AttackDelay);
+            WaveSpreadAttack();
+            yield return new WaitForSeconds(S_AttackDelay);
+            WaveSpreadAttack();
+            yield return new WaitForSeconds(M_AttackDelay);
+            NormalSpreadAttack(5);
+            KnockbackRandomAttack();
+            yield return new WaitForSeconds(S_AttackDelay);
+            NormalSpreadAttack(10);
+            KnockbackRandomAttack();
+            yield return new WaitForSeconds(S_AttackDelay);
+            NormalSpreadAttack(15);
+            KnockbackRandomAttack();
+            yield return new WaitForSeconds(M_AttackDelay);
+        }
     }
     private void FollowAttack()
     {
@@ -203,19 +304,19 @@ public class Boss1Behaviour : MonoBehaviour
         float spreadAngle = 30f;
         for (int i = 0; i < projectileCount; i++)
         {
-            float angle = -spreadAngle/2 + (spreadAngle/(projectileCount - 1)) * i;
+            float angle = -spreadAngle/2 + (spreadAngle/(projectileCount - 1)) * i ;
             Quaternion rotation = firePoint.rotation * Quaternion.Euler(0,angle,0);
             GameObject waveAttack = Instantiate(bossWavePrefab, firePoint.position, rotation);
             waveAttack.GetComponent<Rigidbody>().AddForce(rotation * Vector3.forward * WaveAttackVelocity, ForceMode.Impulse);
         }
     }
-    private void NormalSpreadAttack()
+    private void NormalSpreadAttack(float offsetAngle)
     {
-        int projectileCount = 8;
+        int projectileCount = 11;
         float spreadAngle = 120f;
         for (int i = 0; i < projectileCount; i++)
         {
-            float angle = -spreadAngle/2 + (spreadAngle/(projectileCount - 1)) * i;
+            float angle = -spreadAngle/2 + ((spreadAngle/(projectileCount - 1)) * i) + offsetAngle;
             Quaternion rotation = firePoint.rotation * Quaternion.Euler(0,angle,0);
             GameObject normalAttack = Instantiate(bossNormalAttackPrefab, firePoint.position, rotation);
             normalAttack.GetComponent<Rigidbody>().AddForce(rotation * Vector3.forward * normalAttackVelocity, ForceMode.Impulse);
@@ -226,7 +327,14 @@ public class Boss1Behaviour : MonoBehaviour
         Vector3 KBFirePoint = firePoint.position;
         KBFirePoint.y = 0f;
         GameObject bossAOE = Instantiate(bossAOEPrefab, KBFirePoint, transform.rotation);
-        
+    }
+    private void KnockbackRandomAttack()
+    {
+        Vector3 KBFirePoint = firePoint.position;
+        KBFirePoint.y = 0f;
+        float randomAngle = Random.Range(0f, 120f);
+        Quaternion randomRotation = firePoint.rotation * Quaternion.Euler(0, randomAngle, 0);
+        GameObject bossAOE = Instantiate(bossAOEPrefab, KBFirePoint, randomRotation);
     }
     private void Absorb()
     {
