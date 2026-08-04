@@ -7,6 +7,7 @@ public class DialogueVideoController : MonoBehaviour
     [Header("Video")]
     [SerializeField] private VideoPlayer videoPlayer;
     [SerializeField] private GameObject videoOverlay;
+    [SerializeField] private RenderTexture videoRenderTexture;
 
     [Header("Fade")]
     [SerializeField] private CanvasGroup fadeCanvasGroup;
@@ -43,11 +44,6 @@ public class DialogueVideoController : MonoBehaviour
     {
         videoSequenceActive = true;
         SetControlsEnabled(false);
-
-        if (videoOverlay != null)
-        {
-            videoOverlay.SetActive(true);
-        }
     }
 
     public void PlayClip(
@@ -80,15 +76,30 @@ public class DialogueVideoController : MonoBehaviour
         bool shouldLoop,
         float playbackSpeed)
     {
+        // Cover the previous visual first.
         yield return Fade(0f, 1f);
 
+        if (videoPlayer == null)
+        {
+            yield break;
+        }
+
         videoPlayer.Stop();
+
+        // Remove the previous repair/breakfast frame.
+        ClearVideoRenderTexture();
+
         videoPlayer.clip = newClip;
         videoPlayer.isLooping = shouldLoop;
-
         videoPlayer.playbackSpeed = Mathf.Max(0.1f, playbackSpeed);
 
         currentClip = newClip;
+
+        // The overlay is only shown while the black fade covers it.
+        if (videoOverlay != null)
+        {
+            videoOverlay.SetActive(true);
+        }
 
         videoPlayer.Prepare();
 
@@ -99,6 +110,16 @@ public class DialogueVideoController : MonoBehaviour
 
         videoPlayer.Play();
 
+        // Wait until the VideoPlayer has produced its first real frame.
+        while (videoPlayer.frame < 0)
+        {
+            yield return null;
+        }
+
+        // Give the Render Texture one frame to update.
+        yield return null;
+
+        // Reveal the correct new clip.
         yield return Fade(1f, 0f);
 
         switchCoroutine = null;
@@ -123,6 +144,7 @@ public class DialogueVideoController : MonoBehaviour
             videoPlayer.Stop();
             videoPlayer.clip = null;
         }
+        ClearVideoRenderTexture();
 
         currentClip = null;
 
@@ -175,5 +197,20 @@ public class DialogueVideoController : MonoBehaviour
                 control.enabled = enabled;
             }
         }
+    }
+
+    private void ClearVideoRenderTexture()
+    {
+        if (videoRenderTexture == null)
+        {
+            return;
+        }
+
+        RenderTexture previousActiveTexture = RenderTexture.active;
+
+        RenderTexture.active = videoRenderTexture;
+        GL.Clear(true, true, Color.black);
+
+        RenderTexture.active = previousActiveTexture;
     }
 }
