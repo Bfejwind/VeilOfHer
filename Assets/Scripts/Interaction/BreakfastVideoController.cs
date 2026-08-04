@@ -22,6 +22,7 @@ public class BreakfastVideoController : MonoBehaviour
         if (videoPlayer != null)
         {
             videoPlayer.playOnAwake = false;
+            videoPlayer.isLooping = true;
         }
     }
 
