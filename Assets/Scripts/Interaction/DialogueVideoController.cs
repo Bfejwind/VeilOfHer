@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Video;
 
-public class BreakfastVideoController : MonoBehaviour
+public class DialogueVideoController : MonoBehaviour
 {
     [Header("Video")]
     [SerializeField] private VideoPlayer videoPlayer;
@@ -10,13 +10,14 @@ public class BreakfastVideoController : MonoBehaviour
 
     [Header("Fade")]
     [SerializeField] private CanvasGroup fadeCanvasGroup;
-    [SerializeField] private float fadeDuration = 0.5f;
+    [SerializeField] private float fadeDuration = 0.35f;
 
     [Header("Controls Disabled During Video")]
     [SerializeField] private MonoBehaviour[] controlsToDisable;
 
-    private bool breakfastVideoPlaying;
-    private bool transitionRunning;
+    private VideoClip currentClip;
+    private bool videoSequenceActive;
+    private Coroutine switchCoroutine;
 
     private void Awake()
     {
@@ -38,19 +39,69 @@ public class BreakfastVideoController : MonoBehaviour
         }
     }
 
-    public void StartBreakfastVideo()
+    public void StartVideoSequence()
     {
-        if (breakfastVideoPlaying || transitionRunning)
+        videoSequenceActive = true;
+        SetControlsEnabled(false);
+
+        if (videoOverlay != null)
+        {
+            videoOverlay.SetActive(true);
+        }
+    }
+
+    public void PlayClip(VideoClip newClip, bool shouldLoop)
+    {
+        if (newClip == null || videoPlayer == null)
         {
             return;
         }
 
-        StartCoroutine(StartVideoRoutine());
+        // If this exact clip is already playing, keep it running.
+        // This allows dialogue lines 1, 2 and 3 to share Clip 2.
+        if (currentClip == newClip && videoPlayer.isPlaying)
+        {
+            return;
+        }
+
+        if (switchCoroutine != null)
+        {
+            StopCoroutine(switchCoroutine);
+        }
+
+        switchCoroutine =
+            StartCoroutine(SwitchClipRoutine(newClip, shouldLoop));
     }
 
-    public void EndBreakfastVideo()
+    private IEnumerator SwitchClipRoutine(
+        VideoClip newClip,
+        bool shouldLoop)
     {
-        if (!breakfastVideoPlaying || transitionRunning)
+        yield return Fade(0f, 1f);
+
+        videoPlayer.Stop();
+        videoPlayer.clip = newClip;
+        videoPlayer.isLooping = shouldLoop;
+
+        currentClip = newClip;
+
+        videoPlayer.Prepare();
+
+        while (!videoPlayer.isPrepared)
+        {
+            yield return null;
+        }
+
+        videoPlayer.Play();
+
+        yield return Fade(1f, 0f);
+
+        switchCoroutine = null;
+    }
+
+    public void EndVideoSequence()
+    {
+        if (!videoSequenceActive)
         {
             return;
         }
@@ -58,68 +109,27 @@ public class BreakfastVideoController : MonoBehaviour
         StartCoroutine(EndVideoRoutine());
     }
 
-    private IEnumerator StartVideoRoutine()
-    {
-        transitionRunning = true;
-
-        SetControlsEnabled(false);
-
-        // Fade the gameplay view to black.
-        yield return Fade(0f, 1f);
-
-        if (videoOverlay != null)
-        {
-            videoOverlay.SetActive(true);
-        }
-
-        if (videoPlayer != null)
-        {
-            videoPlayer.Stop();
-            videoPlayer.frame = 0;
-            videoPlayer.isLooping = true;
-            videoPlayer.Prepare();
-
-            while (!videoPlayer.isPrepared)
-            {
-                yield return null;
-            }
-
-            videoPlayer.Play();
-        }
-
-        breakfastVideoPlaying = true;
-
-        // Reveal the video.
-        yield return Fade(1f, 0f);
-
-        transitionRunning = false;
-    }
-
     private IEnumerator EndVideoRoutine()
     {
-        transitionRunning = true;
-
-        // Cover the video.
         yield return Fade(0f, 1f);
 
         if (videoPlayer != null)
         {
             videoPlayer.Stop();
+            videoPlayer.clip = null;
         }
+
+        currentClip = null;
 
         if (videoOverlay != null)
         {
             videoOverlay.SetActive(false);
         }
 
-        breakfastVideoPlaying = false;
-
+        videoSequenceActive = false;
         SetControlsEnabled(true);
 
-        // Reveal gameplay again.
         yield return Fade(1f, 0f);
-
-        transitionRunning = false;
     }
 
     private IEnumerator Fade(float startAlpha, float endAlpha)
@@ -130,15 +140,16 @@ public class BreakfastVideoController : MonoBehaviour
         }
 
         fadeCanvasGroup.blocksRaycasts = true;
+        fadeCanvasGroup.alpha = startAlpha;
 
         float elapsed = 0f;
-        fadeCanvasGroup.alpha = startAlpha;
 
         while (elapsed < fadeDuration)
         {
             elapsed += Time.unscaledDeltaTime;
 
-            float progress = Mathf.Clamp01(elapsed / fadeDuration);
+            float progress =
+                Mathf.Clamp01(elapsed / fadeDuration);
 
             fadeCanvasGroup.alpha =
                 Mathf.Lerp(startAlpha, endAlpha, progress);

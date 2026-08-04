@@ -3,6 +3,7 @@ using TMPro;
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.Video;
 
 public class ActivateDialogue : MonoBehaviour, IInteractable
 {
@@ -18,6 +19,11 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
     [Header("Dialogue Audio")]
     [SerializeField]
     private AudioSource dialogueAudioSource;
+
+    [Header("Dialogue Video")]
+    [SerializeField] private DialogueVideoController videoController;
+    [SerializeField] private VideoClip[] dialogueVideoClips;
+    [SerializeField] private bool[] dialogueVideoLoops;
 
     [SerializeField]
     private AudioClip[] dialogueAudioClips;
@@ -167,6 +173,7 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
 
         UpdatePortraitVisibility();
         PlayCurrentVoiceLine();
+        PlayCurrentVideoClip();
 
         foreach (char character in currentLine)
         {
@@ -229,5 +236,38 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
 
         leftPortraitImage.gameObject.SetActive(zaneIsSpeaking);
         rightPortraitImage.gameObject.SetActive(!zaneIsSpeaking);
+    }
+
+    private void PlayCurrentVideoClip()
+    {
+        if (videoController == null)
+        {
+            return;
+        }
+
+        if (dialogueVideoClips == null ||
+            index < 0 ||
+            index >= dialogueVideoClips.Length)
+        {
+            return;
+        }
+
+        VideoClip currentVideo = dialogueVideoClips[index];
+
+        if (currentVideo == null)
+        {
+            return;
+        }
+
+        bool shouldLoop = true;
+
+        if (dialogueVideoLoops != null &&
+            index >= 0 &&
+            index < dialogueVideoLoops.Length)
+        {
+            shouldLoop = dialogueVideoLoops[index];
+        }
+
+        videoController.PlayClip(currentVideo, shouldLoop);
     }
 }
