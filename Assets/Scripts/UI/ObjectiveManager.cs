@@ -8,7 +8,9 @@ public class ObjectiveManager : MonoBehaviour
         RepairGenerator,
         TalkToZyr4,
         EatBreakfast,
-        DailyTask,
+        DirtTask,
+        WaterTask,
+        Zyr4BugTask,
 
         Complete
     }
@@ -21,14 +23,18 @@ public class ObjectiveManager : MonoBehaviour
     [SerializeField] private Transform generatorTarget;
     [SerializeField] private Transform zyr4Target;
     [SerializeField] private Transform foodTarget;
-    [SerializeField] private Transform dailyTarget;
+    [SerializeField] private Transform dirtTarget;
+    [SerializeField] private Transform waterTarget;
+    [SerializeField] private Transform zyr4BugTarget;
 
     [Header("Interaction Objects")]
     [SerializeField] private GameObject generatorInteraction;
     [SerializeField] private GameObject zyr4Interaction;
     [SerializeField] private GameObject foodInteraction;
     [SerializeField] private GameObject dirt;
-    [SerializeField] public bool dailyTaskCompleted;
+    [SerializeField] public bool dirtTaskCompleted;
+    [SerializeField] public GameObject waterInteraction;
+    [SerializeField] public GameObject zyr4BugInteraction;
 
     [Header("Timing")]
     [SerializeField] private float nextTaskDelay = 1.5f;
@@ -48,7 +54,9 @@ public class ObjectiveManager : MonoBehaviour
             generatorActive: true,
             zyr4Active: false,
             foodActive: false,
-            dailyTaskActive: false
+            dirtTaskActive: false,
+            waterActive: false,
+            zyr4BugActive: false
         );
 
         taskUI.ShowTask("Repair the power unit");
@@ -80,7 +88,9 @@ public class ObjectiveManager : MonoBehaviour
             generatorActive: false,
             zyr4Active: true,
             foodActive: false,
-            dailyTaskActive: false
+            dirtTaskActive: false,
+            waterActive: false,
+            zyr4BugActive: false
         );
 
         taskUI.ShowTask("Return inside and talk to Zyr4");
@@ -112,7 +122,9 @@ public class ObjectiveManager : MonoBehaviour
             generatorActive: false,
             zyr4Active: false,
             foodActive: true,
-            dailyTaskActive: false
+            dirtTaskActive: false,
+            waterActive: false,
+            zyr4BugActive: false
         );
 
         taskUI.ShowTask("Eat breakfast");
@@ -133,52 +145,134 @@ public class ObjectiveManager : MonoBehaviour
         waypointUI.HideWaypoint();
         taskUI.CompleteTask();
 
-        StartCoroutine(StartDailyTasksAfterDelay());
+        StartCoroutine(StartDirtTasksAfterDelay());
     }
 
-    private IEnumerator StartDailyTasksAfterDelay()
+    private IEnumerator StartDirtTasksAfterDelay()
     {
      yield return new WaitForSecondsRealtime(nextTaskDelay);
 
-     currentStage = ObjectiveStage.DailyTask;
+     currentStage = ObjectiveStage.DirtTask;
 
         SetInteractionStates(
             generatorActive: false,
             zyr4Active: false,
             foodActive: false,
-            dailyTaskActive: true
+            dirtTaskActive: true,
+            waterActive: false,
+            zyr4BugActive: false
         );
 
         dirt.SetActive(true);
-        taskUI.ShowTask("Complete Daily Tasks: \n \n 1. Clean the dirt in the house 0/5 \n \n 2. Clean the solar panels");
-        waypointUI.SetTarget(dailyTarget);
+        taskUI.ShowTask("Complete Daily Tasks: \n \n 1. Clean the solar panels 0/5 \n \n 2. Water the plants 0/1");
+        waypointUI.SetTarget(dirtTarget);
         waypointUI.ShowWaypoint();  
     }
 
-    public void CompleteDailyObjective()
+    public void CompleteDirtObjective()
     {
-        if (currentStage != ObjectiveStage.DailyTask)
+        if (currentStage != ObjectiveStage.DirtTask)
         {
             return;
         }
-        else if (dailyTaskCompleted)
+        else if (dirtTaskCompleted)
         {
             currentStage = ObjectiveStage.Complete;
 
             waypointUI.HideWaypoint();
             taskUI.CompleteTask(); 
         }
+
+        StartCoroutine(StartWaterTaskAfterDelay());
+    } 
+
+    private IEnumerator StartWaterTaskAfterDelay()
+    {
+       yield return new WaitForSecondsRealtime(nextTaskDelay);
+
+     currentStage = ObjectiveStage.WaterTask;
+
+        SetInteractionStates(
+            generatorActive: false,
+            zyr4Active: false,
+            foodActive: false,
+            dirtTaskActive: false,
+            waterActive: true,
+            zyr4BugActive: false
+        );
+
+        waterInteraction.SetActive(true);
+        taskUI.ShowTask("Complete Daily Tasks: \n \n 1. Clean the solar panels 5/5 \n \n 2. Water the plants 0/1");
+        waypointUI.SetTarget(waterTarget);
+        waypointUI.ShowWaypoint();   
+    }
+
+    public void CompleteWaterObjective()
+    {
+        if (currentStage != ObjectiveStage.WaterTask)
+        {
+            return;
+        }
+        
+        currentStage = ObjectiveStage.Complete;
+
+        waterInteraction.SetActive(false);
+        waypointUI.HideWaypoint();
+        taskUI.CompleteTask();
+
+        StartCoroutine(StartDirtTasksAfterDelay());
+    } 
+
+    private IEnumerator StartZyr4BugTaskAfterDelay()
+    {
+       yield return new WaitForSecondsRealtime(nextTaskDelay);
+
+     currentStage = ObjectiveStage.Zyr4BugTask;
+
+        SetInteractionStates(
+            generatorActive: false,
+            zyr4Active: false,
+            foodActive: false,
+            dirtTaskActive: false,
+            waterActive: true,
+            zyr4BugActive: true
+        );
+
+        waterInteraction.SetActive(true);
+        taskUI.ShowTask("Complete Daily Tasks: \n \n 1. Clean the solar panels 5/5 \n \n 2. Water the plants 0/1");
+        waypointUI.SetTarget(waterTarget);
+        waypointUI.ShowWaypoint();   
+    }
+
+    public void CompleteZyr4BugObjective()
+    {
+        if (currentStage != ObjectiveStage.Zyr4BugTask)
+        {
+            return;
+        }
+        
+        currentStage = ObjectiveStage.Complete;
+
+        waterInteraction.SetActive(false);
+        waypointUI.HideWaypoint();
+        taskUI.CompleteTask();
+
+        StartCoroutine(StartDirtTasksAfterDelay());
     } 
 
     private void SetInteractionStates(
         bool generatorActive,
         bool zyr4Active,
         bool foodActive,
-        bool dailyTaskActive)
+        bool dirtTaskActive,
+        bool waterActive,
+        bool zyr4BugActive)
     {
         generatorInteraction.SetActive(generatorActive);
         zyr4Interaction.SetActive(zyr4Active);
         foodInteraction.SetActive(foodActive);
-        dirt.SetActive(dailyTaskActive);
+        dirt.SetActive(dirtTaskActive);
+        waterInteraction.SetActive(waterActive);
+        zyr4BugInteraction.SetActive(zyr4BugActive);
     }
 }
