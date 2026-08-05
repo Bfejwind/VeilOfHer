@@ -34,7 +34,7 @@ public class EnemyHP : MonoBehaviour
         {
             shotAt = true;
             enemyHealth -= amount;
-            Vector3 randomPopUp = new Vector3(Random.Range(0f,0.5f), Random.Range(0.5f,1f), Random.Range(0f,0.5f));
+            Vector3 randomPopUp = new Vector3(Random.Range(0f,0.5f), Random.Range(2f,2.5f), Random.Range(0f,0.5f));
             DamagePopUpGenerator.current.DamagePopup(transform.position + transform.forward+ randomPopUp, amount.ToString(), Color.yellow);
             // if (boss1Behaviour != null && boss1Behaviour.damageTimer != 0)
             // {

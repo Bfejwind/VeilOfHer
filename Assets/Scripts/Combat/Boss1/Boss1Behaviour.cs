@@ -54,6 +54,7 @@ public class Boss1Behaviour : MonoBehaviour
     [SerializeField] private float normalAttackVelocity = 10f;
     [Header("Laser Arena")]
     [SerializeField] private GameObject[] splineObjects;
+    [SerializeField] private GameObject shieldEffect;
     private SplineAnimate[] splineAnimators;
     [Header("Summons")]
     [SerializeField] private Transform[] summonSpawnPos;
@@ -113,6 +114,7 @@ public class Boss1Behaviour : MonoBehaviour
         {
             splineObj.SetActive(false);
         }
+        ShieldEffectOff();
     }
     private void DetectPlayer()
     {
@@ -210,6 +212,7 @@ public class Boss1Behaviour : MonoBehaviour
     {
         laserArenaState = true;
         bossHP.Invulnerable();
+        ShieldEffectOn();
         SummonAttack();
         splineObjects[0].SetActive(true);
         splineAnimators[0].Play();
@@ -225,6 +228,7 @@ public class Boss1Behaviour : MonoBehaviour
         yield return new WaitForSeconds(L_AttackDelay);
         laserRoutine1Ended = true;
         bossHP.Vulnerable();
+        ShieldEffectOff();
         laserArenaState = false;
     }
     private IEnumerator Phase2projectiles()
@@ -269,6 +273,7 @@ public class Boss1Behaviour : MonoBehaviour
     {
         laserArenaState = true;
         bossHP.Invulnerable();
+        ShieldEffectOn();
         SummonIllusions();
         splineObjects[0].SetActive(true);
         splineAnimators[0].Restart(true);
@@ -284,6 +289,7 @@ public class Boss1Behaviour : MonoBehaviour
         yield return new WaitForSeconds(L_AttackDelay);
         laserRoutine2Ended = true;
         bossHP.Vulnerable();
+        ShieldEffectOff();
         laserArenaState = false;
     }
     private IEnumerator Phase3Projectiles()
@@ -388,6 +394,14 @@ public class Boss1Behaviour : MonoBehaviour
                 Instantiate(fakeSummon, summonSpawnPos[i].position, Quaternion.identity);
             }
         }
+    }
+    private void ShieldEffectOn()
+    {
+        shieldEffect.SetActive(true);
+    }
+    private void ShieldEffectOff()
+    {
+        shieldEffect.SetActive(false);
     }
     // private void Absorb()
     // {

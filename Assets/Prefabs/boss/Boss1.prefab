@@ -237,7 +237,7 @@ Transform:
   m_GameObject: {fileID: 2371308721785007751}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.27, z: 1}
+  m_LocalPosition: {x: 0, y: 1.43, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -268,7 +268,7 @@ Transform:
   m_GameObject: {fileID: 2391102091870799404}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 16.970001, y: -0.2, z: 7.004133}
+  m_LocalPosition: {x: 11.74, y: -0.2, z: 7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -301,7 +301,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6294842387101051937
 Transform:
   m_ObjectHideFlags: 0
@@ -442,8 +442,9 @@ MonoBehaviour:
   enemyHealthHeight: 0
   enemyMaxHealth: 1000
   damageAmt: 10
-  healthSlider: {fileID: 4115878532321599945}
+  healthSlider: {fileID: 0}
   shotAt: 0
+  isInvulnerable: 0
 --- !u!54 &7265085421532378915
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -485,8 +486,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Boss1Behaviour
   playerTransform: {fileID: 0}
   finalBossMovement: {fileID: 814519882940700833}
-  S_AttackDelay: 0.5
-  M_AttackDelay: 2
+  mini_AttackDelay: 0.5
+  S_AttackDelay: 1.5
+  M_AttackDelay: 3
   L_AttackDelay: 5
   terrainLayer:
     serializedVersion: 2
@@ -499,16 +501,37 @@ MonoBehaviour:
   isPlayerVisible: 0
   isPlayerInRange: 0
   abilityAttackDelay: 2
+  laserRoutine1Started: 0
+  laserRoutine1Ended: 0
+  laserRoutine2Started: 0
+  laserRoutine2Ended: 0
+  laserArenaState: 0
   followAttackPrefab: {fileID: 7895723137298724363, guid: f30736947cf357d4bba7cf72bc973003, type: 3}
   followAttackDuration: 15
-  followAttackVelocity: 10
+  followAttackVelocity: 8
   bossAOEPrefab: {fileID: 2539810390188423756, guid: af346ca9d541ef445977ed18aa9b9000, type: 3}
   firePoint: {fileID: 6959506000905461071}
   aoeAttackVelocity: 50
   bossWavePrefab: {fileID: 4473355488232339141, guid: 6951ff33c3bad044296a457d73fe6c97, type: 3}
-  WaveAttackVelocity: 40
+  WaveAttackVelocity: 20
   WaveAttackDelay: 5
-  summonPrefab: {fileID: 8941305048270414665, guid: 16a99d8fd12dd75468802f5d9a86e874, type: 3}
+  bossNormalAttackPrefab: {fileID: 1751247960168256449, guid: 56509fdf390890f4ba22db405ec2161c, type: 3}
+  normalAttackVelocity: 10
+  splineObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  summonSpawnPos:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  realSummon: {fileID: 738671438471907088, guid: 3de2c4916656f164d90a8dab4921d273, type: 3}
+  fakeSummon: {fileID: 738671438471907088, guid: e42fd8f7c8729a943ae2610dc52d6413, type: 3}
+  summonPrefab: {fileID: 738671438471907088, guid: 3de2c4916656f164d90a8dab4921d273, type: 3}
   summonPoint1: {fileID: 4890696936193559416}
   summonPoint2: {fileID: 5948806079795729918}
   SummonAttackDelay: 5
@@ -909,7 +932,7 @@ Transform:
   m_GameObject: {fileID: 5126535037128074458}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -22.629997, y: -0.2, z: 7.004133}
+  m_LocalPosition: {x: -11.6, y: -0.2, z: 7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -934,7 +957,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6350714781381278236
 RectTransform:
   m_ObjectHideFlags: 0

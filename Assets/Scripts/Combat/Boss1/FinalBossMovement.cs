@@ -19,6 +19,7 @@ public class FinalBossMovement : MonoBehaviour
     [SerializeField] private float teleportInterval = 5.0f;
     public bool canTeleport => controlEffects == 0;
     public bool isTeleporting;
+    [SerializeField] private GameObject teleportVFX;
     [SerializeField] private FinalBossAudio bossAudio;
 
     [Header("Ability Interactions")]
@@ -54,6 +55,11 @@ public class FinalBossMovement : MonoBehaviour
         {
             bossAudio = GetComponent<FinalBossAudio>();
         }
+    }
+    private void Start()
+    {
+        transform.position = BossPositions[0].position;
+        teleportVFX.SetActive(false);
     }
     private void Update()
     {
@@ -95,9 +101,11 @@ public class FinalBossMovement : MonoBehaviour
     }
     private IEnumerator TeleportBoss(int posNum)
     {
+        teleportVFX.SetActive(true);
         bossAudio.PlayTeleportOut();
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(2f);
         transform.position = BossPositions[posNum].position;
+        teleportVFX.SetActive(false);
         bossAudio.PlayTeleportIn();
     }
 }
