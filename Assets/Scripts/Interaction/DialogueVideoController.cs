@@ -56,8 +56,7 @@ public class DialogueVideoController : MonoBehaviour
             return;
         }
 
-        // Keep the same clip running without restarting it.
-        if (currentClip == newClip && videoPlayer.isPlaying)
+        if (currentClip == newClip)
         {
             return;
         }
