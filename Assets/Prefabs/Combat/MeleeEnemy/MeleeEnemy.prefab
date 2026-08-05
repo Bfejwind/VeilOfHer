@@ -378,7 +378,7 @@ MonoBehaviour:
   playerController: {fileID: 0}
   enemyCollider: {fileID: 6314157019096111776}
   knockbackMagnitude: 3
-  visionRange: 20
+  visionRange: 30
   attackRange: 9
   isPlayerVisible: 0
   isPlayerInRange: 0
@@ -404,7 +404,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.99
+  m_Radius: 1.16
   m_Height: 2.19
   m_Direction: 1
   m_Center: {x: 0, y: 0.8, z: 0}
