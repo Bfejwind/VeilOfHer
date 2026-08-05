@@ -71,18 +71,20 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
             return;
         }
 
-        onDialogueStarted?.Invoke();
-
-        // Open the UI first.
-        dialogueBox.SetActive(true);
-
         if (interactionPromt != null)
         {
             interactionPromt.SetActive(false);
         }
 
+        dialogueBox.SetActive(false);
         dialogueText.text = "";
-        StartDialogue();
+
+        index = 0;
+
+        // Start the video sequence.
+        onDialogueStarted?.Invoke();
+
+        StartCoroutine(StartDialogueAfterVideo());
     }
 
     public string GetDescription()
@@ -172,15 +174,35 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
 
         dialogueText.text = "";
 
+        // Check whether this line needs to switch to a new video.
+        bool videoIsChanging = PlayCurrentVideoClip();
+
+        if (videoIsChanging)
+        {
+            // Hide dialogue while the video fades and prepares.
+            dialogueBox.SetActive(false);
+
+            while (!videoController.IsVideoReady)
+            {
+                yield return null;
+            }
+
+            // New video is ready.
+            dialogueBox.SetActive(true);
+        }
+        else
+        {
+            // No video, or the same video is continuing.
+            // Show the dialogue immediately.
+            dialogueBox.SetActive(true);
+        }
+
         UpdatePortraitVisibility();
         PlayCurrentVoiceLine();
-        PlayCurrentVideoClip();
 
         foreach (char character in currentLine)
         {
             dialogueText.text += character;
-
-            // Continues even if dialogue pauses the game.
             yield return new WaitForSecondsRealtime(textSpeed);
         }
     }
@@ -239,25 +261,25 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
         rightPortraitImage.gameObject.SetActive(!zaneIsSpeaking);
     }
 
-    private void PlayCurrentVideoClip()
+    private bool PlayCurrentVideoClip()
     {
         if (videoController == null)
         {
-            return;
+            return false;
         }
 
         if (dialogueVideoClips == null ||
             index < 0 ||
             index >= dialogueVideoClips.Length)
         {
-            return;
+            return false;
         }
 
         VideoClip currentVideo = dialogueVideoClips[index];
 
         if (currentVideo == null)
         {
-            return;
+            return false;
         }
 
         bool shouldLoop = true;
@@ -277,9 +299,17 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
             playbackSpeed = dialogueVideoSpeeds[index];
         }
 
-        videoController.PlayClip(
+        return videoController.PlayClip(
             currentVideo,
             shouldLoop,
             playbackSpeed);
+    }
+
+    private IEnumerator StartDialogueAfterVideo()
+    {
+        dialogueActive = true;
+        index = 0;
+
+        yield return StartCoroutine(TypeLine());
     }
 }

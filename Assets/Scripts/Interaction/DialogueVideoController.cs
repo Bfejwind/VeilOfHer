@@ -19,6 +19,7 @@ public class DialogueVideoController : MonoBehaviour
     private VideoClip currentClip;
     private bool videoSequenceActive;
     private Coroutine switchCoroutine;
+    public bool IsVideoReady { get; private set; }
 
     private void Awake()
     {
@@ -42,24 +43,29 @@ public class DialogueVideoController : MonoBehaviour
 
     public void StartVideoSequence()
     {
+        IsVideoReady = false;
         videoSequenceActive = true;
         SetControlsEnabled(false);
     }
 
-    public void PlayClip(
+    public bool PlayClip(
         VideoClip newClip,
         bool shouldLoop,
         float playbackSpeed)
     {
         if (newClip == null || videoPlayer == null)
         {
-            return;
+            return false;
         }
 
+        // Same clip is already active.
+        // Do not restart it or hide the dialogue UI.
         if (currentClip == newClip)
         {
-            return;
+            return false;
         }
+
+        IsVideoReady = false;
 
         if (switchCoroutine != null)
         {
@@ -68,6 +74,8 @@ public class DialogueVideoController : MonoBehaviour
 
         switchCoroutine = StartCoroutine(
             SwitchClipRoutine(newClip, shouldLoop, playbackSpeed));
+
+        return true;
     }
 
     private IEnumerator SwitchClipRoutine(
@@ -121,6 +129,7 @@ public class DialogueVideoController : MonoBehaviour
         // Reveal the correct new clip.
         yield return Fade(1f, 0f);
 
+        IsVideoReady = true;
         switchCoroutine = null;
     }
 
@@ -136,6 +145,7 @@ public class DialogueVideoController : MonoBehaviour
 
     private IEnumerator EndVideoRoutine()
     {
+        IsVideoReady = false;
         yield return Fade(0f, 1f);
 
         if (videoPlayer != null)
