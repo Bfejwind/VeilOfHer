@@ -17,6 +17,7 @@ public class Dash : MonoBehaviour
     public float staminaRegenRate = 10.0f;
     private Coroutine regenCoroutine;
     [SerializeField] private Slider staminaSlider;
+    [SerializeField] private float sliderFillDuration = 0.5f;
     [SerializeField] private TextMeshProUGUI staminaText;
     private bool isDashing;
     public bool dashThrough;
@@ -49,6 +50,7 @@ public class Dash : MonoBehaviour
     }
     void Update()
     {
+        FillSliderGradual();
         if (currentStamina >= staminaCost)
         {
             canDash = true;
@@ -138,6 +140,11 @@ public class Dash : MonoBehaviour
     {
         currentStamina = Mathf.Clamp(currentStamina, 0, maxStamina);
         staminaText.text = currentStamina + "/" + maxStamina;
-        staminaSlider.value = currentStamina;
+        //staminaSlider.value = currentStamina;
+    }
+    private void FillSliderGradual()
+    {
+        float speed = Mathf.Abs(currentStamina - staminaSlider.value) / sliderFillDuration;
+        staminaSlider.value = Mathf.MoveTowards(staminaSlider.value, currentStamina, speed * Time.deltaTime);
     }
 }

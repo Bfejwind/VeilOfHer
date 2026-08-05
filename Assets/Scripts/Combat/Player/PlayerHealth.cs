@@ -8,6 +8,7 @@ public class PlayerHealth : MonoBehaviour
     public float playerHealth,playerHealthWidth,playerHealthHeight;
     public float playerMaxHealth = 100f;
     public Slider healthSlider;
+    [SerializeField] private float sliderFillDuration = 0.5f;
     [SerializeField] private TextMeshProUGUI healthText;
     [Header("Healing")]
     public int currentHealNum;
@@ -49,6 +50,10 @@ public class PlayerHealth : MonoBehaviour
         {
             screenShake = Camera.main.GetComponent<ScreenShakeEffects>();
         }
+    }
+    private void Update()
+    {
+        FillSliderGradual();
     }
     public void TakeDamage(float amount)
     {
@@ -101,8 +106,13 @@ public class PlayerHealth : MonoBehaviour
     private void UpdateHealthSlider()
     {
         playerHealth = Mathf.Clamp(playerHealth, 0f, playerMaxHealth);
-        healthSlider.value = playerHealth;
+        //healthSlider.value = playerHealth;
         healthText.text = playerHealth + "/" + playerMaxHealth;
+    }
+    private void FillSliderGradual()
+    {
+        float speed = Mathf.Abs(playerHealth - healthSlider.value) / sliderFillDuration;
+        healthSlider.value = Mathf.MoveTowards(healthSlider.value, playerHealth, speed * Time.deltaTime);
     }
     // void OnTriggerEnter(Collider other)
     // {
