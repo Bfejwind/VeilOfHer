@@ -18,6 +18,10 @@ public class WaypointUI : MonoBehaviour
     [SerializeField] private float arrivalDistance = 2f;
     [SerializeField] private bool waypointReached;
 
+    [Header("Floating Animation")]
+    [SerializeField] private float floatHeight = 12f;
+    [SerializeField] private float floatSpeed = 2f;
+
     private void Awake()
     {
         if (mainCamera == null)
@@ -80,6 +84,11 @@ public class WaypointUI : MonoBehaviour
         {
             return;
         }
+
+        float floatingOffset =
+    Mathf.Sin(Time.unscaledTime * floatSpeed) * floatHeight;
+
+        screenPosition.y += floatingOffset;
 
         waypointRect.position = screenPosition;
     }
