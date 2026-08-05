@@ -47,7 +47,7 @@ public class DirtClean : MonoBehaviour
         else
         {
             // Stop the particle system if it's playing and the mouse button is not held down
-            if (activeParticles != null && activeParticles.isPlaying)
+            if (Input.GetMouseButton(0) && activeParticles != null && activeParticles.isPlaying)
             {
                 StopParticles();
             }
@@ -83,7 +83,7 @@ public class DirtClean : MonoBehaviour
                         // Reduce the scale of the dirt object overtime
                         decal.fadeFactor -= scrubSpeed * Time.deltaTime;
 
-                        if (decal.fadeFactor <= 0.2)
+                        if (decal.fadeFactor == 0)
                         {
                             StopParticles();
                             Destroy(hit.collider.gameObject);
@@ -125,8 +125,8 @@ public class DirtClean : MonoBehaviour
 
     void StopParticles()
     {
-        activeParticles.Stop();
-        Destroy(activeParticles.gameObject, 1f); // Destroy the particle system after 1 second to allow it to finish playing
+        // activeParticles.Stop();
+        Destroy(activeParticles.gameObject); // Destroy the particle system
     }
 
     IEnumerator WaitForSeconds(float seconds)

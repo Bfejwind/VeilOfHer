@@ -163,8 +163,7 @@ public class ObjectiveManager : MonoBehaviour
             zyr4BugActive: false
         );
 
-        dirt.SetActive(true);
-        taskUI.ShowTask("Complete Daily Tasks: \n \n 1. Clean the solar panels 0/5 \n \n 2. Water the plants 0/1");
+        taskUI.ShowTask("Complete Daily Tasks: \n \n 1. Clean the solar panels" + DailyTasks.dirtCleaned.ToString() + "/6  \n \n 2. Water the plants 0/1");
         waypointUI.SetTarget(dirtTarget);
         waypointUI.ShowWaypoint();  
     }
@@ -202,7 +201,7 @@ public class ObjectiveManager : MonoBehaviour
         );
 
         waterInteraction.SetActive(true);
-        taskUI.ShowTask("Complete Daily Tasks: \n \n 1. Clean the solar panels 5/5 \n \n 2. Water the plants 0/1");
+        taskUI.ShowTask("Complete Daily Tasks: \n \n <s>1. Clean the solar panels 6/6</s> \n \n 2. Water the plants 0/1");
         waypointUI.SetTarget(waterTarget);
         waypointUI.ShowWaypoint();   
     }
@@ -220,7 +219,7 @@ public class ObjectiveManager : MonoBehaviour
         waypointUI.HideWaypoint();
         taskUI.CompleteTask();
 
-        StartCoroutine(StartDirtTasksAfterDelay());
+        StartCoroutine(StartZyr4BugTaskAfterDelay());
     } 
 
     private IEnumerator StartZyr4BugTaskAfterDelay()
@@ -239,7 +238,7 @@ public class ObjectiveManager : MonoBehaviour
         );
 
         waterInteraction.SetActive(true);
-        taskUI.ShowTask("Complete Daily Tasks: \n \n 1. Clean the solar panels 5/5 \n \n 2. Water the plants 0/1");
+        taskUI.ShowTask("Complete Daily Tasks: \n \n 1. Clean the solar panels 6/6 \n \n 2. Water the plants 0/1");
         waypointUI.SetTarget(waterTarget);
         waypointUI.ShowWaypoint();   
     }
@@ -257,7 +256,7 @@ public class ObjectiveManager : MonoBehaviour
         waypointUI.HideWaypoint();
         taskUI.CompleteTask();
 
-        StartCoroutine(StartDirtTasksAfterDelay());
+        // StartCoroutine(StartDefeatEnemyTasksAfterDelay());
     } 
 
     private void SetInteractionStates(

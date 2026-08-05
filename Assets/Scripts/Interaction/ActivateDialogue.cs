@@ -13,6 +13,9 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
     [SerializeField]
     GameObject interactionPromt;
 
+    [SerializeField]
+    public string interactionText;
+
     public TextMeshProUGUI dialogueText;
     public string[] dialogueLines;
 
@@ -89,7 +92,7 @@ public class ActivateDialogue : MonoBehaviour, IInteractable
 
     public string GetDescription()
     {
-        return "Talk to Zyr4";
+        return interactionText;
     }
 
     // Update is called once per frame

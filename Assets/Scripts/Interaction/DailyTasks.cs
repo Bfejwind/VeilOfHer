@@ -27,21 +27,22 @@ public class DailyTasks : MonoBehaviour
     public void UpdateDirtCount()
     {
         dirtCleaned += 1;
-        dirtCountText.text = "Complete Daily Tasks: \n 1. Clean the solar panels " + dirtCleaned.ToString() + "/5 \n 2. Water the plants 0/1";
+        dirtCountText.text = "Complete Daily Tasks: \n 1. Clean the solar panels " + dirtCleaned.ToString() + "/6 \n 2. Water the plants 0/1";
         Debug.Log(dirtCleaned);
     }
 
     public void ResetDirtCount()
     {
         dirtCleaned = 0;
-        dirtCountText.text = "Complete Daily Tasks: \n 1. Clean the solar panels " + dirtCleaned.ToString() + "/5 \n 2. Water the plants 0/1";
+        dirtCountText.text = "Complete Daily Tasks: \n 1. Clean the solar panels " + dirtCleaned.ToString() + "/6 \n 2. Water the plants 0/1";
     }
 
     public void CompletedTasks()
     {
-        if (dirtCleaned >= 5)
+        if (dirtCleaned >= 6)
         {
             objectives.dirtTaskCompleted = true;
+            objectives.CompleteDirtObjective();
             Debug.Log("All tasks completed!");
         }
     }
