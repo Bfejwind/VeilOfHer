@@ -30,6 +30,11 @@ public class Dash : MonoBehaviour
     //Invulnerability
     private PlayerHealth playerHealth;
     private float invulnerableDuration;
+    [Header("DashFX")]
+    [SerializeField] private Material dashFXMaterial;
+    [SerializeField] private float dashEffectFadeTime = 0.15f;
+
+    private static readonly int IntensityID = Shader.PropertyToID("_Intensity");
     [Header("Audio")]
     [SerializeField] private PlayerAudio playerAudio;
     void Awake()
@@ -47,6 +52,7 @@ public class Dash : MonoBehaviour
         currentStamina = maxStamina;
         staminaSlider.maxValue = maxStamina;
         UpdateStaminaSlider();
+        dashFXMaterial.SetFloat(IntensityID, 0f);
     }
     void Update()
     {
@@ -73,13 +79,25 @@ public class Dash : MonoBehaviour
         isDashing = true;
         dashThrough = false;
         currentStamina -= staminaCost;
-        float startTime = Time.time;
+        float elapsed = 0f;
         playerAudio.PlayDashSFX();
-        while (Time.time < startTime + dashTime)
+        while (elapsed < dashTime)
         {
+            elapsed += Time.deltaTime;
+            float intensity = 1f;
+            if (elapsed < dashSpeed * 0.2f)
+            {
+                intensity = elapsed/(dashTime *0.2f);
+            }
+            else if (elapsed > dashTime * 0.8f)
+            {
+                intensity = 1f - ((elapsed - dashTime * 0.8f) / (dashTime * 0.2f));
+            }
+            dashFXMaterial.SetFloat(IntensityID, intensity);
             moveScript._controller.Move(moveScript.inputDirection * (dashSpeed * Time.deltaTime));
             yield return null;
         }
+        dashFXMaterial.SetFloat(IntensityID, 0f);
         isDashing = false;
         if (dashThrough)
         {
@@ -92,6 +110,60 @@ public class Dash : MonoBehaviour
         }
         regenCoroutine = StartCoroutine(RegenStamina());
     }
+    // private IEnumerator Dashing()
+    // {
+    //     isDashing = true;
+    //     dashThrough = false;
+    //     //DashFX
+    //     if (dashEffectCoroutine != null)
+    //     {
+    //         StopCoroutine(dashEffectCoroutine);
+    //     }
+    //     dashEffectCoroutine = StartCoroutine(DashScreenEffect());
+    //     currentStamina -= staminaCost;
+    //     float startTime = Time.time;
+    //     playerAudio.PlayDashSFX();
+    //     while (Time.time < startTime + dashTime)
+    //     {
+    //         moveScript._controller.Move(moveScript.inputDirection * (dashSpeed * Time.deltaTime));
+    //         yield return null;
+    //     }
+    //     isDashing = false;
+    //     if (dashThrough)
+    //     {
+    //         currentStamina += staminaRefund;
+    //     }
+    //     UpdateStaminaSlider();
+    //     if (regenCoroutine != null)
+    //     {
+    //         StopCoroutine(regenCoroutine);
+    //     }
+    //     regenCoroutine = StartCoroutine(RegenStamina());
+    // }
+    // private IEnumerator DashScreenEffect()
+    // {
+    //     float timer = 0f;
+    //     //Fade in
+    //     while (timer < dashEffectFadeTime)
+    //     {
+    //         timer += Time.deltaTime;
+    //         float t = timer/dashEffectFadeTime;
+    //         dashFXMaterial.SetFloat(IntensityID, t);
+    //         yield return null;
+    //     }
+    //     dashFXMaterial.SetFloat(IntensityID, 1f);
+    //     yield return new WaitForSeconds(dashTime);
+    //     timer = 0f;
+    //     //Fade out
+    //     while (timer < dashEffectFadeTime)
+    //     {
+    //         timer += Time.deltaTime;
+    //         float t = 1f - (timer/dashEffectFadeTime);
+    //         dashFXMaterial.SetFloat(IntensityID,t);
+    //         yield return null;
+    //     }
+    //     dashFXMaterial.SetFloat(IntensityID, 0f);
+    // }
     // private IEnumerator Dashing()
     // {
     //     isDashing = true;
