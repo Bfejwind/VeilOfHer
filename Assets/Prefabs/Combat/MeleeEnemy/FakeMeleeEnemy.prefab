@@ -217,6 +217,7 @@ GameObject:
   - component: {fileID: 4213268559284787034}
   - component: {fileID: 1608066782153627995}
   - component: {fileID: 8873962228819019571}
+  - component: {fileID: 5239592380701845008}
   m_Layer: 16
   m_Name: FakeMeleeEnemy
   m_TagString: Target
@@ -327,7 +328,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 738671438471907088}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 326ea724e20e7b74f999ed0b521060fc, type: 3}
   m_Name: 
@@ -478,6 +479,47 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5239592380701845008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 738671438471907088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91377da241e4ac4449a1d937dc160760, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FakeMeleeBehaviour
+  navAgent: {fileID: 4670962116581481661}
+  playerTransform: {fileID: 0}
+  warningOrigin: {fileID: 5509280876304553076}
+  warningPrefab: {fileID: 447081935695077368, guid: 8482d9dd356263741a6cbd44e93dbcd3, type: 3}
+  playerHP: {fileID: 0}
+  terrainLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  playerLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  patrolRadius: 10
+  attackCooldown: 1
+  chargeSpeed: 30
+  chargeDistance: 20
+  contactDmg: 10
+  chargeDmg: 20
+  playerCC: {fileID: 0}
+  playerController: {fileID: 0}
+  enemyCollider: {fileID: 8873962228819019571}
+  knockbackMagnitude: 10
+  visionRange: 20
+  attackRange: 10
+  isPlayerVisible: 0
+  isPlayerInRange: 0
+  audioSource: {fileID: 1608066782153627995}
+  chargeSFX: {fileID: 8300000, guid: f076019cca7273e4c8b25f9dca6ba36d, type: 3}
+  controlEffects: 0
+  duration: 10
 --- !u!1 &1025674272718070426
 GameObject:
   m_ObjectHideFlags: 0

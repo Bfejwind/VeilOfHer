@@ -195,7 +195,7 @@ public class Dash : MonoBehaviour
         {
             currentStamina += staminaRegenRate;
             UpdateStaminaSlider();
-            yield return new WaitForSeconds(2.0f);
+            yield return new WaitForSeconds(1.5f);
         }
         regenCoroutine = null;
     }
