@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using FirstGearGames.SmoothCameraShaker;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -28,6 +29,9 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private ScreenShakeEffects screenShake;
     [Header("Audio")]
     [SerializeField] private PlayerAudio playerAudio;
+    [Header("Damaged Effect")]
+    [SerializeField] private ParticleSystem damagedPartSys;
+    public ShakeData playerHurtShake;
     void Awake()
     {
         if (playerAudio == null)
@@ -57,10 +61,13 @@ public class PlayerHealth : MonoBehaviour
     }
     public void TakeDamage(float amount)
     {
+        damagedPartSys.Play();
+        //CameraEffect();
+        CameraShakerHandler.Shake(playerHurtShake);
+        playerAudio.PlayerHurt();
         playerHealth -= amount;
         UpdateHealthSlider();
         StartCoroutine(DashInvulnerability(0.5f));
-        playerAudio.PlayerHurt();
     }
     public void OnHeal()
     {
