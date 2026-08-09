@@ -10,6 +10,7 @@ public class FinalBossMovement : MonoBehaviour
     [SerializeField] private NavMeshAgent navAgent;
     [SerializeField] private Transform playerTransform;
     [SerializeField] private Boss1Behaviour boss1Behaviour;
+    [SerializeField] private EnemyHP bossHP;
     [Header("Positions")]
     [SerializeField] private List<Transform>BossPositions = new List<Transform>();
     [SerializeField] private int currentPosition = 0;
@@ -55,6 +56,10 @@ public class FinalBossMovement : MonoBehaviour
         {
             bossAudio = GetComponent<FinalBossAudio>();
         }
+        if (bossHP == null)
+        {
+            bossHP = GetComponent<EnemyHP>();
+        }
     }
     private void Start()
     {
@@ -63,6 +68,10 @@ public class FinalBossMovement : MonoBehaviour
     }
     private void Update()
     {
+        if (bossHP.isDed)
+        {
+            return;
+        }
         UpdateBehaviourState();
         teleportTimer += Time.deltaTime;
         if (teleportTimer >= teleportInterval && canTeleport && !isTeleporting && !boss1Behaviour.channelledUpon)

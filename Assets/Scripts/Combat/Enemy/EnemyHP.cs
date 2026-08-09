@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,12 +13,20 @@ public class EnemyHP : MonoBehaviour
     public bool shotAt;
     private HealOrbsLoot healOrbsLoot;
     public bool isInvulnerable;
+    [SerializeField] private GameObject dissolveVFX;
+    [SerializeField] private float dissolveDelay;
+    [SerializeField] private GameObject explodeVFX;
+    [SerializeField] private float explodeDelay;
+    [SerializeField] private GameObject model;
+    [SerializeField] private Collider[] objCollider;
+    public bool isDed;
     private void Awake()
     {
         if (boss1Behaviour == null)
         {
             return;
         }
+
     }
 
     void Start()
@@ -43,8 +52,9 @@ public class EnemyHP : MonoBehaviour
             healthSlider.value = enemyHealth;
             if (enemyHealth <= 0)
             {
+                isDed = true;
                 healOrbsLoot.GenerateHealOrbs();
-                Destroy(gameObject);
+                StartCoroutine(EnemyDeath());
             }
         }
         else
@@ -62,5 +72,18 @@ public class EnemyHP : MonoBehaviour
     public void Vulnerable()
     {
         isInvulnerable = false;
+    }
+    private IEnumerator EnemyDeath()
+    {
+        foreach (Collider collider in objCollider)
+        {
+            collider.enabled = false;
+        }
+        dissolveVFX.SetActive(true);
+        yield return new WaitForSeconds(dissolveDelay);
+        explodeVFX.SetActive(true);
+        model.SetActive(false);
+        yield return new WaitForSeconds(explodeDelay);
+        Destroy(gameObject);
     }
 }

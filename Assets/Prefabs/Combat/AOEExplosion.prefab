@@ -554,6 +554,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0f098dad3518934e92c1e81868be49c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AOEBehaviour
+  aoeAppliedDamage: 75
   aoeUpgradeDamage: 0
 --- !u!54 &456031102813860119
 Rigidbody:

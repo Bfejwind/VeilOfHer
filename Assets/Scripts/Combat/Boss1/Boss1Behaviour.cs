@@ -131,6 +131,10 @@ public class Boss1Behaviour : MonoBehaviour
     }
     private void Update()
     {
+        if (bossHP.isDed)
+        {
+            return;
+        }
         DetectPlayer();
         if (playerTransform != null)
         {

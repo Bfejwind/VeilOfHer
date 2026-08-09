@@ -99,6 +99,10 @@ public class FakeMeleeBehaviour : MonoBehaviour
     }
     private void Update()
     {
+        if (enemyHP.isDed)
+        {
+            return;
+        }
         Debug.DrawRay(warningOrigin.position, Vector3.down * 20f, Color.red);
         DetectPlayer();
         if (!enemyHP.shotAt)

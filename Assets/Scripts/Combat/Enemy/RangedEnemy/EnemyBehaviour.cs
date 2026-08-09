@@ -60,6 +60,10 @@ public class EnemyBehaviour : MonoBehaviour
     }
     private void Update()
     {
+        if (enemyHP.isDed)
+        {
+            return;
+        }
         DetectPlayer();
         if (!enemyHP.shotAt)
         {

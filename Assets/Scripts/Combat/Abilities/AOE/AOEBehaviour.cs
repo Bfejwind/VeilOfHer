@@ -8,7 +8,7 @@ public class AOEBehaviour : MonoBehaviour
     private float aoeAppliedDamage;
     public float aoeUpgradeDamage;
     private bool hasHit;
-    private List<EnemyBehaviour>aoeAffectedEnemies = new();
+    private List<EnemyHP>aoeAffectedEnemies = new();
 
     public float AOEDamageCalc(float damageAmount)
     {
@@ -23,17 +23,13 @@ public class AOEBehaviour : MonoBehaviour
             return;
         }
         //Debug.Log("hit:" + other.gameObject.name);
-        if (other.TryGetComponent(out EnemyBehaviour enemy))
+        if (other.TryGetComponent(out EnemyHP enemy))
         {
             if (!aoeAffectedEnemies.Contains(enemy))
             {
                 aoeAffectedEnemies.Add(enemy);
-                if (other.TryGetComponent(out EnemyHP enemyHealth))
-                {
-                    hasHit = true;
-                    enemyHealth.TakingDamage(aoeAppliedDamage);
-                }
-                ;
+                hasHit = true;
+                enemy.TakingDamage(aoeAppliedDamage);
             }
         }
     }

@@ -307,7 +307,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 738671438471907088}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef34d047b9c9935429a19b74565e55ab, type: 3}
   m_Name: 
@@ -321,6 +321,13 @@ MonoBehaviour:
   healthSlider: {fileID: 5884415244550152394}
   shotAt: 0
   isInvulnerable: 0
+  dissolveVFX: {fileID: 0}
+  dissolveDelay: 0
+  explodeVFX: {fileID: 0}
+  explodeDelay: 0
+  model: {fileID: 0}
+  objCollider: {fileID: 0}
+  isDed: 0
 --- !u!114 &4213268559284787034
 MonoBehaviour:
   m_ObjectHideFlags: 0
