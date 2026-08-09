@@ -7,6 +7,9 @@ public class BossFollowAttack : MonoBehaviour
     [SerializeField] private float damage = 5.0f;
     [SerializeField] private Transform playerTarget;
     [SerializeField] private float speed;
+    [SerializeField] private float stopFollowDistance = 2.0f;
+    private Vector3 movementDirection;
+    private bool followingPlayer = true;
     [SerializeField] private GameObject boss;
     private Boss1Behaviour boss1Behaviour;
     [Header("Audio")]
@@ -35,7 +38,22 @@ public class BossFollowAttack : MonoBehaviour
     }
     void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, playerTarget.position, speed * Time.deltaTime);
+        if (followingPlayer)
+        {
+            Vector3 directionToPlayer = (playerTarget.position - transform.position).normalized;
+            movementDirection = directionToPlayer;
+            float distance = Vector3.Distance(transform.position, playerTarget.position);
+            transform.position = Vector3.MoveTowards(transform.position, playerTarget.position, speed * Time.deltaTime);
+            if (distance <= stopFollowDistance)
+            {
+                followingPlayer = false;
+            }
+        }
+        else
+        {
+            transform.position += movementDirection * speed * Time.deltaTime;
+            
+        }
     }
     void OnTriggerEnter(Collider other)
     {
