@@ -132,6 +132,7 @@ MonoBehaviour:
   damage: 5
   playerTarget: {fileID: 0}
   speed: 4
+  stopFollowDistance: 2
   boss: {fileID: 0}
   audioSource: {fileID: -4868771330246572296}
   followSFX: {fileID: 8300000, guid: 26965abd97ec92a46a195e57a1c5eb9a, type: 3}

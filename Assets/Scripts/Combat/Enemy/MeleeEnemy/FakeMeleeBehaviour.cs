@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 using StarterAssets;
+using Unity.VisualScripting;
 public class FakeMeleeBehaviour : MonoBehaviour
 {
     [Header("References")]
@@ -210,7 +211,7 @@ public class FakeMeleeBehaviour : MonoBehaviour
             warned = true;
             yield return new WaitForSeconds(1.0f);
             audioSource.PlayOneShot(chargeSFX);
-            yield return new WaitForSeconds(0.8f);
+            yield return new WaitForSeconds(1.0f);
             StartCoroutine(AttackCooldownRoutine());
             //StartCoroutine(PerformCharge());
         }

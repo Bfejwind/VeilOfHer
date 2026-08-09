@@ -202,9 +202,9 @@ public class Boss1Behaviour : MonoBehaviour
             yield return new WaitForSeconds(M_AttackDelay);
             NormalSpreadAttack(0);
             yield return new WaitForSeconds(mini_AttackDelay);
-            NormalSpreadAttack(5);
-            yield return new WaitForSeconds(mini_AttackDelay);
             NormalSpreadAttack(10);
+            yield return new WaitForSeconds(mini_AttackDelay);
+            NormalSpreadAttack(20);
             yield return new WaitForSeconds(M_AttackDelay);
         }
     }
@@ -249,9 +249,9 @@ public class Boss1Behaviour : MonoBehaviour
             yield return new WaitForSeconds(M_AttackDelay);
             NormalSpreadAttack(0);
             yield return new WaitForSeconds(S_AttackDelay);
-            NormalSpreadAttack(5);
+            NormalSpreadAttack(15);
             yield return new WaitForSeconds(S_AttackDelay);
-            NormalSpreadAttack(10);
+            NormalSpreadAttack(25);
             yield return new WaitForSeconds(M_AttackDelay);
             WaveSpreadAttack();
             yield return new WaitForSeconds(S_AttackDelay);

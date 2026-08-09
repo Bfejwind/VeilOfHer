@@ -105,7 +105,8 @@ public class FinalBossMovement : MonoBehaviour
         bossAudio.PlayTeleportOut();
         yield return new WaitForSeconds(2f);
         transform.position = BossPositions[posNum].position;
-        teleportVFX.SetActive(false);
         bossAudio.PlayTeleportIn();
+        yield return new WaitForSeconds(2.0f);
+        teleportVFX.SetActive(false);
     }
 }
