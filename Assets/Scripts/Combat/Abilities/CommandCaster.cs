@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using FirstGearGames.SmoothCameraShaker;
 
 public class CommandCaster : MonoBehaviour
 {
@@ -49,6 +50,7 @@ public class CommandCaster : MonoBehaviour
     public Vector3 impactPoint;
     //Delay weapon Firing
     [SerializeField] private float scuffedWeaponDelay = 0.2f;
+    public ShakeData playerHurtShake;
     private void Awake()
     {
         playerStats = GetComponent<PlayerBehaviour>();
@@ -221,6 +223,7 @@ public class CommandCaster : MonoBehaviour
         aoeLogic.AOEDamageCalc(aoeFinalDamage);
         //Debug.Log("AOE activated");
         aoeAnim.StartExplosion();
+        CameraShakerHandler.Shake(playerHurtShake);
     }
     private void Firewall(FireWallAbilityData firewall, Vector3 targetPoint)
     {

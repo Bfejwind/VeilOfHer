@@ -455,8 +455,13 @@ MonoBehaviour:
   explodeVFX: {fileID: 207458388797477758}
   explodeDelay: 1.5
   model: {fileID: 6906694440860339254}
-  objCollider: {fileID: 6290765327454401177}
+  objCollider:
+  - {fileID: 6290765327454401177}
+  - {fileID: 8886879985300614987}
   isDed: 0
+  audioSource: {fileID: 2788677520620995617}
+  deathSFX: {fileID: 8300000, guid: 8376daec762ce1a4d8cd17d445b536f0, type: 3}
+  bossDeathSFX: {fileID: 8300000, guid: 01065024dcc1e674b843ec21998e66e0, type: 3}
 --- !u!54 &7265085421532378915
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -789,6 +789,9 @@ MonoBehaviour:
   - {fileID: 1599528531316123782}
   - {fileID: 7490470848953630418}
   isDed: 0
+  audioSource: {fileID: 810532713797175565}
+  deathSFX: {fileID: 8300000, guid: 8376daec762ce1a4d8cd17d445b536f0, type: 3}
+  bossDeathSFX: {fileID: 8300000, guid: 01065024dcc1e674b843ec21998e66e0, type: 3}
 --- !u!114 &7959351700525809084
 MonoBehaviour:
   m_ObjectHideFlags: 0

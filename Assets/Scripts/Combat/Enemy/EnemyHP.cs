@@ -20,6 +20,10 @@ public class EnemyHP : MonoBehaviour
     [SerializeField] private GameObject model;
     [SerializeField] private Collider[] objCollider;
     public bool isDed;
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip deathSFX;
+    [SerializeField] private AudioClip bossDeathSFX;
     private void Awake()
     {
         if (boss1Behaviour == null)
@@ -75,12 +79,17 @@ public class EnemyHP : MonoBehaviour
     }
     private IEnumerator EnemyDeath()
     {
+        audioSource.PlayOneShot(deathSFX);
         foreach (Collider collider in objCollider)
         {
             collider.enabled = false;
         }
         dissolveVFX.SetActive(true);
         yield return new WaitForSeconds(dissolveDelay);
+        if (boss1Behaviour != null)
+        {
+            audioSource.PlayOneShot(bossDeathSFX);
+        }
         explodeVFX.SetActive(true);
         model.SetActive(false);
         yield return new WaitForSeconds(explodeDelay);
