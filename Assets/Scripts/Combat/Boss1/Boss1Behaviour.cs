@@ -36,6 +36,7 @@ public class Boss1Behaviour : MonoBehaviour
     public bool laserRoutine2Ended;
     private bool phase3RoutineStarted;
     public bool laserArenaState;
+    public bool hardMode = true;
     [Header("Follow Attack")]
     [SerializeField] private GameObject followAttackPrefab;
     [SerializeField] public float followAttackDuration = 15.0f;
@@ -111,6 +112,7 @@ public class Boss1Behaviour : MonoBehaviour
             splineObj.SetActive(false);
         }
         ShieldEffectOff();
+        finalBossMovement.enabled = false;
     }
     private void DetectPlayer()
     {
@@ -173,7 +175,10 @@ public class Boss1Behaviour : MonoBehaviour
     private IEnumerator BossFightBegins()
     {
         //Boss Music
-        yield return new WaitForSeconds(3.0f);
+        bossHP.Invulnerable();
+        yield return new WaitForSeconds(16.0f);
+        bossHP.Vulnerable();
+        finalBossMovement.enabled = true;
         StartCoroutine(Phase1Projectiles());
     }
     private IEnumerator Phase1Projectiles()
@@ -214,17 +219,17 @@ public class Boss1Behaviour : MonoBehaviour
         bossHP.Invulnerable();
         ShieldEffectOn();
         SummonAttack();
-        // splineObjects[0].SetActive(true);
-        // splineAnimators[0].Play();
+        splineObjects[0].SetActive(hardMode);
+        splineAnimators[0].Play();
         yield return new WaitForSeconds(S_AttackDelay);
-        // splineObjects[1].SetActive(true);
-        // splineAnimators[1].Play();
+        splineObjects[1].SetActive(hardMode);
+        splineAnimators[1].Play();
         yield return new WaitForSeconds(S_AttackDelay);
-        // splineObjects[2].SetActive(true);
-        // splineAnimators[2].Play();
+        splineObjects[2].SetActive(hardMode);
+        splineAnimators[2].Play();
         yield return new WaitForSeconds(S_AttackDelay);
-        // splineObjects[3].SetActive(true);
-        // splineAnimators[3].Play();
+        splineObjects[3].SetActive(hardMode);
+        splineAnimators[3].Play();
         yield return new WaitForSeconds(L_AttackDelay);
         laserRoutine1Ended = true;
         bossHP.Vulnerable();
@@ -275,17 +280,17 @@ public class Boss1Behaviour : MonoBehaviour
         bossHP.Invulnerable();
         ShieldEffectOn();
         SummonIllusions();
-        // splineObjects[0].SetActive(true);
-        // splineAnimators[0].Restart(true);
+        splineObjects[0].SetActive(hardMode);
+        splineAnimators[0].Restart(hardMode);
         yield return new WaitForSeconds(S_AttackDelay);
-        // splineObjects[1].SetActive(true);
-        // splineAnimators[1].Restart(true);
+        splineObjects[1].SetActive(hardMode);
+        splineAnimators[1].Restart(hardMode);
         yield return new WaitForSeconds(S_AttackDelay);
-        // splineObjects[2].SetActive(true);
-        // splineAnimators[2].Restart(true);
+        splineObjects[2].SetActive(hardMode);
+        splineAnimators[2].Restart(hardMode);
         yield return new WaitForSeconds(S_AttackDelay);
-        // splineObjects[3].SetActive(true);
-        // splineAnimators[3].Restart(true);
+        splineObjects[3].SetActive(hardMode);
+        splineAnimators[3].Restart(hardMode);
         yield return new WaitForSeconds(L_AttackDelay);
         laserRoutine2Ended = true;
         bossHP.Vulnerable();

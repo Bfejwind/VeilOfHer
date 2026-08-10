@@ -11,7 +11,7 @@ public class EnemyHP : MonoBehaviour
     public float enemyMaxHealth = 100f;
     public float damageAmt;
     public Slider healthSlider;
-    private float sliderFillDuration = 0.5f;
+    [SerializeField] private float sliderFillDuration = 0.5f;
     public bool shotAt;
     private HealOrbsLoot healOrbsLoot;
     public bool isInvulnerable;
@@ -41,7 +41,6 @@ public class EnemyHP : MonoBehaviour
         shotAt = false;
         enemyHealth = enemyMaxHealth;
         healthSlider.maxValue = enemyMaxHealth;
-        healthSlider.value = enemyHealth;
     }
     private void Update()
     {
