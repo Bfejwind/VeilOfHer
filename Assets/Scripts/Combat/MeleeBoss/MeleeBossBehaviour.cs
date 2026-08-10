@@ -27,7 +27,7 @@ public class MeleeBossBehaviour : MonoBehaviour
     private bool isOnAttackCooldown;
     [SerializeField] private float chargeSpeed = 30.0f;
     [SerializeField] private float chargeDistance= 20.0f;
-    [SerializeField] private float contactDmg = 10.0f;
+    //[SerializeField] private float contactDmg = 10.0f;
     [SerializeField] private float chargeDmg = 20.0f;
 
     [Header("Warning Settings")]
@@ -37,7 +37,7 @@ public class MeleeBossBehaviour : MonoBehaviour
     [SerializeField] private FirstPersonController playerController;
     [SerializeField] private Collider enemyCollider;
     private bool isCharging;
-    [SerializeField] private float knockbackMagnitude = 10.0f;
+    //[SerializeField] private float knockbackMagnitude = 10.0f;
 
 
     [Header("Detection Ranges")]
@@ -300,15 +300,19 @@ public class MeleeBossBehaviour : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.TryGetComponent(out PlayerHealth playerHealth))
         {
-            Vector3 direction = (other.transform.position - transform.position).normalized;
-            playerController.AddKnockback(direction , knockbackMagnitude);
-            if (isCharging)
+            // Vector3 direction = (other.transform.position - transform.position).normalized;
+
+            // playerController.AddKnockback(direction , knockbackMagnitude);
+            if (isCharging && !playerHealth.IsInvulnerable)
             {
                 //Stun effect
                 playerHP.TakeDamage(chargeDmg);
-                playerHP.CameraEffect();
+                return;
+            }
+            else
+            {
                 return;
             }
         }

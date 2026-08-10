@@ -30,7 +30,7 @@ public class EnemyMeleeBehaviour : MonoBehaviour
     private bool isOnAttackCooldown;
     [SerializeField] private float chargeSpeed = 30.0f;
     [SerializeField] private float chargeDistance= 20.0f;
-    [SerializeField] private float contactDmg = 10.0f;
+    //[SerializeField] private float contactDmg = 10.0f;
     [SerializeField] private float chargeDmg = 20.0f;
 
     [Header("Warning Settings")]
@@ -40,7 +40,7 @@ public class EnemyMeleeBehaviour : MonoBehaviour
     [SerializeField] private FirstPersonController playerController;
     [SerializeField] private Collider enemyCollider;
     private bool isCharging;
-    [SerializeField] private float knockbackMagnitude = 10.0f;
+    //[SerializeField] private float knockbackMagnitude = 10.0f;
 
 
     [Header("Detection Ranges")]
@@ -150,6 +150,7 @@ public class EnemyMeleeBehaviour : MonoBehaviour
     //Fire rate
     private IEnumerator AttackCooldownRoutine()
     {
+        navAgent.isStopped = false;
         warned = false;
         isOnAttackCooldown = true;
         yield return new WaitForSeconds(attackCooldown);
@@ -201,8 +202,22 @@ public class EnemyMeleeBehaviour : MonoBehaviour
             StartCoroutine(ChargeWarning());
         }
     }
+    // private IEnumerator ChargeWarning()
+    // {
+    //     Vector3 target = playerTransform.position;
+    //     target.y = transform.position.y;
+    //     transform.LookAt(target);
+    //     //PreCharge Animation
+    //     warned = true;
+    //     yield return new WaitForSeconds(1.0f);
+    //     audioSource.PlayOneShot(chargeSFX);
+    //     yield return new WaitForSeconds(0.8f);
+    //     StartCoroutine(AttackCooldownRoutine());
+    //     StartCoroutine(PerformCharge());
+    // }
     private IEnumerator ChargeWarning()
     {
+        navAgent.isStopped = true;
         Vector3 target = playerTransform.position;
         target.y = transform.position.y;
         transform.LookAt(target);
@@ -212,9 +227,9 @@ public class EnemyMeleeBehaviour : MonoBehaviour
             Instantiate(warningPrefab, warningPosition, transform.rotation, transform);
             //PreCharge Animation
             warned = true;
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(0.5f);
             audioSource.PlayOneShot(chargeSFX);
-            yield return new WaitForSeconds(0.8f);
+            yield return new WaitForSeconds(1.0f);
             StartCoroutine(AttackCooldownRoutine());
             StartCoroutine(PerformCharge());
         }
@@ -300,16 +315,19 @@ public class EnemyMeleeBehaviour : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.TryGetComponent(out PlayerHealth playerHealth))
         {
-            Vector3 direction = (other.transform.position - transform.position).normalized;
+            // Vector3 direction = (other.transform.position - transform.position).normalized;
 
-            playerController.AddKnockback(direction , knockbackMagnitude);
-            if (isCharging)
+            // playerController.AddKnockback(direction , knockbackMagnitude);
+            if (isCharging && !playerHealth.IsInvulnerable)
             {
                 //Stun effect
                 playerHP.TakeDamage(chargeDmg);
-                playerHP.CameraEffect();
+                return;
+            }
+            else
+            {
                 return;
             }
         }

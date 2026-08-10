@@ -23,11 +23,11 @@ public class Weapon : MonoBehaviour
     public float bulletVelocity = 30;
     public float bulletLifetime = 3f;
     public float baseDamage = 10.0f;
-    [Header("Charged Bullet Settings")]
-    [SerializeField] private GameObject chargedBulletPrefab;
-    [SerializeField] private float chargeSpeed;
-    [SerializeField] private float chargeTime;
-    private bool isCharging;
+    // [Header("Charged Bullet Settings")]
+    // [SerializeField] private GameObject chargedBulletPrefab;
+    // [SerializeField] private float chargeSpeed;
+    // [SerializeField] private float chargeTime;
+    //private bool isCharging;
     [Header("Player Stats")]
     private PlayerBehaviour playerStats;
     private CommandCaster commandCasterScript;

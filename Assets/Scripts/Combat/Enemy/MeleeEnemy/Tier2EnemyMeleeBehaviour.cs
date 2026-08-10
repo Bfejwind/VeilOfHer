@@ -30,7 +30,7 @@ public class Tier2EnemyMeleeBehaviour : MonoBehaviour
     private bool isOnAttackCooldown;
     [SerializeField] private float chargeSpeed = 30.0f;
     [SerializeField] private float chargeDistance= 20.0f;
-    [SerializeField] private float contactDmg = 10.0f;
+    //[SerializeField] private float contactDmg = 10.0f;
     [SerializeField] private float chargeDmg = 20.0f;
 
     [Header("Warning Settings")]
@@ -40,7 +40,7 @@ public class Tier2EnemyMeleeBehaviour : MonoBehaviour
     [SerializeField] private FirstPersonController playerController;
     [SerializeField] private Collider enemyCollider;
     private bool isCharging;
-    [SerializeField] private float knockbackMagnitude = 10.0f;
+    //[SerializeField] private float knockbackMagnitude = 10.0f;
 
 
     [Header("Detection Ranges")]
@@ -149,6 +149,7 @@ public class Tier2EnemyMeleeBehaviour : MonoBehaviour
     //Fire rate
     private IEnumerator AttackCooldownRoutine()
     {
+        navAgent.isStopped = false;
         warned = false;
         isOnAttackCooldown = true;
         yield return new WaitForSeconds(attackCooldown);
@@ -202,6 +203,7 @@ public class Tier2EnemyMeleeBehaviour : MonoBehaviour
     }
     private IEnumerator ChargeWarning()
     {
+        navAgent.isStopped = true;
         Vector3 target = playerTransform.position;
         target.y = transform.position.y;
         transform.LookAt(target);
@@ -302,15 +304,19 @@ public class Tier2EnemyMeleeBehaviour : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.TryGetComponent(out PlayerHealth playerHealth))
         {
-            Vector3 direction = (other.transform.position - transform.position).normalized;
-            playerController.AddKnockback(direction , knockbackMagnitude);
-            if (isCharging)
+            // Vector3 direction = (other.transform.position - transform.position).normalized;
+
+            // playerController.AddKnockback(direction , knockbackMagnitude);
+            if (isCharging && !playerHealth.IsInvulnerable)
             {
                 //Stun effect
                 playerHP.TakeDamage(chargeDmg);
-                playerHP.CameraEffect();
+                return;
+            }
+            else
+            {
                 return;
             }
         }

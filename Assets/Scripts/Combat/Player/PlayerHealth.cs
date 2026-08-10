@@ -108,10 +108,6 @@ public class PlayerHealth : MonoBehaviour
 
         IsInvulnerable = false;
     }
-    public void CameraEffect()
-    {
-        screenShake.ScreenShake();
-    }
     private void UpdateHealthSlider()
     {
         playerHealth = Mathf.Clamp(playerHealth, 0f, playerMaxHealth);
