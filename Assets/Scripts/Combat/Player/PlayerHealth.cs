@@ -19,6 +19,7 @@ public class PlayerHealth : MonoBehaviour
     public Slider rechargeSlider;
     public TextMeshProUGUI currentHealNumText;
     [SerializeField] private float healAmount = 30.0f;
+    [SerializeField] private ParticleSystem healPartSys;
     
     [Header("DashInvulnerability")]
     //Dash Invulnerability
@@ -74,6 +75,7 @@ public class PlayerHealth : MonoBehaviour
         if (currentHealNum > 0 && playerHealth < playerMaxHealth)
         {
             playerHealth += healAmount;
+            healPartSys.Play();
             UpdateHealthSlider();
             playerAudio.PlayHealSFX();
             currentHealNum--;

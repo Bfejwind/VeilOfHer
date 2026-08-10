@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.VFX;
 
 public class EnemyHP : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class EnemyHP : MonoBehaviour
     [SerializeField] private GameObject model;
     [SerializeField] private Collider[] objCollider;
     public bool isDed;
+    [SerializeField] private VisualEffect onHitVFX;
     [Header("Audio")]
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip deathSFX;
@@ -30,7 +32,6 @@ public class EnemyHP : MonoBehaviour
         {
             return;
         }
-
     }
 
     void Start()
@@ -47,12 +48,8 @@ public class EnemyHP : MonoBehaviour
         {
             shotAt = true;
             enemyHealth -= amount;
-            Vector3 randomPopUp = new Vector3(Random.Range(0f,0.5f), Random.Range(2f,2.5f), Random.Range(0f,0.5f));
-            DamagePopUpGenerator.current.DamagePopup(transform.position + transform.forward+ randomPopUp, amount.ToString(), Color.yellow);
-            // if (boss1Behaviour != null && boss1Behaviour.damageTimer != 0)
-            // {
-            //     boss1Behaviour.damageTaken += amount;
-            // }
+            OnHitEffect();
+            DamagePopUp(amount);
             healthSlider.value = enemyHealth;
             if (enemyHealth <= 0)
             {
@@ -64,8 +61,7 @@ public class EnemyHP : MonoBehaviour
         else
         {
             amount = 0;
-            Vector3 randomPopUp = new Vector3(Random.Range(0f,0.25f), Random.Range(0.25f,0.5f), Random.Range(0f,0.25f));
-            DamagePopUpGenerator.current.DamagePopup(transform.position + randomPopUp, amount.ToString(), Color.yellow);
+            DamagePopUp(amount);
             return;
         }
     }
@@ -94,5 +90,14 @@ public class EnemyHP : MonoBehaviour
         model.SetActive(false);
         yield return new WaitForSeconds(explodeDelay);
         Destroy(gameObject);
+    }
+    private void OnHitEffect()
+    {
+        onHitVFX.SendEvent("PlayVFX");
+    }
+    private void DamagePopUp(float amount)
+    {
+        Vector3 randomPopUp = new Vector3(Random.Range(0f,0.5f), Random.Range(2f,2.5f), Random.Range(0f,0.5f));
+        DamagePopUpGenerator.current.DamagePopup(transform.position + transform.forward+ randomPopUp, amount.ToString(), Color.yellow);
     }
 }

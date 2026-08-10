@@ -326,8 +326,13 @@ MonoBehaviour:
   explodeVFX: {fileID: 0}
   explodeDelay: 0
   model: {fileID: 0}
-  objCollider: {fileID: 0}
+  objCollider:
+  - {fileID: 0}
   isDed: 0
+  onHitVFX: {fileID: 0}
+  audioSource: {fileID: 0}
+  deathSFX: {fileID: 0}
+  bossDeathSFX: {fileID: 0}
 --- !u!114 &4213268559284787034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -526,7 +531,7 @@ MonoBehaviour:
   audioSource: {fileID: 1608066782153627995}
   chargeSFX: {fileID: 8300000, guid: f076019cca7273e4c8b25f9dca6ba36d, type: 3}
   controlEffects: 0
-  duration: 10
+  duration: 20
 --- !u!1 &1025674272718070426
 GameObject:
   m_ObjectHideFlags: 0
@@ -1451,7 +1456,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.36
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
