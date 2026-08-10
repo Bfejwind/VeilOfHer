@@ -35,6 +35,7 @@ public class Tier2EnemyMeleeBehaviour : MonoBehaviour
 
     [Header("Warning Settings")]
     private bool warned;
+    [SerializeField] private ParticleSystem chargeSparks;
     [Header("Collision")]
     [SerializeField] private CharacterController playerCC;
     [SerializeField] private FirstPersonController playerController;
@@ -203,31 +204,50 @@ public class Tier2EnemyMeleeBehaviour : MonoBehaviour
     }
     private IEnumerator ChargeWarning()
     {
-        navAgent.isStopped = true;
         Vector3 target = playerTransform.position;
         target.y = transform.position.y;
         transform.LookAt(target);
-        if (Physics.Raycast(warningOrigin.position, Vector3.down, out RaycastHit hit, 3.0f, terrainLayer))
-        {
-            Vector3 warningPosition = hit.point + Vector3.up * 0.05f;
-            Instantiate(warningPrefab, warningPosition, transform.rotation, transform);
-            //PreCharge Animation
-            warned = true;
-            yield return new WaitForSeconds(1.0f);
-            audioSource.PlayOneShot(chargeSFX);
-            yield return new WaitForSeconds(0.8f);
-            yield return StartCoroutine(PerformCharge());
-            audioSource.PlayOneShot(chargeSFX);
-            yield return new WaitForSeconds(0.8f);
-            yield return StartCoroutine(PerformCharge());
-            StartCoroutine(AttackCooldownRoutine());
-        }
-        //Attack script
-        else
-        {
-            Debug.Log("ray not hitting ground");
-        }
+        //PreCharge Animation
+        warned = true;
+        audioSource.PlayOneShot(chargeSFX);
+        yield return new WaitForSeconds(1f);
+        chargeSparks.Play();
+        yield return new WaitForSeconds(0.25f);
+        yield return StartCoroutine(PerformCharge());
+        audioSource.PlayOneShot(chargeSFX);
+        yield return new WaitForSeconds(0.5f);
+        chargeSparks.Play();
+        yield return new WaitForSeconds(0.25f);
+        yield return StartCoroutine(PerformCharge());
+        StartCoroutine(AttackCooldownRoutine());
     }
+    // private IEnumerator ChargeWarning()
+    // {
+    //     navAgent.isStopped = true;
+    //     Vector3 target = playerTransform.position;
+    //     target.y = transform.position.y;
+    //     transform.LookAt(target);
+    //     if (Physics.Raycast(warningOrigin.position, Vector3.down, out RaycastHit hit, 3.0f, terrainLayer))
+    //     {
+    //         Vector3 warningPosition = hit.point + Vector3.up * 0.05f;
+    //         Instantiate(warningPrefab, warningPosition, transform.rotation, transform);
+    //         //PreCharge Animation
+    //         warned = true;
+    //         yield return new WaitForSeconds(1.0f);
+    //         audioSource.PlayOneShot(chargeSFX);
+    //         yield return new WaitForSeconds(0.8f);
+    //         yield return StartCoroutine(PerformCharge());
+    //         audioSource.PlayOneShot(chargeSFX);
+    //         yield return new WaitForSeconds(0.8f);
+    //         yield return StartCoroutine(PerformCharge());
+    //         StartCoroutine(AttackCooldownRoutine());
+    //     }
+    //     //Attack script
+    //     else
+    //     {
+    //         Debug.Log("ray not hitting ground");
+    //     }
+    // }
     private IEnumerator PerformCharge()
     {
         isCharging = true;
@@ -312,11 +332,12 @@ public class Tier2EnemyMeleeBehaviour : MonoBehaviour
             if (isCharging && !playerHealth.IsInvulnerable)
             {
                 //Stun effect
-                playerHP.TakeDamage(chargeDmg);
+                playerHealth.TakeDamage(chargeDmg);
                 return;
             }
-            else
+            else if (isCharging && playerHealth.IsInvulnerable)
             {
+                enemyHP.TakingDamage(enemyHP.enemyMaxHealth);
                 return;
             }
         }

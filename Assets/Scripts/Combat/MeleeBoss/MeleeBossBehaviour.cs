@@ -32,6 +32,7 @@ public class MeleeBossBehaviour : MonoBehaviour
 
     [Header("Warning Settings")]
     private bool warned;
+    [SerializeField] private ParticleSystem chargeSparks;
     [Header("Collision")]
     [SerializeField] private CharacterController playerCC;
     [SerializeField] private FirstPersonController playerController;
@@ -202,26 +203,16 @@ public class MeleeBossBehaviour : MonoBehaviour
         Vector3 target = playerTransform.position;
         target.y = transform.position.y;
         transform.LookAt(target);
-        if (Physics.Raycast(warningOrigin.position, Vector3.down, out RaycastHit hit, 3.0f, terrainLayer))
-        {
-            Debug.Log("Aiming");
-            Vector3 warningPosition = hit.point + Vector3.up * 0.05f;
-            Instantiate(warningPrefab, warningPosition, transform.rotation, transform);
-            //PreCharge Animation
-            warned = true;
-            yield return new WaitForSeconds(1.0f);
-            audioSource.PlayOneShot(chargeSFX);
-            yield return new WaitForSeconds(0.8f);
-            yield return StartCoroutine(PerformCharge());
-            yield return StartCoroutine(PerformCharge());
-            yield return StartCoroutine(PerformCharge());
-            StartCoroutine(AttackCooldownRoutine());
-        }
-        //Attack script
-        else
-        {
-            Debug.Log("ray not hitting ground");
-        }
+        //PreCharge Animation
+        warned = true;
+        audioSource.PlayOneShot(chargeSFX);
+        yield return new WaitForSeconds(1.0f);
+        chargeSparks.Play();
+        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(PerformCharge());
+        yield return StartCoroutine(PerformCharge());
+        yield return StartCoroutine(PerformCharge());
+        StartCoroutine(AttackCooldownRoutine());
     }
     private IEnumerator PerformCharge()
     {
@@ -308,11 +299,12 @@ public class MeleeBossBehaviour : MonoBehaviour
             if (isCharging && !playerHealth.IsInvulnerable)
             {
                 //Stun effect
-                playerHP.TakeDamage(chargeDmg);
+                playerHealth.TakeDamage(chargeDmg);
                 return;
             }
-            else
+            else if (isCharging && playerHealth.IsInvulnerable)
             {
+                enemyHP.TakingDamage(100.0f);
                 return;
             }
         }

@@ -35,11 +35,13 @@ public class EnemyMeleeBehaviour : MonoBehaviour
 
     [Header("Warning Settings")]
     private bool warned;
+    [SerializeField] private ParticleSystem chargeSparks;
     [Header("Collision")]
     [SerializeField] private CharacterController playerCC;
     [SerializeField] private FirstPersonController playerController;
     [SerializeField] private Collider enemyCollider;
     private bool isCharging;
+    private bool hasChargedCollided;
     //[SerializeField] private float knockbackMagnitude = 10.0f;
 
 
@@ -150,7 +152,6 @@ public class EnemyMeleeBehaviour : MonoBehaviour
     //Fire rate
     private IEnumerator AttackCooldownRoutine()
     {
-        navAgent.isStopped = false;
         warned = false;
         isOnAttackCooldown = true;
         yield return new WaitForSeconds(attackCooldown);
@@ -202,43 +203,44 @@ public class EnemyMeleeBehaviour : MonoBehaviour
             StartCoroutine(ChargeWarning());
         }
     }
+    private IEnumerator ChargeWarning()
+    {
+        Vector3 target = playerTransform.position;
+        target.y = transform.position.y;
+        transform.LookAt(target);
+        //PreCharge Animation
+        warned = true;
+        hasChargedCollided = false;
+        audioSource.PlayOneShot(chargeSFX);
+        yield return new WaitForSeconds(1f);
+        chargeSparks.Play();
+        yield return new WaitForSeconds(0.25f);
+        StartCoroutine(PerformCharge());
+        StartCoroutine(AttackCooldownRoutine());
+    }
     // private IEnumerator ChargeWarning()
     // {
     //     Vector3 target = playerTransform.position;
     //     target.y = transform.position.y;
     //     transform.LookAt(target);
-    //     //PreCharge Animation
-    //     warned = true;
-    //     yield return new WaitForSeconds(1.0f);
-    //     audioSource.PlayOneShot(chargeSFX);
-    //     yield return new WaitForSeconds(0.8f);
-    //     StartCoroutine(AttackCooldownRoutine());
-    //     StartCoroutine(PerformCharge());
+    //     if (Physics.Raycast(warningOrigin.position, Vector3.down, out RaycastHit hit, 3.0f, terrainLayer))
+    //     {
+    //         Vector3 warningPosition = hit.point + Vector3.up * 0.05f;
+    //         Instantiate(warningPrefab, warningPosition, transform.rotation, transform);
+    //         //PreCharge Animation
+    //         warned = true;
+    //         yield return new WaitForSeconds(0.5f);
+    //         audioSource.PlayOneShot(chargeSFX);
+    //         yield return new WaitForSeconds(1.0f);
+    //         StartCoroutine(AttackCooldownRoutine());
+    //         StartCoroutine(PerformCharge());
+    //     }
+    //     //Attack script
+    //     else
+    //     {
+    //         Debug.Log("ray not hitting ground");
+    //     }
     // }
-    private IEnumerator ChargeWarning()
-    {
-        navAgent.isStopped = true;
-        Vector3 target = playerTransform.position;
-        target.y = transform.position.y;
-        transform.LookAt(target);
-        if (Physics.Raycast(warningOrigin.position, Vector3.down, out RaycastHit hit, 3.0f, terrainLayer))
-        {
-            Vector3 warningPosition = hit.point + Vector3.up * 0.05f;
-            Instantiate(warningPrefab, warningPosition, transform.rotation, transform);
-            //PreCharge Animation
-            warned = true;
-            yield return new WaitForSeconds(0.5f);
-            audioSource.PlayOneShot(chargeSFX);
-            yield return new WaitForSeconds(1.0f);
-            StartCoroutine(AttackCooldownRoutine());
-            StartCoroutine(PerformCharge());
-        }
-        //Attack script
-        else
-        {
-            Debug.Log("ray not hitting ground");
-        }
-    }
     private IEnumerator PerformCharge()
     {
         isCharging = true;
@@ -315,19 +317,25 @@ public class EnemyMeleeBehaviour : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+        if (hasChargedCollided)
+        {
+            return;
+        }
         if (other.TryGetComponent(out PlayerHealth playerHealth))
         {
+            hasChargedCollided = true;
             // Vector3 direction = (other.transform.position - transform.position).normalized;
 
             // playerController.AddKnockback(direction , knockbackMagnitude);
             if (isCharging && !playerHealth.IsInvulnerable)
             {
                 //Stun effect
-                playerHP.TakeDamage(chargeDmg);
+                playerHealth.TakeDamage(chargeDmg);
                 return;
             }
-            else
+            else if (isCharging && playerHealth.IsInvulnerable)
             {
+                enemyHP.TakingDamage(enemyHP.enemyMaxHealth);
                 return;
             }
         }

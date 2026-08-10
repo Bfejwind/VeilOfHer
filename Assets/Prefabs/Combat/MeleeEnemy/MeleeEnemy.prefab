@@ -200,6 +200,7 @@ Transform:
   - {fileID: 1629630844283762182}
   - {fileID: 1445467908667691816}
   - {fileID: 1344662537641535766}
+  - {fileID: 736030408565178439}
   m_Father: {fileID: 9098916834648839964}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &738671438471907088
@@ -385,12 +386,11 @@ MonoBehaviour:
   attackCooldown: 5
   chargeSpeed: 30
   chargeDistance: 20
-  contactDmg: 10
   chargeDmg: 20
+  chargeSparks: {fileID: 6543253432624129114}
   playerCC: {fileID: 0}
   playerController: {fileID: 0}
   enemyCollider: {fileID: 6314157019096111776}
-  knockbackMagnitude: 3
   visionRange: 30
   attackRange: 9
   isPlayerVisible: 0
@@ -1717,6 +1717,73 @@ Transform:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8464950693656172981, guid: 83ad694f134ab954580473212156b35a, type: 3}
   m_PrefabInstance: {fileID: 1312790862047977407}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2137304268037757026
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 890355215104141200}
+    m_Modifications:
+    - target: {fileID: 1702322355272472613, guid: 765948b8eedfc2d4a8901b95124a81fc, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702322355272472613, guid: 765948b8eedfc2d4a8901b95124a81fc, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702322355272472613, guid: 765948b8eedfc2d4a8901b95124a81fc, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702322355272472613, guid: 765948b8eedfc2d4a8901b95124a81fc, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702322355272472613, guid: 765948b8eedfc2d4a8901b95124a81fc, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702322355272472613, guid: 765948b8eedfc2d4a8901b95124a81fc, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702322355272472613, guid: 765948b8eedfc2d4a8901b95124a81fc, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702322355272472613, guid: 765948b8eedfc2d4a8901b95124a81fc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702322355272472613, guid: 765948b8eedfc2d4a8901b95124a81fc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702322355272472613, guid: 765948b8eedfc2d4a8901b95124a81fc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5587426215227565256, guid: 765948b8eedfc2d4a8901b95124a81fc, type: 3}
+      propertyPath: m_Name
+      value: ChargeSparks
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 765948b8eedfc2d4a8901b95124a81fc, type: 3}
+--- !u!4 &736030408565178439 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1702322355272472613, guid: 765948b8eedfc2d4a8901b95124a81fc, type: 3}
+  m_PrefabInstance: {fileID: 2137304268037757026}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &6543253432624129114 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 5145209450763369528, guid: 765948b8eedfc2d4a8901b95124a81fc, type: 3}
+  m_PrefabInstance: {fileID: 2137304268037757026}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5226849234731957351
 PrefabInstance:

@@ -11,6 +11,7 @@ public class EnemyHP : MonoBehaviour
     public float enemyMaxHealth = 100f;
     public float damageAmt;
     public Slider healthSlider;
+    private float sliderFillDuration = 0.5f;
     public bool shotAt;
     private HealOrbsLoot healOrbsLoot;
     public bool isInvulnerable;
@@ -42,15 +43,19 @@ public class EnemyHP : MonoBehaviour
         healthSlider.maxValue = enemyMaxHealth;
         healthSlider.value = enemyHealth;
     }
+    private void Update()
+    {
+        FillSliderGradual();
+    }
     public void TakingDamage(float amount)
     {
         if (!isInvulnerable)
         {
             shotAt = true;
             enemyHealth -= amount;
+            UpdateHealthSlider();
             OnHitEffect();
             DamagePopUp(amount);
-            healthSlider.value = enemyHealth;
             if (enemyHealth <= 0)
             {
                 isDed = true;
@@ -72,6 +77,16 @@ public class EnemyHP : MonoBehaviour
     public void Vulnerable()
     {
         isInvulnerable = false;
+    }
+    private void UpdateHealthSlider()
+    {
+        enemyHealth = Mathf.Clamp(enemyHealth, 0f, enemyMaxHealth);
+        healthSlider.value = enemyHealth;
+    }
+    private void FillSliderGradual()
+    {
+        float speed = Mathf.Abs(enemyHealth - healthSlider.value) / sliderFillDuration;
+        healthSlider.value = Mathf.MoveTowards(healthSlider.value, enemyHealth, speed * Time.deltaTime);
     }
     private IEnumerator EnemyDeath()
     {
