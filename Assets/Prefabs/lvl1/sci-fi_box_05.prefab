@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: sci-fi_box_05
       objectReference: {fileID: 0}
+    - target: {fileID: -6689036041284674117, guid: 9319daef3fc139b458e1740a4c026b16, type: 3}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
     - target: {fileID: 2774220344278030320, guid: 9319daef3fc139b458e1740a4c026b16, type: 3}
       propertyPath: m_LocalScale.x
       value: 3.0292363

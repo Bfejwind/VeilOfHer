@@ -337,7 +337,7 @@ public class Tier2EnemyMeleeBehaviour : MonoBehaviour
             }
             else if (isCharging && playerHealth.IsInvulnerable)
             {
-                enemyHP.TakingDamage(enemyHP.enemyMaxHealth);
+                enemyHP.TakingDamage(enemyHP.enemyMaxHealth/4);
                 return;
             }
         }

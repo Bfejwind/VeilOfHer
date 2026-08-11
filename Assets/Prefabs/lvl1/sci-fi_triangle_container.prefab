@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: sci-fi_triangle_container
       objectReference: {fileID: 0}
+    - target: {fileID: -6689036041284674117, guid: 708414a0c15a75c468ce5eb568792479, type: 3}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
     - target: {fileID: 2774220344278030320, guid: 708414a0c15a75c468ce5eb568792479, type: 3}
       propertyPath: m_LocalScale.x
       value: 2.5189385
