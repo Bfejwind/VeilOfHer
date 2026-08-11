@@ -15,6 +15,7 @@ TagManager:
   - Momento
   - Dirt
   - Perimeter
+  - door
   layers:
   - Default
   - TransparentFX

@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using TMPro;
 using StarterAssets;
 using UnityEngine.Events;
 

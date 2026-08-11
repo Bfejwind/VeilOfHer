@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using TMPro;
 
 public class ActivateCleaning : MonoBehaviour, IInteractable
 {
