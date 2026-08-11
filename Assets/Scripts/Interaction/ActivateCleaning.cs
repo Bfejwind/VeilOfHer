@@ -7,22 +7,22 @@ public class ActivateCleaning : MonoBehaviour, IInteractable
     [Header("Cleaning Objects")]
     [Tooltip("The mop object that the player can pick up.")]
     [SerializeField]
-    GameObject mop;
+    public GameObject mop;
 
     [Header("Inventory Objects")]
     [Tooltip("The inventory object that represents the mop in the player's inventory.")]
     [SerializeField]
-    GameObject mopInventory;
+    public GameObject mopInventory;
 
     [Header("Interaction UI")]
     [Tooltip("The UI element that prompts the player to interact with the mop.")]
     [SerializeField]
-    GameObject interactionPromt;
+    public GameObject interactionPromt;
 
     [Header("Mop Placement")]
     [Tooltip("The location where the mop will be placed when it is put down.")]
     [SerializeField]
-    GameObject mopPlacement;
+    public GameObject mopPlacement;
 
     [Header("Mop Taken?")]
     public static bool mopTaken = false;

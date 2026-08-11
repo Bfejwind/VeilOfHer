@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ActivateWater : MonoBehaviour, IInteractable
 {
@@ -14,12 +15,16 @@ public class ActivateWater : MonoBehaviour, IInteractable
     [SerializeField]
     public GameObject interactionPromt;
 
+    [Header("Water Events")]
+    [SerializeField] private UnityEvent CompletedWaterObjective;
+
     public void Interact()
     {
         if (waterParticles != null)
         {
             waterParticles.SetActive(true);
             StartCoroutine(wait());
+            CompletedWaterObjective?.Invoke(); // Invoke the CompletedWaterObjective event to notify other scripts that the water objective has been completed
         }
     }
 

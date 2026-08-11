@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using TMPro;
 using StarterAssets;
+using UnityEngine.Events;
 
 public class Mementos : MonoBehaviour, IInteractable
 {
@@ -28,19 +29,22 @@ public class Mementos : MonoBehaviour, IInteractable
 
     StarterAssetsInputs input;
 
+    [Header("Memento Events")]
+    [SerializeField] private UnityEvent CollectedMemento;
+
     void Start()
     {
         input = GetComponent<StarterAssetsInputs>();
     }
 
-    void MementoInventory() // This function is called when the player interacts with the memento object
+    public void MementoInventory() // This function is called when the player interacts with the memento object
     {
         MementoFound.SetActive(true);
         MementoNotFound.SetActive(false);
         Sparkle.SetActive(false);
     }
 
-    void OpenMementoUI()
+    public void OpenMementoUI()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -60,6 +64,7 @@ public class Mementos : MonoBehaviour, IInteractable
             currentMemento.SetActive(true);
             mementoCanvas.SetActive(true);
             OpenMementoUI();
+            CollectedMemento?.Invoke(); // Invoke the CollectedMemento event to notify other scripts that the memento has been collected
         }
     }
 

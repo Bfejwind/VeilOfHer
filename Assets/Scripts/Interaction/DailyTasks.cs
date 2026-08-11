@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using TMPro;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 public class DailyTasks : MonoBehaviour
 {
@@ -9,7 +10,8 @@ public class DailyTasks : MonoBehaviour
     TMP_Text dirtCountText;
 
     [SerializeField]
-    public static int dirtCleaned = 0;
+    public int dirtCleaned = 0;
+    public int totalDirtCleaned = 0;
 
     [SerializeField]
     public int collectedMemento = 0;
@@ -17,34 +19,54 @@ public class DailyTasks : MonoBehaviour
     [SerializeField]
     TMP_Text mementoText;
 
-    ObjectiveManager objectives;
+    [Header("Dirt Events")]
+    [SerializeField] private UnityEvent CompletedDirtObjective;
+
+    public static DailyTasks Instance { get; private set; }
+    
 
     public void Start()
     {
-        objectives = GetComponent<ObjectiveManager>();
+        mementoText.text = "Mementos Collected: " + collectedMemento.ToString() + "/4";
+    }
+    
+    private void Awake()
+    {
+        if (Instance == null) 
+        {
+            Instance = this;
+        }
+        else 
+        {
+            Destroy(gameObject);
+        }
     }
 
-    public void UpdateDirtCount()
+    public void Update()
     {
-        dirtCleaned += 1;
-        dirtCountText.text = "Complete Daily Tasks: \n 1. Clean the solar panels " + dirtCleaned.ToString() + "/6 \n 2. Water the plants 0/1";
-        Debug.Log(dirtCleaned);
+        if (dirtCleaned >= 6)
+        {
+            CompletedDirt();
+        }
+    }
+
+    public void CompletedDirt()
+    {
+        CompletedDirtObjective?.Invoke();
+        Debug.Log("All dirt has been cleaned!");
+    }
+
+    public void UpdateDirtCount(int amount)
+    {
+        dirtCleaned += amount;
+        dirtCountText.text = "Complete Daily Tasks: \n\n 1. Clean the solar panels " + dirtCleaned.ToString() + "/6 \n\n 2. Water the plants 0/1";
+        Debug.Log("Dirt cleaned! Total cleaned: " + dirtCleaned.ToString());
     }
 
     public void ResetDirtCount()
     {
         dirtCleaned = 0;
-        dirtCountText.text = "Complete Daily Tasks: \n 1. Clean the solar panels " + dirtCleaned.ToString() + "/6 \n 2. Water the plants 0/1";
-    }
-
-    public void CompletedTasks()
-    {
-        if (dirtCleaned >= 6)
-        {
-            objectives.dirtTaskCompleted = true;
-            objectives.CompleteDirtObjective();
-            Debug.Log("All tasks completed!");
-        }
+        dirtCountText.text = "Complete Daily Tasks: \n\n 1. Clean the solar panels " + dirtCleaned.ToString() + "/6 \n\n 2. Water the plants 0/1";
     }
 
     public void CollectedMemento()

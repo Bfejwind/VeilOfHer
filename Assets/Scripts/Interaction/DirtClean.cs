@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine.Rendering.HighDefinition;
+using UnityEngine.Events;
+
 
 public class DirtClean : MonoBehaviour
 {
@@ -21,18 +23,27 @@ public class DirtClean : MonoBehaviour
     [Header("UI Elements")]
     [Tooltip("The text element that displays status messages.")]
     [SerializeField]
-    public TMP_Text statusText;
+    public TMP_Text Objectives;
 
     [Header("References")]
     [Tooltip("Reference to the daily tasks script.")]
-    public DailyTasks dirtCount;
     public ActivateCleaning mopStatus;
+    public DailyTasks dailyTasks;
+
+    [Header("Dirt Cleaning State")]
+    [Tooltip("Indicates whether the dirt is cleaned.")]
+    public bool isCleaned = false;
 
 
     void Start()
     {
         mopStatus = GetComponent<ActivateCleaning>();
-        dirtCount = GetComponent<DailyTasks>();
+        dailyTasks = Object.FindAnyObjectByType<DailyTasks>();
+
+        if (dailyTasks == null)
+        {
+            Debug.LogError("DailyTasks script is not assigned in the inspector.");
+        }
     }
 
     // Update is called once per frame
@@ -83,24 +94,32 @@ public class DirtClean : MonoBehaviour
                         // Reduce the scale of the dirt object overtime
                         decal.fadeFactor -= scrubSpeed * Time.deltaTime;
 
-                        if (decal.fadeFactor == 0)
+                        if (decal.fadeFactor <= 0.2f)
                         {
-                            StopParticles();
+                            if (isCleaned)
+                            {
+                                return; // Skip the rest of the update if cleaning is already completed  
+                            }
+                            isCleaned = true; // Mark the dirt as cleaned
                             Destroy(hit.collider.gameObject);
-                            dirtCount.UpdateDirtCount();
+                            dailyTasks.UpdateDirtCount(1); // Update the dirt count in the DailyTasks script
+                            StopParticles();  
                         }
                     } 
                 }
                 else
                 {
-                    statusText.text = "You need a mop to clean the dirt!";
+                    Objectives.text = "You need a mop to clean the dirt!";
                     StartCoroutine(WaitForSeconds(2));
                     return;
                 }
             }
             else
             {
-                StopParticles();
+                if (activeParticles != null && activeParticles.isPlaying)
+                {
+                    StopParticles();
+                }
             }
         }
     }
@@ -125,13 +144,17 @@ public class DirtClean : MonoBehaviour
 
     void StopParticles()
     {
-        // activeParticles.Stop();
+        if (activeParticles == null)
+        {
+            return;
+        }
+        activeParticles.Stop();
         Destroy(activeParticles.gameObject); // Destroy the particle system
     }
 
     IEnumerator WaitForSeconds(float seconds)
     {
         yield return new WaitForSeconds(seconds);
-        statusText.text = "";
+        Objectives.text = "";
     }
 }

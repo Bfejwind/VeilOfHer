@@ -12,6 +12,9 @@ TagManager:
   - DisableLaser
   - RockLaser
   - Enemy
+  - Momento
+  - Dirt
+  - Perimeter
   layers:
   - Default
   - TransparentFX

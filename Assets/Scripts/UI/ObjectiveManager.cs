@@ -32,9 +32,9 @@ public class ObjectiveManager : MonoBehaviour
     [SerializeField] private GameObject zyr4Interaction;
     [SerializeField] private GameObject foodInteraction;
     [SerializeField] private GameObject dirt;
-    [SerializeField] public bool dirtTaskCompleted;
     [SerializeField] public GameObject waterInteraction;
     [SerializeField] public GameObject zyr4BugInteraction;
+    [SerializeField] public int dirtCleaned = 0; 
 
     [Header("Timing")]
     [SerializeField] private float nextTaskDelay = 1.5f;
@@ -163,7 +163,7 @@ public class ObjectiveManager : MonoBehaviour
             zyr4BugActive: false
         );
 
-        taskUI.ShowTask("Complete Daily Tasks: \n \n 1. Clean the solar panels" + DailyTasks.dirtCleaned.ToString() + "/6  \n \n 2. Water the plants 0/1");
+        taskUI.ShowTask("Complete Daily Tasks: \n \n 1. Clean the solar panels " + dirtCleaned.ToString() + "/6  \n \n 2. Water the plants 0/1");
         waypointUI.SetTarget(dirtTarget);
         waypointUI.ShowWaypoint();  
     }
@@ -174,13 +174,10 @@ public class ObjectiveManager : MonoBehaviour
         {
             return;
         }
-        else if (dirtTaskCompleted)
-        {
-            currentStage = ObjectiveStage.Complete;
+        currentStage = ObjectiveStage.Complete;
 
-            waypointUI.HideWaypoint();
-            taskUI.CompleteTask(); 
-        }
+        waypointUI.HideWaypoint();
+        taskUI.CompleteTask(); 
 
         StartCoroutine(StartWaterTaskAfterDelay());
     } 
