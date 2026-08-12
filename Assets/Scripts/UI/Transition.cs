@@ -17,9 +17,9 @@ public class Transition : MonoBehaviour
     [SerializeField] private VideoPlayer videoPlayer;
 
     [Header("Timing Settings")]
-    [SerializeField] private float whiteFadeDuration = 0.5f;
+    [SerializeField] private float whiteFadeDuration = 0.3f;
     [SerializeField] private float logoFadeDuration = 0.1f;
-    [SerializeField] private float minimumVideoPlayTime = 10.0f;
+    [SerializeField] private float minimumVideoPlayTime = 3.0f;
 
     [Header("Target Scene")]
     [SerializeField]
