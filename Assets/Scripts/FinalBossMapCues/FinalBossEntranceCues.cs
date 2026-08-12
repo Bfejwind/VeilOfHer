@@ -12,12 +12,12 @@ public class FinalBossEntranceCues : MonoBehaviour
     [SerializeField] private GameObject bossObj;
     [SerializeField] private GameObject[] tutorialScreens;
     private int currentTutorial = 0;
-    private bool hasPressedSpace = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         playerController.canMove = false;
         playerShoot.readyToShoot = false;
+        bossObj.SetActive(false);
         bossEntranceVid.loopPointReached += VideoFinished;
         currentTutorial = 0;
     }
@@ -29,7 +29,6 @@ public class FinalBossEntranceCues : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Space))
         {
-            //hasPressedSpace = true;
             NextScreen();
         }
     }
@@ -55,19 +54,20 @@ public class FinalBossEntranceCues : MonoBehaviour
     }
     private void NextScreen()
     {
-        tutorialScreens[currentTutorial].SetActive(false);
-
-        currentTutorial++;
-
-        if (currentTutorial < tutorialScreens.Length)
+        if (tutorialScreens.Length > 0)
         {
-            tutorialScreens[currentTutorial].SetActive(true);
-        }
-        else
-        {
-            PlayVideo();
-        }
+            tutorialScreens[currentTutorial].SetActive(false);
 
-        //hasPressedSpace = false;
+            currentTutorial++;
+
+            if (currentTutorial < tutorialScreens.Length)
+            {
+                tutorialScreens[currentTutorial].SetActive(true);
+            }
+            else
+            {
+                PlayVideo();
+            }
+        }
     }
 }
