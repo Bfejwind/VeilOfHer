@@ -9,7 +9,7 @@ public class EnemyHP : MonoBehaviour
     [SerializeField] private Boss1Behaviour boss1Behaviour;
     public float enemyHealth,enemyHealthWidth,enemyHealthHeight;
     public float enemyMaxHealth = 100f;
-    public float damageAmt;
+    //public float damageAmt;
     public Slider healthSlider;
     [SerializeField] private float sliderFillDuration = 0.5f;
     public bool shotAt;

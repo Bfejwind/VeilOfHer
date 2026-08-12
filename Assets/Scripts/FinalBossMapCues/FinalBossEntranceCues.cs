@@ -9,17 +9,65 @@ public class FinalBossEntranceCues : MonoBehaviour
     [SerializeField] private Weapon playerShoot;
     [SerializeField] private VideoPlayer bossEntranceVid;
     [SerializeField] private GameObject vidGameObj;
+    [SerializeField] private GameObject bossObj;
+    [SerializeField] private GameObject[] tutorialScreens;
+    private int currentTutorial = 0;
+    private bool hasPressedSpace = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         playerController.canMove = false;
         playerShoot.readyToShoot = false;
         bossEntranceVid.loopPointReached += VideoFinished;
+        currentTutorial = 0;
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && bossEntranceVid.isPlaying)
+        {
+            SkipVideo();
+        }
+        else if (Input.GetKeyDown(KeyCode.Space))
+        {
+            //hasPressedSpace = true;
+            NextScreen();
+        }
     }
     private void VideoFinished(VideoPlayer vp)
     {
         playerController.canMove = true;
         playerShoot.readyToShoot = true;
+        bossObj.SetActive(true);
+        GameManager.Instance.PlayFinalBossBGM();
         vidGameObj.SetActive(false);
+    }
+    public void PlayVideo()
+    {
+        bossEntranceVid.Play();
+    }
+    public void SkipVideo()
+    {
+        if (bossEntranceVid.isPlaying)
+        {
+            bossEntranceVid.Stop();
+            VideoFinished(bossEntranceVid);
+        }
+    }
+    private void NextScreen()
+    {
+        tutorialScreens[currentTutorial].SetActive(false);
+
+        currentTutorial++;
+
+        if (currentTutorial < tutorialScreens.Length)
+        {
+            tutorialScreens[currentTutorial].SetActive(true);
+        }
+        else
+        {
+            PlayVideo();
+        }
+
+        //hasPressedSpace = false;
     }
 }

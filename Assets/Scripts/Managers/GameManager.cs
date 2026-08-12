@@ -31,5 +31,10 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(sceneName);
     }
-    
+    public void PlayFinalBossBGM()
+    {
+        audioSource.clip = finalBossBGM;
+        audioSource.loop = true;
+        audioSource.Play();
+    }
 }

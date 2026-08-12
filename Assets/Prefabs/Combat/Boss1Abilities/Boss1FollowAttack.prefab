@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFollowAttack
   duration: 10
-  damage: 5
+  damage: 20
   playerTarget: {fileID: 0}
   speed: 4
   stopFollowDistance: 2

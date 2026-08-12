@@ -1703,7 +1703,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossWaveAttack
   duration: 5
-  damage: 5
+  damage: 10
   waveHumSource: {fileID: 2134649129095152877}
   waveConstantSFX: {fileID: 8300000, guid: 472251134642cf94a9640e03e8fedeef, type: 3}
 --- !u!82 &2134649129095152877

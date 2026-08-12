@@ -63,7 +63,7 @@ public class FinalBossMovement : MonoBehaviour
     }
     private void Start()
     {
-        transform.position = BossPositions[0].position;
+        //transform.position = BossPositions[0].position;
         teleportVFX.SetActive(false);
     }
     private void Update()
@@ -87,7 +87,7 @@ public class FinalBossMovement : MonoBehaviour
     {
         if (controlEffects > 0)
         {
-            // UpdateMovementState();
+            UpdateMovementState();
             return;
         }
         
@@ -100,10 +100,10 @@ public class FinalBossMovement : MonoBehaviour
     {
         controlEffects = Mathf.Max(0, controlEffects-1);
     }
-    // private void UpdateMovementState()
-    // {
-    //     boss1Behaviour.ApplyAttackSpeedNerf(nerfDuration, nerfEffect);
-    // }
+    private void UpdateMovementState()
+    {
+        boss1Behaviour.ApplyAttackSpeedNerf(nerfDuration, nerfEffect);
+    }
     private int WrapNum(int value, int max)
     {
         return (value %  max + max) % max;

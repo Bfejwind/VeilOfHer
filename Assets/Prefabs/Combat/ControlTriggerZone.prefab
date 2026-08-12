@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LockdownAbility
   radius: 5
-  duration: 3
+  duration: 5
   affectedEnemies: []
   affectedBosses: []
 --- !u!1001 &5359499063290302427

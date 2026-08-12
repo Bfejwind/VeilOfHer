@@ -438,42 +438,42 @@ public class Boss1Behaviour : MonoBehaviour
     //     if (!isBuffed)
     //     {
     //         isBuffed = true;    
-    //         WaveAttackDelay = Mathf.Max(0, WaveAttackDelay + effect);
-    //         SummonAttackDelay = Mathf.Max(0, SummonAttackDelay + effect);
-    //         abilityAttackDelay = Mathf.Max(0, abilityAttackDelay + effect);
-    //         Debug.Log("AbilityDelay: " + abilityAttackDelay);
-    //         Debug.Log("WaveDelay: " + WaveAttackDelay);
+    //         S_AttackDelay = Mathf.Max(0, S_AttackDelay + effect);
+    //         M_AttackDelay = Mathf.Max(0, M_AttackDelay + effect);
+    //         L_AttackDelay = Mathf.Max(0, L_AttackDelay + effect);
+    //         Debug.Log("AbilityDelay: " + L_AttackDelay);
+    //         Debug.Log("WaveDelay: " + S_AttackDelay);
     //         yield return new WaitForSeconds(duration);
-    //         WaveAttackDelay = WaveAttackDelay - effect;
-    //         SummonAttackDelay = SummonAttackDelay - effect;
-    //         abilityAttackDelay = abilityAttackDelay - effect;
-    //         Debug.Log("AbilityDelayRestored: " + abilityAttackDelay);
-    //         Debug.Log("WaveDelayResotred: " + WaveAttackDelay);
+    //         S_AttackDelay = S_AttackDelay - effect;
+    //         M_AttackDelay = M_AttackDelay - effect;
+    //         L_AttackDelay = L_AttackDelay - effect;
+    //         Debug.Log("AbilityDelayRestored: " + L_AttackDelay);
+    //         Debug.Log("WaveDelayResotred: " + S_AttackDelay);
     //         isBuffed = false;
     //     }
     // }
-    // public void ApplyAttackSpeedNerf(float duration, float effect)
-    // {
-    //     StartCoroutine(AttackSpeedNerf(duration,effect));
-    // }
-    // public IEnumerator AttackSpeedNerf(float duration, float effect)
-    // {
-    //     if (!isNerfed)
-    //     {
-    //         isNerfed = true;    
-    //         WaveAttackDelay = Mathf.Max(0, WaveAttackDelay + effect);
-    //         SummonAttackDelay = Mathf.Max(0, SummonAttackDelay + effect);
-    //         abilityAttackDelay = Mathf.Max(0, abilityAttackDelay + effect);
-    //         Debug.Log("AbilityDelay: " + abilityAttackDelay);
-    //         Debug.Log("WaveDelay: " + WaveAttackDelay);
-    //         yield return new WaitForSeconds(duration);
-    //         WaveAttackDelay = WaveAttackDelay - effect;
-    //         SummonAttackDelay = SummonAttackDelay - effect;
-    //         abilityAttackDelay = abilityAttackDelay - effect;
-    //         Debug.Log("AbilityDelayRestored: " + abilityAttackDelay);
-    //         Debug.Log("WaveDelayResotred: " + WaveAttackDelay);
-    //         isNerfed = false;
-    //     }
-    // }
+    public void ApplyAttackSpeedNerf(float duration, float effect)
+    {
+        StartCoroutine(AttackSpeedNerf(duration,effect));
+    }
+    public IEnumerator AttackSpeedNerf(float duration, float effect)
+    {
+        if (!isNerfed)
+        {
+            isNerfed = true;    
+            S_AttackDelay = Mathf.Max(0, S_AttackDelay + effect);
+            M_AttackDelay = Mathf.Max(0, M_AttackDelay + effect);
+            L_AttackDelay = Mathf.Max(0, L_AttackDelay + effect);
+            Debug.Log("AbilityDelay: " + L_AttackDelay);
+            Debug.Log("WaveDelay: " + S_AttackDelay);
+            yield return new WaitForSeconds(duration);
+            S_AttackDelay = S_AttackDelay - effect;
+            M_AttackDelay = M_AttackDelay - effect;
+            L_AttackDelay = L_AttackDelay - effect;
+            Debug.Log("AbilityDelayRestored: " + L_AttackDelay);
+            Debug.Log("WaveDelayResotred: " + S_AttackDelay);
+            isNerfed = false;
+        }
+    }
 
 }

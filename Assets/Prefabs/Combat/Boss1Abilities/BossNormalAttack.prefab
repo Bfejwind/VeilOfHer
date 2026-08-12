@@ -154,4 +154,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossNormalAttack
   duration: 10
-  damage: 10
+  damage: 20
