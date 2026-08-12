@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class VirtualObjectiveManager : MonoBehaviour
+public class Lvl2VirtualObjectiveManager : MonoBehaviour
 {
     private enum ObjectiveStage
     {

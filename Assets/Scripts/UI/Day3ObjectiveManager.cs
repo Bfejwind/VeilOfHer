@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Day2ObjectiveManager : MonoBehaviour
+public class Day3ObjectiveManager : MonoBehaviour
 {
     private enum ObjectiveStage
     {        
