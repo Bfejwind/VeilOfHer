@@ -754,8 +754,8 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 2
@@ -776,8 +776,9 @@ MonoBehaviour:
   enemyHealthWidth: 0
   enemyHealthHeight: 0
   enemyMaxHealth: 100
-  damageAmt: 10
+  damageAmt: 30
   healthSlider: {fileID: 8611991415794730802}
+  sliderFillDuration: 0.5
   shotAt: 0
   isInvulnerable: 0
   dissolveVFX: {fileID: 7997326958180796079}
