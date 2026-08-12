@@ -296,6 +296,7 @@ GameObject:
   - component: {fileID: 2788677520620995617}
   - component: {fileID: 8024851353143872618}
   - component: {fileID: 8886879985300614987}
+  - component: {fileID: 508636661216520466}
   m_Layer: 0
   m_Name: Boss1
   m_TagString: Enemy
@@ -325,6 +326,7 @@ Transform:
   - {fileID: 1407315591420082881}
   - {fileID: 367706896889329597}
   - {fileID: 4018990144508098212}
+  - {fileID: 2536511155529793474}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3286153054222167264
@@ -445,20 +447,22 @@ MonoBehaviour:
   enemyHealth: 0
   enemyHealthWidth: 0
   enemyHealthHeight: 0
-  enemyMaxHealth: 50
+  enemyMaxHealth: 1000
   damageAmt: 10
   healthSlider: {fileID: 0}
+  sliderFillDuration: 5
   shotAt: 0
   isInvulnerable: 0
   dissolveVFX: {fileID: 8251703183589391275}
   dissolveDelay: 2
   explodeVFX: {fileID: 207458388797477758}
-  explodeDelay: 1.5
+  explodeDelay: 2
   model: {fileID: 6906694440860339254}
   objCollider:
   - {fileID: 6290765327454401177}
   - {fileID: 8886879985300614987}
   isDed: 0
+  onHitVFX: {fileID: 5803730615576490595}
   audioSource: {fileID: 2788677520620995617}
   deathSFX: {fileID: 8300000, guid: 8376daec762ce1a4d8cd17d445b536f0, type: 3}
   bossDeathSFX: {fileID: 8300000, guid: 01065024dcc1e674b843ec21998e66e0, type: 3}
@@ -517,21 +521,19 @@ MonoBehaviour:
   attackRange: 18
   isPlayerVisible: 0
   isPlayerInRange: 0
-  abilityAttackDelay: 2
   laserRoutine1Started: 0
   laserRoutine1Ended: 0
   laserRoutine2Started: 0
   laserRoutine2Ended: 0
   laserArenaState: 0
+  hardMode: 0
   followAttackPrefab: {fileID: 7895723137298724363, guid: f30736947cf357d4bba7cf72bc973003, type: 3}
   followAttackDuration: 15
   followAttackVelocity: 8
   bossAOEPrefab: {fileID: 2539810390188423756, guid: af346ca9d541ef445977ed18aa9b9000, type: 3}
   firePoint: {fileID: 6959506000905461071}
-  aoeAttackVelocity: 50
   bossWavePrefab: {fileID: 4473355488232339141, guid: 6951ff33c3bad044296a457d73fe6c97, type: 3}
   WaveAttackVelocity: 20
-  WaveAttackDelay: 5
   bossNormalAttackPrefab: {fileID: 1751247960168256449, guid: 56509fdf390890f4ba22db405ec2161c, type: 3}
   normalAttackVelocity: 10
   splineObjects:
@@ -552,12 +554,9 @@ MonoBehaviour:
   summonPrefab: {fileID: 738671438471907088, guid: 3de2c4916656f164d90a8dab4921d273, type: 3}
   summonPoint1: {fileID: 4890696936193559416}
   summonPoint2: {fileID: 5948806079795729918}
-  SummonAttackDelay: 5
   channelledUpon: 0
   damageTimer: 0
-  damageTimerThreshold: 5
   damageTaken: 0
-  damageTakenThreshold: 70
 --- !u!114 &814519882940700833
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -838,6 +837,29 @@ CapsuleCollider:
   m_Height: 4.812384
   m_Direction: 1
   m_Center: {x: 0.016342163, y: 2.7066123, z: 0}
+--- !u!114 &508636661216520466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3158938040297594093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29a074d529cf945029ef7cf40540c9df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Splines::UnityEngine.Splines.SplineAnimate
+  m_Target: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_LoopMode: 0
+  m_Method: 0
+  m_Duration: 10
+  m_MaxSpeed: 1.0300003
+  m_EasingMode: 2
+  m_AlignmentMode: 1
+  m_ObjectForwardAxis: 2
+  m_ObjectUpAxis: 1
+  m_StartOffset: 0
 --- !u!1 &4466274674622920775
 GameObject:
   m_ObjectHideFlags: 0
@@ -1753,4 +1775,75 @@ GameObject:
 Transform:
   m_CorrespondingSourceObject: {fileID: 4638377481891691631, guid: 83ad694f134ab954580473212156b35a, type: 3}
   m_PrefabInstance: {fileID: 8617780276705118923}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &8724373730974067379
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6294842387101051937}
+    m_Modifications:
+    - target: {fileID: 5410328377475885360, guid: 95e200fe9bfc54a4aad3c33a553125d4, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5736400318261639322, guid: 95e200fe9bfc54a4aad3c33a553125d4, type: 3}
+      propertyPath: m_Name
+      value: OnHitEffect
+      objectReference: {fileID: 0}
+    - target: {fileID: 6494275169242994033, guid: 95e200fe9bfc54a4aad3c33a553125d4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6494275169242994033, guid: 95e200fe9bfc54a4aad3c33a553125d4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 6494275169242994033, guid: 95e200fe9bfc54a4aad3c33a553125d4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6494275169242994033, guid: 95e200fe9bfc54a4aad3c33a553125d4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.70710784
+      objectReference: {fileID: 0}
+    - target: {fileID: 6494275169242994033, guid: 95e200fe9bfc54a4aad3c33a553125d4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6494275169242994033, guid: 95e200fe9bfc54a4aad3c33a553125d4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.70710576
+      objectReference: {fileID: 0}
+    - target: {fileID: 6494275169242994033, guid: 95e200fe9bfc54a4aad3c33a553125d4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6494275169242994033, guid: 95e200fe9bfc54a4aad3c33a553125d4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6494275169242994033, guid: 95e200fe9bfc54a4aad3c33a553125d4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6494275169242994033, guid: 95e200fe9bfc54a4aad3c33a553125d4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 95e200fe9bfc54a4aad3c33a553125d4, type: 3}
+--- !u!4 &2536511155529793474 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6494275169242994033, guid: 95e200fe9bfc54a4aad3c33a553125d4, type: 3}
+  m_PrefabInstance: {fileID: 8724373730974067379}
+  m_PrefabAsset: {fileID: 0}
+--- !u!2083052967 &5803730615576490595 stripped
+VisualEffect:
+  m_CorrespondingSourceObject: {fileID: 2997653052112738512, guid: 95e200fe9bfc54a4aad3c33a553125d4, type: 3}
+  m_PrefabInstance: {fileID: 8724373730974067379}
   m_PrefabAsset: {fileID: 0}
