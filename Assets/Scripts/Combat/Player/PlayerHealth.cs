@@ -26,8 +26,6 @@ public class PlayerHealth : MonoBehaviour
     public bool IsInvulnerable { get; private set; }
     // private float damageAmt = 12.0f;
     [SerializeField] private GameObject Shield;
-    //ScreenShake
-    [SerializeField] private ScreenShakeEffects screenShake;
     [Header("Audio")]
     [SerializeField] private PlayerAudio playerAudio;
     [Header("Damaged Effect")]
@@ -51,10 +49,6 @@ public class PlayerHealth : MonoBehaviour
         playerHealth = playerMaxHealth;
         healthSlider.maxValue = playerMaxHealth;
         UpdateHealthSlider();
-        if (screenShake == null)
-        {
-            screenShake = Camera.main.GetComponent<ScreenShakeEffects>();
-        }
     }
     private void Update()
     {

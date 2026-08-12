@@ -156,7 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3644954c79bdfec439926dee7ee82cd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBullet
-  damage: 20
+  damage: 10
 --- !u!1001 &9146499740451769838
 PrefabInstance:
   m_ObjectHideFlags: 0

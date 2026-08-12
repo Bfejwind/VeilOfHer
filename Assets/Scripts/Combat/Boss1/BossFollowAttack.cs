@@ -32,8 +32,16 @@ public class BossFollowAttack : MonoBehaviour
     void Start()
     {
         audioSource.PlayOneShot(followSFX);
-        speed = boss1Behaviour.followAttackVelocity;
-        duration = boss1Behaviour.followAttackDuration;
+        if (boss1Behaviour != null)
+        {
+            speed = boss1Behaviour.followAttackVelocity;
+            duration = boss1Behaviour.followAttackDuration;
+        }
+        else
+        {
+            speed = 8.0f;
+            duration = 15.0f;
+        }
         Destroy(gameObject, duration);
     }
     void Update()

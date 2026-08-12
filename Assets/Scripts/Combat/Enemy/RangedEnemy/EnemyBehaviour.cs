@@ -11,6 +11,7 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] private Transform playerTransform;
     [SerializeField] private Transform firePoint;
     [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private GameObject followAttackPrefab;
     private EnemyHP enemyHP;
 
     [Header("Layers")]
@@ -38,6 +39,9 @@ public class EnemyBehaviour : MonoBehaviour
     public int controlEffects;
     public bool canMove => controlEffects == 0;
     public bool canAttack => controlEffects == 0;
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip shotSFX;
 
     private void Awake()
     {
@@ -113,13 +117,17 @@ public class EnemyBehaviour : MonoBehaviour
     private void FireProjectile()
     {
         if (projectilePrefab == null || firePoint == null) return;
-
+        audioSource.PlayOneShot(shotSFX);
         Rigidbody projectileRB = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity).GetComponent<Rigidbody>();
         Vector3 aimDirection = (playerTransform.position - firePoint.position).normalized;
         projectileRB.AddForce(aimDirection * forwardShotForce, ForceMode.Impulse);
         projectileRB.AddForce(aimDirection * verticalShotForce, ForceMode.Impulse);
 
         Destroy(projectileRB.gameObject, 3.0f);
+    }
+    private void FireFollow()
+    {
+        GameObject followAttack = Instantiate(followAttackPrefab, firePoint.position, Quaternion.identity);
     }
 
     //Patrolling setup

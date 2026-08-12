@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -25,6 +26,10 @@ public class GameManager : MonoBehaviour
 
         //Persist across scene changes
         DontDestroyOnLoad(gameObject);
+    }
+    public void LoadScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
     }
     
 }

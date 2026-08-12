@@ -31,22 +31,22 @@ public class Tutorial : MonoBehaviour
 
     public void StartTutorial()
     {
-        tutorialText.text = "Welcome to the game! \n \n Here is a quick tutorial: \n \n Use <b>W A S D</b> to move around.";
+        tutorialText.text = "This is the outer layer of my software \n \n Use <b>W A S D</b> to navigate the data";
     }
 
     public void MovementTutorial()
     {
-            tutorialText.text = "Great! Now try sprinting towards the waypoint by holding <b>Shift</b>. \n \n Use <b>Space</b> to jump over obstacles."; 
+            tutorialText.text = "Use <b>Space</b> to jump over clear gaps or jump over obstacles."; 
     }
 
     public void InteractionTutorial()
     {
-        tutorialText.text = "Well done! Now, walk up to the object and press <b>E</b> to interact with it.";
+        tutorialText.text = "Hold <b>Shift</b> while moving to dash and turn Immutable, this takes Energy but <b>Dashing through harmful data makes you take no damage</b>.";
     }
 
     public void CombatTutorial()
     {
-        tutorialText.text = "Now, let's learn about combat:  \n \n Use the left mouse button to attack \n \n Press <b>R</b> to reload \n \n ";
+        tutorialText.text = "Use the left mouse button to fire \n \n Press <b>R</b> to reload \n \n ";
     }
 
     public void CompleteCombatTutorial()

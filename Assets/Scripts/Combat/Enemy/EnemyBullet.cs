@@ -16,7 +16,7 @@ public class EnemyBullet : MonoBehaviour
             //print("hit" + other.gameObject.name);
             if (playerHP.IsInvulnerable)
             {
-                return;
+                Destroy(gameObject);
             }
             else
             {

@@ -22,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2774220344278030320, guid: 0b7eb5a5f15e9f9458a162a791cd3dc8, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.7279031
+      value: 1.727903
       objectReference: {fileID: 0}
     - target: {fileID: 2774220344278030320, guid: 0b7eb5a5f15e9f9458a162a791cd3dc8, type: 3}
       propertyPath: m_LocalScale.z
@@ -30,15 +30,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2774220344278030320, guid: 0b7eb5a5f15e9f9458a162a791cd3dc8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -139.47
+      value: -64.34317
       objectReference: {fileID: 0}
     - target: {fileID: 2774220344278030320, guid: 0b7eb5a5f15e9f9458a162a791cd3dc8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.61
+      value: -3.05
       objectReference: {fileID: 0}
     - target: {fileID: 2774220344278030320, guid: 0b7eb5a5f15e9f9458a162a791cd3dc8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -237.88
+      value: -241.983
       objectReference: {fileID: 0}
     - target: {fileID: 2774220344278030320, guid: 0b7eb5a5f15e9f9458a162a791cd3dc8, type: 3}
       propertyPath: m_LocalRotation.w
@@ -71,5 +71,34 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: -6689036041284674117, guid: 0b7eb5a5f15e9f9458a162a791cd3dc8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6573339674309513130}
   m_SourcePrefab: {fileID: -5645937942226959685, guid: 0b7eb5a5f15e9f9458a162a791cd3dc8, type: 3}
+--- !u!1 &7856146652475307214 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -6689036041284674117, guid: 0b7eb5a5f15e9f9458a162a791cd3dc8, type: 3}
+  m_PrefabInstance: {fileID: 5633271858370128245}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &6573339674309513130
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7856146652475307214}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1.2014788, z: 2.076731}
+  m_Center: {x: 0.0000000010019683, y: -0.017229537, z: -0.05130438}
