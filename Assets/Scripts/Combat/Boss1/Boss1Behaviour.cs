@@ -18,7 +18,7 @@ public class Boss1Behaviour : MonoBehaviour
     [SerializeField] private float S_AttackDelay = 0.5f;
     [SerializeField] private float M_AttackDelay = 2f;
     [SerializeField] private float L_AttackDelay = 5f;
-    private bool isAbsorbing;
+    //private bool isAbsorbing;
     [Header("Layers")]
     [SerializeField] private LayerMask terrainLayer;
     [SerializeField] private LayerMask playerLayerMask;
