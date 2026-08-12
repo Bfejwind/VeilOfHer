@@ -15,13 +15,6 @@ public class Lvl1VirtualObjectiveManager : MonoBehaviour
 
     [Header("UI Systems")]
     [SerializeField] private TaskUIController taskUI;
-    [SerializeField] private WaypointUI waypointUI;
-
-    [Header("Waypoint Targets")]
-    [SerializeField] private Transform defeatEnemyTarget;
-    [SerializeField] private Transform bossTarget;
-    [SerializeField] private Transform defeatBossTarget;
-    [SerializeField] private Transform homeTarget;
 
     [Header("Interaction Objects")]
     [SerializeField] private GameObject defeatEnemyInteraction;
@@ -51,8 +44,6 @@ public class Lvl1VirtualObjectiveManager : MonoBehaviour
         );
 
         taskUI.ShowTask("Defeat the enemies that is blocking your path");
-        waypointUI.SetTarget(defeatEnemyTarget);
-        waypointUI.ShowWaypoint();
     }
 
     public void CompleteDefeatEnemyObjective()
@@ -63,7 +54,6 @@ public class Lvl1VirtualObjectiveManager : MonoBehaviour
         }
 
         defeatEnemyInteraction.SetActive(false);
-        waypointUI.HideWaypoint();
         taskUI.CompleteTask();
 
         StartCoroutine(StartUpstairsAfterDelay());
@@ -83,8 +73,6 @@ public class Lvl1VirtualObjectiveManager : MonoBehaviour
         );
 
         taskUI.ShowTask("Continue defeating the enemies and find the boss room");
-        waypointUI.SetTarget(bossTarget);
-        waypointUI.ShowWaypoint();
     }
 
     public void CompleteBossObjective()
@@ -95,7 +83,6 @@ public class Lvl1VirtualObjectiveManager : MonoBehaviour
         }
 
         bossInteraction.SetActive(false);
-        waypointUI.HideWaypoint();
         taskUI.CompleteTask();
 
         StartCoroutine(StartDefeatBossDelay());
@@ -116,8 +103,6 @@ public class Lvl1VirtualObjectiveManager : MonoBehaviour
         );
 
         taskUI.ShowTask("Defeat the boss");
-        waypointUI.SetTarget(defeatBossTarget);
-        waypointUI.ShowWaypoint();
     }
 
     public void CompleteDefeatBossObjective()
@@ -130,7 +115,6 @@ public class Lvl1VirtualObjectiveManager : MonoBehaviour
         currentStage = ObjectiveStage.Complete;
 
         defeatBossInteraction.SetActive(false);
-        waypointUI.HideWaypoint();
         taskUI.CompleteTask();
     }
 
@@ -148,8 +132,6 @@ public class Lvl1VirtualObjectiveManager : MonoBehaviour
         );
 
         taskUI.ShowTask("Defeat the boss and go home");
-        waypointUI.SetTarget(homeTarget);
-        waypointUI.ShowWaypoint();
     }
 
     public void CompleteHomeObjective()
@@ -162,7 +144,6 @@ public class Lvl1VirtualObjectiveManager : MonoBehaviour
         currentStage = ObjectiveStage.Complete;
 
         homeInteraction.SetActive(false);
-        waypointUI.HideWaypoint();
         taskUI.CompleteTask();
     }
 
