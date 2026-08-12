@@ -82,8 +82,9 @@ public class EnemyVision : MonoBehaviour
     private void DetectPlayer()
     {
         isPlayerInRange = Physics.CheckSphere(transform.position, attackRange, playerLayerMask);
+        Vector3 directionToPlayer = (playerTransform.position - transform.position).normalized;
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, (playerTransform.position - transform.position), out hit, Mathf.Infinity))
+        if (Physics.Raycast(transform.position, directionToPlayer, out hit, Mathf.Infinity))
         {
             if (hit.collider.CompareTag("Player"))
             {
@@ -99,7 +100,6 @@ public class EnemyVision : MonoBehaviour
         {
             isPlayerVisible = false;
         }
-        Vector3 directionToPlayer = (playerTransform.position - transform.position).normalized;
         Vector3 enemyFacingDirection = transform.forward;
         float angleToPlayer = Vector3.SignedAngle(enemyFacingDirection, directionToPlayer, Vector3.up);
         if (angleToPlayer < detectionAngle && angleToPlayer > -detectionAngle)

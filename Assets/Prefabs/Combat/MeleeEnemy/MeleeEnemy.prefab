@@ -237,7 +237,7 @@ Transform:
   m_GameObject: {fileID: 738671438471907088}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.300003, y: 1.06, z: -12.304132}
+  m_LocalPosition: {x: 1.300003, y: 1.42, z: -12.304132}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -344,6 +344,7 @@ MonoBehaviour:
   enemyMaxHealth: 100
   damageAmt: 10
   healthSlider: {fileID: 5884415244550152394}
+  sliderFillDuration: 0.5
   shotAt: 0
   isInvulnerable: 0
   dissolveVFX: {fileID: 6106852441446894361}
