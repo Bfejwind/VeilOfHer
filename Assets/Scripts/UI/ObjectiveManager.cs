@@ -281,7 +281,7 @@ public class ObjectiveManager : MonoBehaviour
             TrainDoorActive: true
         );
 
-        zyr4BugInteraction.SetActive(true);
+        trainDoorInteraction.SetActive(true);
         taskUI.ShowTask("Find the train door to go deeper into Zyr4's head");
         waypointUI.SetTarget(trainDoorTarget);
         waypointUI.ShowWaypoint();  
@@ -300,7 +300,7 @@ public class ObjectiveManager : MonoBehaviour
         waypointUI.HideWaypoint();
         taskUI.CompleteTask();
 
-        // StartCoroutine(StartHeadToTrainDoorAfterDelay());
+        // StartCoroutine(StartDefeatBossAfterDelay());
     } 
 
     private void SetInteractionStates(
@@ -318,6 +318,7 @@ public class ObjectiveManager : MonoBehaviour
         dirt.SetActive(dirtTaskActive);
         waterInteraction.SetActive(waterActive);
         zyr4BugInteraction.SetActive(zyr4BugActive);
+        trainDoorInteraction.SetActive(TrainDoorActive);
 
     }
 }

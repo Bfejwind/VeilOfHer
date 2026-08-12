@@ -2,15 +2,14 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.Rendering.Universal;
-using UnityEngine.Rendering;
+using UnityEngine.Rendering.HighDefinition;
 
 public class DirtClean : MonoBehaviour
 {
     [Header("Scrubbing Settings")]
     [Tooltip("The speed at which the dirt is scrubbed away.")]
     [SerializeField]
-    public float scrubSpeed = 0.00000000001f;
+    public float scrubSpeed = 0.4f;
 
     [Header("Particle System")]
     [Tooltip("The particle system that plays when scrubbing dirt.")]
@@ -123,14 +122,14 @@ public class DirtClean : MonoBehaviour
                     StopParticles();
                 }
             }
-        }
+        } 
         else
         {
             if (activeParticles != null && activeParticles.isPlaying)
             {
                 StopParticles();
             }
-        }       
+        }     
     }
 
     void ManageParticles(Vector3 hitpoint)

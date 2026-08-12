@@ -9,15 +9,17 @@ public class Transition : MonoBehaviour
      [Header("Canvas Groups")]
     [SerializeField] private CanvasGroup whiteScreenGroup;
     [SerializeField] private CanvasGroup logoGroup;
+
+    [SerializeField] public GameObject transitionCanvas;
     
     [Header("Video References")]
     [SerializeField] private GameObject logoObject;
     [SerializeField] private VideoPlayer videoPlayer;
 
     [Header("Timing Settings")]
-    [SerializeField] private float whiteFadeDuration = 1.0f;
-    [SerializeField] private float logoFadeDuration = 0.5f;
-    [SerializeField] private float minimumVideoPlayTime = 3.0f;
+    [SerializeField] private float whiteFadeDuration = 0.5f;
+    [SerializeField] private float logoFadeDuration = 0.1f;
+    [SerializeField] private float minimumVideoPlayTime = 10.0f;
 
     [Header("Target Scene")]
     [SerializeField]
@@ -35,6 +37,7 @@ public class Transition : MonoBehaviour
 
     public void StartTransition(string targetScene)
     {
+        transitionCanvas.SetActive(true);
         StartCoroutine(TransitionSequence(targetScene));
     }
 
