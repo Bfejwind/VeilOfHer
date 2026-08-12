@@ -20,12 +20,12 @@ public class ActivateDoor : MonoBehaviour, IInteractable
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        transition = GetComponent<Transition>();
+        
     }
 
     public void Interact()
     {
-        transition.StartTransition(targetSceneName);
+        Transition.Instance.StartTransition(targetSceneName);
         completedTask?.Invoke();
     }
 

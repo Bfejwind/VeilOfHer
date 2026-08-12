@@ -17,16 +17,23 @@ public class Transition : MonoBehaviour
     [SerializeField] private VideoPlayer videoPlayer;
 
     [Header("Timing Settings")]
-    [SerializeField] private float whiteFadeDuration = 0.3f;
-    [SerializeField] private float logoFadeDuration = 0.1f;
-    [SerializeField] private float minimumVideoPlayTime = 3.0f;
+    [SerializeField] private float whiteFadeDuration = 1f;
+    [SerializeField] private float logoFadeDuration = 0.5f;
+    [SerializeField] private float minimumVideoPlayTime = 5.0f;
 
     [Header("Target Scene")]
     [SerializeField]
     public Scene targetScene;
+    public static Transition Instance;
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
         DontDestroyOnLoad(gameObject);
         
         // Initial States
@@ -85,7 +92,7 @@ public class Transition : MonoBehaviour
         // 7. Fade white screen back to clear revealing the new scene
         yield return StartCoroutine(FadeCanvas(whiteScreenGroup, 1f, 0f, whiteFadeDuration));
 
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
     private IEnumerator FadeCanvas(CanvasGroup group, float startAlpha, float endAlpha, float duration)
