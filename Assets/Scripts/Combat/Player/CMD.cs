@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public class CMD : MonoBehaviour
 {
     private PlayerInput playerInput;
-    //public GameObject cmdKeyboard;
+    public GameObject cmdKeyboard;
     [SerializeField] private TMPro.TMP_InputField cmdInputField; 
     private string cmdInput;
     [SerializeField] private float slowTimeScale = 0.1f; // The time scale to set when CMD is active
@@ -13,7 +13,7 @@ public class CMD : MonoBehaviour
     public CommandCaster commandCast;
     void Start()
     {
-        //cmdKeyboard.SetActive(false);
+        cmdKeyboard.SetActive(false);
         playerInput = GetComponent<PlayerInput>();
         commandCast = GetComponent<CommandCaster>();
     }
@@ -23,7 +23,7 @@ public class CMD : MonoBehaviour
         Time.timeScale = slowTimeScale;
         //Switch control map to CMD action map
         playerInput.SwitchCurrentActionMap("Keyboard");
-        //cmdKeyboard.SetActive(true);
+        cmdKeyboard.SetActive(true);
         cmdInputField.Select();
         cmdInputField.ActivateInputField();
     }
@@ -34,7 +34,7 @@ public class CMD : MonoBehaviour
         Time.timeScale = 1.0f;
         //Switch control map to Player action map
         playerInput.SwitchCurrentActionMap("Player");
-        //cmdKeyboard.SetActive(false);
+        cmdKeyboard.SetActive(false);
         //Call the command
         commandCast.ExecuteCommand(cmdInput);
         cmdInputField.text = ""; // Clear the input field after executing the command

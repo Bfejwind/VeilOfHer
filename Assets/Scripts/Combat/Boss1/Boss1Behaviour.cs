@@ -29,6 +29,7 @@ public class Boss1Behaviour : MonoBehaviour
     public bool isPlayerVisible;
     public bool isPlayerInRange;
     [Header("Boss Routine")]
+    public float bossFightDelay = 21.0f;
     public bool laserRoutine1Started;
     public bool laserRoutine1Ended;
     private bool phase2RoutineStarted;
@@ -176,7 +177,7 @@ public class Boss1Behaviour : MonoBehaviour
     {
         //Boss Music
         bossHP.Invulnerable();
-        yield return new WaitForSeconds(16.0f);
+        yield return new WaitForSeconds(bossFightDelay);
         bossHP.Vulnerable();
         finalBossMovement.enabled = true;
         StartCoroutine(Phase1Projectiles());

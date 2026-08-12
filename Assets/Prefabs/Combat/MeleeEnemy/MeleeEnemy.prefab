@@ -383,7 +383,7 @@ MonoBehaviour:
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 128
-  patrolRadius: 0
+  patrolRadius: 20
   attackCooldown: 5
   chargeSpeed: 30
   chargeDistance: 20

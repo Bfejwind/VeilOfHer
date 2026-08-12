@@ -12,6 +12,8 @@ namespace StarterAssets
 	public class FirstPersonController : MonoBehaviour
 	{
 		[Header("Player")]
+		[Tooltip("Whether character can Move")]
+		public bool canMove = true;
 		[Tooltip("Move speed of the character in m/s")]
 		public float MoveSpeed = 4.0f;
 		[Tooltip("Crouch Move speed of the character in m/s")]
@@ -169,84 +171,90 @@ namespace StarterAssets
 
 		private void CameraRotation()
 		{
-			// if there is an input
-			if (_input.look.sqrMagnitude >= _threshold)
+			if (canMove)
 			{
-				//Don't multiply mouse input by Time.deltaTime
-				float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
-				
-				_cinemachineTargetPitch += _input.look.y * RotationSpeed * deltaTimeMultiplier;
-				_rotationVelocity = _input.look.x * RotationSpeed * deltaTimeMultiplier;
+				if (_input.look.sqrMagnitude >= _threshold)
+				{
+					//Don't multiply mouse input by Time.deltaTime
+					float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
+					
+					_cinemachineTargetPitch += _input.look.y * RotationSpeed * deltaTimeMultiplier;
+					_rotationVelocity = _input.look.x * RotationSpeed * deltaTimeMultiplier;
 
-				// clamp our pitch rotation
-				_cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
+					// clamp our pitch rotation
+					_cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
 
-				// Update Cinemachine camera target pitch
-				CinemachineCameraTarget.transform.localRotation = Quaternion.Euler(_cinemachineTargetPitch, 0.0f, 0.0f);
+					// Update Cinemachine camera target pitch
+					CinemachineCameraTarget.transform.localRotation = Quaternion.Euler(_cinemachineTargetPitch, 0.0f, 0.0f);
 
-				// rotate the player left and right
-				transform.Rotate(Vector3.up * _rotationVelocity);
+					// rotate the player left and right
+					transform.Rotate(Vector3.up * _rotationVelocity);
+			}
+			// if there is an input
 			}
 		}
 
 		private void Move()
 		{
-			// set target speed based on move speed, sprint speed and if sprint is pressed
-			float targetSpeed = _input.sprint ? SprintSpeed : crouched ? CrouchSpeed : MoveSpeed;
-			if (_input.sprint)
+			if (canMove)
 			{
-				crouched = false;
+				// set target speed based on move speed, sprint speed and if sprint is pressed
+				float targetSpeed = _input.sprint ? SprintSpeed : crouched ? CrouchSpeed : MoveSpeed;
+				if (_input.sprint)
+				{
+					crouched = false;
+				}
+
+				// a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
+
+				// note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
+				// if there is no input, set the target speed to 0
+				if (_input.move == Vector2.zero) targetSpeed = 0.0f;
+
+				// a reference to the players current horizontal velocity
+				float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
+
+				float speedOffset = 0.1f;
+				float inputMagnitude = _input.analogMovement ? _input.move.magnitude : 1f;
+
+				// accelerate or decelerate to target speed
+				if (currentHorizontalSpeed < targetSpeed - speedOffset || currentHorizontalSpeed > targetSpeed + speedOffset)
+				{
+					// creates curved result rather than a linear one giving a more organic speed change
+					// note T in Lerp is clamped, so we don't need to clamp our speed
+					_speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude, Time.deltaTime * SpeedChangeRate);
+
+					// round speed to 3 decimal places
+					_speed = Mathf.Round(_speed * 1000f) / 1000f;
+				}
+				else
+				{
+					_speed = targetSpeed;
+				}
+
+				// normalise input direction
+				inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
+
+				// note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
+				// if there is a move input rotate player when the player is moving
+				if (_input.move != Vector2.zero)
+				{
+					// move
+					inputDirection = transform.right * _input.move.x + transform.forward * _input.move.y;
+				}
+				if (knockbackVelocity != Vector3.zero)
+				{
+					inputDirection = Vector3.zero;
+				}
+				Vector3 horizontalMovement = inputDirection.normalized * _speed;
+
+				Vector3 verticalMovement = new Vector3(0f, _verticalVelocity, 0f);
+
+				Vector3 finalMovement = horizontalMovement + verticalMovement + knockbackVelocity;
+				// move the player
+				_controller.Move(finalMovement * Time.deltaTime);
+				knockbackVelocity = Vector3.MoveTowards(knockbackVelocity,Vector3.zero,knockbackDecay * Time.deltaTime);
 			}
-
-			// a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
-
-			// note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-			// if there is no input, set the target speed to 0
-			if (_input.move == Vector2.zero) targetSpeed = 0.0f;
-
-			// a reference to the players current horizontal velocity
-			float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
-
-			float speedOffset = 0.1f;
-			float inputMagnitude = _input.analogMovement ? _input.move.magnitude : 1f;
-
-			// accelerate or decelerate to target speed
-			if (currentHorizontalSpeed < targetSpeed - speedOffset || currentHorizontalSpeed > targetSpeed + speedOffset)
-			{
-				// creates curved result rather than a linear one giving a more organic speed change
-				// note T in Lerp is clamped, so we don't need to clamp our speed
-				_speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude, Time.deltaTime * SpeedChangeRate);
-
-				// round speed to 3 decimal places
-				_speed = Mathf.Round(_speed * 1000f) / 1000f;
-			}
-			else
-			{
-				_speed = targetSpeed;
-			}
-
-			// normalise input direction
-			inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
-
-			// note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-			// if there is a move input rotate player when the player is moving
-			if (_input.move != Vector2.zero)
-			{
-				// move
-				inputDirection = transform.right * _input.move.x + transform.forward * _input.move.y;
-			}
-			if (knockbackVelocity != Vector3.zero)
-			{
-				inputDirection = Vector3.zero;
-			}
-			Vector3 horizontalMovement = inputDirection.normalized * _speed;
-
-			Vector3 verticalMovement = new Vector3(0f, _verticalVelocity, 0f);
-
-			Vector3 finalMovement = horizontalMovement + verticalMovement + knockbackVelocity;
-			// move the player
-			_controller.Move(finalMovement * Time.deltaTime);
-			knockbackVelocity = Vector3.MoveTowards(knockbackVelocity,Vector3.zero,knockbackDecay * Time.deltaTime);
 		}
 		public void AddKnockback(Vector3 explosionPosition, float force)
 		{
