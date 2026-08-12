@@ -18,6 +18,12 @@ EditorBuildSettings:
     path: Assets/Scenes/lvl2/lvl2.unity
     guid: b902b6bafebd1d0428c9e372ff6bd637
   - enabled: 1
+    path: Assets/Scenes/lvl2/lvl2 b.unity
+    guid: 43304eb0b43b3d24fbc83a8b90880a96
+  - enabled: 1
+    path: Assets/Scenes/OutdoorsScene/Day 3.unity
+    guid: 1f6ff1bb25db1cc46a762c2e2fc790ea
+  - enabled: 1
     path: Assets/Scenes/lvl3/lvl3.unity
     guid: 1eea52072cbf8684ba2016320b2c2664
   m_configObjects:
