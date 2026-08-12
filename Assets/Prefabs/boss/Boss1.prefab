@@ -418,7 +418,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 3158938040297594093}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.49999997
+  m_Radius: 0.55
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -427,8 +427,8 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1.9999999
-  m_BaseOffset: 0.03
+  m_Height: 5
+  m_BaseOffset: 0.19
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &8896117199777638712
@@ -448,7 +448,6 @@ MonoBehaviour:
   enemyHealthWidth: 0
   enemyHealthHeight: 0
   enemyMaxHealth: 1000
-  damageAmt: 10
   healthSlider: {fileID: 0}
   sliderFillDuration: 5
   shotAt: 0
@@ -521,6 +520,7 @@ MonoBehaviour:
   attackRange: 18
   isPlayerVisible: 0
   isPlayerInRange: 0
+  bossFightDelay: 21
   laserRoutine1Started: 0
   laserRoutine1Ended: 0
   laserRoutine2Started: 0
@@ -579,13 +579,13 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   currentPosition: 0
-  teleportInterval: 30
+  teleportInterval: 25
   isTeleporting: 0
   teleportVFX: {fileID: 7251958466063592049}
   bossAudio: {fileID: 9163747816944343554}
   controlEffects: 0
   nerfDuration: 0
-  nerfEffect: 2
+  nerfEffect: 1
 --- !u!82 &2310377799330336562
 AudioSource:
   m_ObjectHideFlags: 0
