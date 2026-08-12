@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 8321593680420497656}
   - component: {fileID: 7372066881028391505}
   m_Layer: 0
-  m_Name: MeleeModel
+  m_Name: ModelMelee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

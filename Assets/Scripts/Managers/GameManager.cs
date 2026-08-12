@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    public bool lvl2bComplete;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip generalBGM;
     [SerializeField] private AudioClip meleeBossBGM;

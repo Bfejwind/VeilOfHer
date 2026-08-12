@@ -127,8 +127,25 @@ public class Tier2EnemyMeleeBehaviour : MonoBehaviour
     //Detects player
     private void DetectPlayer()
     {
-        isPlayerVisible = Physics.CheckSphere(transform.position, visionRange, playerLayerMask);
         isPlayerInRange = Physics.CheckSphere(transform.position, attackRange, playerLayerMask);
+        Vector3 directionToPlayer = (playerTransform.position - transform.position).normalized;
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, directionToPlayer, out hit, visionRange))
+        {
+            if (hit.collider.CompareTag("Player"))
+            {
+                isPlayerVisible = true;
+            }
+            else
+            {
+                isPlayerVisible = false;
+            }
+            Debug.DrawLine(transform.position, hit.point, Color.green);
+        }
+        else //ray hits nothing
+        {
+            isPlayerVisible = false;
+        }
     }
 
 

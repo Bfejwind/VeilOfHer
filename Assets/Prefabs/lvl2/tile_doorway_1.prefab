@@ -15,10 +15,10 @@ GameObject:
   - component: {fileID: 2210543496117687071}
   m_Layer: 0
   m_Name: tile_doorway_1
-  m_TagString: Untagged
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 123
   m_IsActive: 1
 --- !u!4 &1612068496872369685
 Transform:
@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9126754020041654405}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.000000015454312, y: -0.70710677, z: -0.00000001545431, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 32.24, y: -2.7531002, z: 8.131}
   m_LocalScale: {x: 160, y: 160, z: 160}
   m_ConstrainProportionsScale: 1
