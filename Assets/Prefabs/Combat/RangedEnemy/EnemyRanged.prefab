@@ -536,8 +536,8 @@ MonoBehaviour:
   enemyHealth: 0
   enemyHealthWidth: 0
   enemyHealthHeight: 0
-  enemyMaxHealth: 150
-  damageAmt: 20
+  enemyMaxHealth: 100
+  damageAmt: 10
   healthSlider: {fileID: 393407703486499009}
   sliderFillDuration: 0.5
   shotAt: 0
