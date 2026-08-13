@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     public bool lvl2bComplete;
+    [SerializeField] private FirstPersonController playerController;
+    [SerializeField] private Weapon playerShoot;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip generalBGM;
     [SerializeField] private AudioClip level123BGM;
@@ -77,7 +79,17 @@ public class GameManager : MonoBehaviour
     }
     public void Retry()
     {
+        if (playerController == null)
+        {
+            playerController = GameObject.Find("Player").GetComponent<FirstPersonController>();
+        }
+        if (playerShoot== null)
+        {
+            playerShoot = GameObject.Find("Player").GetComponent<Weapon>();
+        }
         DisableMouse();
+        playerController.canMove = true;
+        playerShoot.readyToShoot = true;
         string currentScene = SceneManager.GetActiveScene().name;
         SceneManager.LoadScene(currentScene);
     }
