@@ -12,8 +12,8 @@ public class EnemyBufferBehaviour : MonoBehaviour
     [SerializeField] private float channelDistance = 5f;
     private Vector3 distToBoss;
     private bool inChannelRange;
-    private bool isChannelling;
-    private float channellingTimer;
+    //private bool isChannelling;
+    //private float channellingTimer;
     [SerializeField] private float channellingSuccessTime = 5.0f;
     [Header("Buff Settings")]
     private bool buffApplied;
@@ -92,26 +92,26 @@ public class EnemyBufferBehaviour : MonoBehaviour
     }
     private void UpdateBehaviourState()
     {
-        if (controlEffects > 0)
-        {
-            UpdateMovementState();
-            return;
-        }
-        if (!inChannelRange)
-        {
-            ChaseBoss();
-            return;
-        }
-        if (inChannelRange)
-        {
-            navAgent.SetDestination(transform.position);
-            transform.LookAt(bossTransform.position);
-            isChannelling = true;
-            boss1Behaviour.channelledUpon = true;
-            channellingTimer += Time.deltaTime;
-            channellingEffect.SetFloat("spawnRate", 16f);
-            return;
-        }
+        // if (controlEffects > 0)
+        // {
+        //     UpdateMovementState();
+        //     return;
+        // }
+        // if (!inChannelRange)
+        // {
+        //     ChaseBoss();
+        //     return;
+        // }
+        // if (inChannelRange)
+        // {
+        //     navAgent.SetDestination(transform.position);
+        //     transform.LookAt(bossTransform.position);
+        //     isChannelling = true;
+        //     boss1Behaviour.channelledUpon = true;
+        //     channellingTimer += Time.deltaTime;
+        //     channellingEffect.SetFloat("spawnRate", 16f);
+        //     return;
+        // }
     }
     private void ChaseBoss()
     {
