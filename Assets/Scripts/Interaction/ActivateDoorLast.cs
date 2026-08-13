@@ -1,7 +1,9 @@
+using StarterAssets;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class ActivateDoorLast : MonoBehaviour, IInteractable
 {
@@ -13,20 +15,27 @@ public class ActivateDoorLast : MonoBehaviour, IInteractable
 
     [SerializeField]
     public GameObject finalDecision;
+    [SerializeField] private InputActionReference cmd;
+    [SerializeField] private FirstPersonController playerController;
+    [SerializeField] private Weapon playerShoot;
 
     [Header("Interaction Description")]
     [Tooltip("Description of the interaction for UI purposes.")]
     [SerializeField]
     public string description;
-    [SerializeField] private TMP_InputField inputChoice;
-    [SerializeField] private GameObject errorMsg;
 
     [Header("Door Events")]
     [SerializeField] 
     private UnityEvent completedTask;
     public void Interact()
     {
+        GameManager.Instance.StopBGM();
+        playerController.canMove = false;
+        playerShoot.readyToShoot = false;
+        cmd.action.Disable();
         finalDecision.SetActive(true);
+        completedTask?.Invoke();
+        Time.timeScale = 0;
     }
 
     public string GetDescription()
