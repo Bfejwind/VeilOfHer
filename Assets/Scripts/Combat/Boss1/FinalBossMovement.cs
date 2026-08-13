@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 using System.Collections.Generic;
-using AmplifyShaderEditor;
 
 public class FinalBossMovement : MonoBehaviour
 {
