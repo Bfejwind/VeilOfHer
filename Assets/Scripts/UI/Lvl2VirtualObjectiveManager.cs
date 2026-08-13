@@ -30,12 +30,11 @@ public class Lvl2VirtualObjectiveManager : MonoBehaviour
     [SerializeField] private float nextTaskDelay = 1.5f;
 
     private ObjectiveStage currentStage;
-    private GameManager gameManager;
 
     private void Start()
     {
         StartDoorToOutsideObjective();
-        if (gameManager.lvl2bComplete)
+        if (GameManager.Instance.lvl2bComplete)
         {
             StartCoroutine(StartUpstairsAfterDelay());
         }
@@ -66,7 +65,7 @@ public class Lvl2VirtualObjectiveManager : MonoBehaviour
         {
             return;
         }
-
+        GameManager.Instance.lvl2bComplete = true;
         doorInteraction.SetActive(false);
         waypointUI.HideWaypoint();
         taskUI.CompleteTask();
