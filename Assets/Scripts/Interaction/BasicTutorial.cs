@@ -3,7 +3,7 @@ using TMPro;
 using System.Collections;
 using UnityEngine.Events;
 
-public class Tutorial : MonoBehaviour
+public class BasicTutorial : MonoBehaviour
 {
     [Header("Tutorial Text")]
     [SerializeField]
@@ -12,33 +12,27 @@ public class Tutorial : MonoBehaviour
     [Header("Tutorial Events")]
     [SerializeField] private UnityEvent completedObjective;
 
-    bool basicTutorial = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-            tutorialText.gameObject.SetActive(true);
-            StartTutorial();
+        tutorialText.gameObject.SetActive(true);
+        StartTutorial();
     }
 
     public void StartTutorial()
     {
-        tutorialText.text = "This is the outer layer of my software \n \n Use <b>W A S D</b> to navigate the data";
+        tutorialText.text = "Hey! Looks like youre new here, let's start with a tutorial.\n \n Use <b>W A S D</b> to move around";
     }
 
     public void MovementTutorial()
     {
-            tutorialText.text = "Use <b>Space</b> to jump over clear gaps or jump over obstacles."; 
+            tutorialText.text = "Awesome!\n\nNow you can hold <b>Shift</b> to run faster and <b>Space</b> to jump.\n\nTry heading towards the waypoint!"; 
     }
 
     public void InteractionTutorial()
     {
-        tutorialText.text = "Hold <b>Shift</b> while moving to dash and turn Immutable, this takes Energy but <b>Dashing through harmful data makes you take no damage</b>.";
-    }
-
-    public void CombatTutorial()
-    {
-        tutorialText.text = "Use the left mouse button to fire \n \n Press <b>R</b> to reload \n \n ";
+        tutorialText.text = "You can follow the objectives on the left!\n\nNow try pressing <b>V</b> to interact with the light.";
     }
 
     public void CompleteCombatTutorial()
@@ -51,7 +45,6 @@ public class Tutorial : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             completedObjective?.Invoke();
-        }
-        
+        }  
     }
 }
