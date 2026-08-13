@@ -1193,6 +1193,9 @@ MonoBehaviour:
   playerAudio: {fileID: 0}
   damagedPartSys: {fileID: 0}
   playerHurtShake: {fileID: 0}
+  dedCanvas: {fileID: 0}
+  controller: {fileID: 0}
+  shoot: {fileID: 0}
 --- !u!114 &3579614788609669993
 MonoBehaviour:
   m_ObjectHideFlags: 0
