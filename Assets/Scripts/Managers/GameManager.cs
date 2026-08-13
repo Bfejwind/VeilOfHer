@@ -79,17 +79,7 @@ public class GameManager : MonoBehaviour
     }
     public void Retry()
     {
-        if (playerController == null)
-        {
-            playerController = GameObject.Find("Player").GetComponent<FirstPersonController>();
-        }
-        if (playerShoot== null)
-        {
-            playerShoot = GameObject.Find("Player").GetComponent<Weapon>();
-        }
         DisableMouse();
-        playerController.canMove = true;
-        playerShoot.readyToShoot = true;
         string currentScene = SceneManager.GetActiveScene().name;
         SceneManager.LoadScene(currentScene);
     }
