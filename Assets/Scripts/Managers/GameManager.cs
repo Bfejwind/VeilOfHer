@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using StarterAssets;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,6 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioClip generalBGM;
     [SerializeField] private AudioClip level123BGM;
     [SerializeField] private AudioClip finalBossBGM;
+    [SerializeField] private AudioClip deathSFX;
 
 
     private void Awake()
@@ -49,6 +51,10 @@ public class GameManager : MonoBehaviour
         audioSource.loop = true;
         audioSource.Play();
     }
+    public void PlayDedSFX()
+    {
+        audioSource.PlayOneShot(deathSFX);
+    }
     public void EnableCursor()
     {
         Cursor.lockState = CursorLockMode.None;
@@ -58,5 +64,19 @@ public class GameManager : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+    public void Retry()
+    {
+        DisableMouse();
+        string currentScene = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(currentScene);
+    }
+    public void Quit()
+    {
+        Application.Quit();
+    }
+    public void StopBGM()
+    {
+        audioSource.Stop();
     }
 }

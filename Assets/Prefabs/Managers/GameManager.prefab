@@ -47,9 +47,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   lvl2bComplete: 0
   audioSource: {fileID: 7426048766329384861}
-  generalBGM: {fileID: 0}
-  meleeBossBGM: {fileID: 0}
+  generalBGM: {fileID: 8300000, guid: 2aa0d176576815343b2e9b0f25ffe84a, type: 3}
+  level123BGM: {fileID: 8300000, guid: 5abae5e766ce4394da82c414507861b7, type: 3}
   finalBossBGM: {fileID: 8300000, guid: 41684c5b10efff846b1d0175d586b65c, type: 3}
+  deathSFX: {fileID: 8300000, guid: 86e808adb96ee8846907004b17a5faa0, type: 3}
 --- !u!82 &7426048766329384861
 AudioSource:
   m_ObjectHideFlags: 0

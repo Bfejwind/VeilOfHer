@@ -34,6 +34,7 @@ public class FinalBossEntranceCues : MonoBehaviour
     }
     private void VideoFinished(VideoPlayer vp)
     {
+        Debug.Log("FinishedVid");
         playerController.canMove = true;
         playerShoot.readyToShoot = true;
         bossObj.SetActive(true);

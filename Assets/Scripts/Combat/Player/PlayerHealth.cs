@@ -78,11 +78,14 @@ public class PlayerHealth : MonoBehaviour
             StartCoroutine(DamagedInvuln(0.5f));
             if (playerHealth <= 0)
             {
+                GameManager.Instance.StopBGM();
+                GameManager.Instance.PlayDedSFX();
                 controller.canMove = false;
                 shoot.readyToShoot = false;
                 dedCanvas.SetActive(true);
                 GameManager.Instance.EnableCursor();
-                gameObject.SetActive(false);
+                Time.timeScale = 0;
+                Destroy(gameObject);
             }
         }
     }
