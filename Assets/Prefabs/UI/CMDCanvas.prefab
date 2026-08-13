@@ -4207,8 +4207,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 41c59b93159e897478bede9d8800e199, type: 2}
-  m_sharedMaterial: {fileID: -4269129713740679158, guid: 41c59b93159e897478bede9d8800e199, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c7056afea3e286149853e36f81516c99, type: 2}
+  m_sharedMaterial: {fileID: 8909423724994728927, guid: c7056afea3e286149853e36f81516c99, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4232,7 +4232,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25.55
+  m_fontSize: 26
   m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 1
