@@ -21,7 +21,7 @@ public class PlayerBehaviour : MonoBehaviour
     private float currentHackAmt;
     private float maxHackAmt = 100.0f;
     public float hackIncrement = 10.0f;
-    private float hackDecrement = 5.0f;
+    //private float hackDecrement = 5.0f;
     [SerializeField] private GameObject hackBar;
     [SerializeField] private Slider hackSlider;
     //private Coroutine hackCoroutine;

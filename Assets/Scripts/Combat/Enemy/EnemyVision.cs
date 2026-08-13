@@ -18,7 +18,7 @@ public class EnemyVision : MonoBehaviour
     private Vector3 currentPatrolPoint;
     private bool hasPatrolPoint;
     private Transform playerLastKnownPosition;
-    private bool reachedLastKnownPosition;
+    //private bool reachedLastKnownPosition;
 
     [Header("Attack Settings")]
     [SerializeField] private float attackCooldown = 1f;
