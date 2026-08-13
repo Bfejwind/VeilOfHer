@@ -1,3 +1,5 @@
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -16,11 +18,12 @@ public class ActivateDoorLast : MonoBehaviour, IInteractable
     [Tooltip("Description of the interaction for UI purposes.")]
     [SerializeField]
     public string description;
+    [SerializeField] private TMP_InputField inputChoice;
+    [SerializeField] private GameObject errorMsg;
 
     [Header("Door Events")]
     [SerializeField] 
     private UnityEvent completedTask;
-
     public void Interact()
     {
         finalDecision.SetActive(true);
