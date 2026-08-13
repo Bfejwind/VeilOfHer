@@ -116,6 +116,8 @@ public class Lvl1VirtualObjectiveManager : MonoBehaviour
 
         defeatBossInteraction.SetActive(false);
         taskUI.CompleteTask();
+
+        StartCoroutine(StartHomeAfterDelay());
     }
 
     private IEnumerator StartHomeAfterDelay()
