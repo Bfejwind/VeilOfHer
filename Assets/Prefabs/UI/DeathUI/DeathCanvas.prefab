@@ -799,7 +799,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: You have been Deleted
+  m_text: You have been Deleted.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 96dfa87b82f835f4397826825e841ae4, type: 2}
   m_sharedMaterial: {fileID: -4231040345085393593, guid: 96dfa87b82f835f4397826825e841ae4, type: 2}
@@ -826,7 +826,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 123.95
+  m_fontSize: 121.55
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
