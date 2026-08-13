@@ -49,4 +49,14 @@ public class GameManager : MonoBehaviour
         audioSource.loop = true;
         audioSource.Play();
     }
+    public void EnableCursor()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+    public void DisableMouse()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
 }

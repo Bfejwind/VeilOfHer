@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using FirstGearGames.SmoothCameraShaker;
+using StarterAssets;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -32,6 +33,10 @@ public class PlayerHealth : MonoBehaviour
     [Header("Damaged Effect")]
     [SerializeField] private ParticleSystem damagedPartSys;
     public ShakeData playerHurtShake;
+    [Header("Ded")]
+    [SerializeField] private GameObject dedCanvas;
+    [SerializeField] private FirstPersonController controller;
+    [SerializeField] private Weapon shoot;
     void Awake()
     {
         if (playerAudio == null)
@@ -50,6 +55,7 @@ public class PlayerHealth : MonoBehaviour
         playerHealth = playerMaxHealth;
         healthSlider.maxValue = playerMaxHealth;
         UpdateHealthSlider();
+        dedCanvas.SetActive(false);
     }
     private void Update()
     {
@@ -70,6 +76,14 @@ public class PlayerHealth : MonoBehaviour
             playerHealth -= amount;
             UpdateHealthSlider();
             StartCoroutine(DamagedInvuln(0.5f));
+            if (playerHealth <= 0)
+            {
+                controller.canMove = false;
+                shoot.readyToShoot = false;
+                dedCanvas.SetActive(true);
+                GameManager.Instance.EnableCursor();
+                gameObject.SetActive(false);
+            }
         }
     }
     public void OnHeal()
