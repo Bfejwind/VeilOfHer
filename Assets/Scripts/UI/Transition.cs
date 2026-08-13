@@ -84,7 +84,6 @@ public class Transition : MonoBehaviour
         while (timer < minimumVideoPlayTime || asyncLoad.progress < 0.9f)
         {
             timer += Time.unscaledDeltaTime;
-            Debug.Log($"Transition timer: {timer}, Load progress: {asyncLoad.progress}");
             yield return null;
         }
 
@@ -103,7 +102,8 @@ public class Transition : MonoBehaviour
         // 7. Fade white screen back to clear revealing the new scene
         yield return StartCoroutine(FadeCanvas(whiteScreenGroup, 1f, 0f, whiteFadeDuration));
 
-        gameObject.SetActive(false);
+        // gameObject.SetActive(false);
+        isTransitioning = false;
         Time.timeScale = 1f; // Resume the game
     }
 
