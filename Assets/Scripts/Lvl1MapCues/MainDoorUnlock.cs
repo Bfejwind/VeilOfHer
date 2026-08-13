@@ -3,8 +3,12 @@ using UnityEngine;
 public class MainDoorUnlock : MonoBehaviour
 {
     [SerializeField] private GameObject mainDoor;
-    private void OnTriggerEnter()
+    private void OnTriggerEnter(Collider other)
     {
-        mainDoor.SetActive(false);
+        if (other.CompareTag("Player"))
+        {
+            mainDoor.SetActive(false);
+            
+        }
     }
 }

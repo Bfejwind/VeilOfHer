@@ -4531,7 +4531,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Next
 
-    [SPACE]'
+    [V]'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 96dfa87b82f835f4397826825e841ae4, type: 2}
   m_sharedMaterial: {fileID: -4231040345085393593, guid: 96dfa87b82f835f4397826825e841ae4, type: 2}
@@ -12559,7 +12559,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Next
 
-    [SPACE]'
+    [V]'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 96dfa87b82f835f4397826825e841ae4, type: 2}
   m_sharedMaterial: {fileID: -4231040345085393593, guid: 96dfa87b82f835f4397826825e841ae4, type: 2}
@@ -13043,7 +13043,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'EXIT
 
-    [SPACE]'
+    [V]'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 96dfa87b82f835f4397826825e841ae4, type: 2}
   m_sharedMaterial: {fileID: -4231040345085393593, guid: 96dfa87b82f835f4397826825e841ae4, type: 2}
@@ -14086,7 +14086,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Next
 
-    [SPACE]'
+    [V]'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 96dfa87b82f835f4397826825e841ae4, type: 2}
   m_sharedMaterial: {fileID: -4231040345085393593, guid: 96dfa87b82f835f4397826825e841ae4, type: 2}
@@ -14630,6 +14630,7 @@ GameObject:
   - component: {fileID: 9060735007239015480}
   - component: {fileID: 2552487876323674489}
   - component: {fileID: 2729827685146824472}
+  - component: {fileID: 5696843986694704898}
   m_Layer: 0
   m_Name: ShortTutorialCanvas
   m_TagString: Untagged
@@ -14724,6 +14725,25 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &5696843986694704898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8494703901232484813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce9d2205b7520f468d2066a10fa56be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShortTutScript
+  playerController: {fileID: 0}
+  playerShoot: {fileID: 0}
+  tutorialScreens:
+  - {fileID: 4506052736784366078}
+  - {fileID: 2552938161084219037}
+  - {fileID: 5773188795016800988}
+  - {fileID: 8133589174224644045}
 --- !u!1 &8501049344827438453
 GameObject:
   m_ObjectHideFlags: 0

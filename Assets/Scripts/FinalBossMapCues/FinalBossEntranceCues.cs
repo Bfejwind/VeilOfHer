@@ -23,11 +23,11 @@ public class FinalBossEntranceCues : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && bossEntranceVid.isPlaying)
+        if (Input.GetKeyDown(KeyCode.V) && bossEntranceVid.isPlaying)
         {
             SkipVideo();
         }
-        else if (Input.GetKeyDown(KeyCode.Space))
+        else if (Input.GetKeyDown(KeyCode.V))
         {
             NextScreen();
         }
