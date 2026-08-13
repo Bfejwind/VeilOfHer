@@ -162,6 +162,7 @@ MonoBehaviour:
   whiteFadeDuration: 1
   logoFadeDuration: 0.5
   minimumVideoPlayTime: 5
+  targetScene: {}
 --- !u!1 &6230415225290628078
 GameObject:
   m_ObjectHideFlags: 0
@@ -174,6 +175,7 @@ GameObject:
   - component: {fileID: 2767501461434081698}
   - component: {fileID: 1281351799669929218}
   - component: {fileID: 2608210833023776506}
+  - component: {fileID: 8921813241035836738}
   m_Layer: 5
   m_Name: Transition
   m_TagString: Untagged
@@ -266,6 +268,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!225 &8921813241035836738
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6230415225290628078}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &6529071872490068018
 GameObject:
   m_ObjectHideFlags: 0
@@ -351,8 +365,8 @@ CanvasGroup:
   m_GameObject: {fileID: 6529071872490068018}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!1 &7284978821750533534
 GameObject:
@@ -400,6 +414,6 @@ CanvasGroup:
   m_GameObject: {fileID: 7284978821750533534}
   m_Enabled: 1
   m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
