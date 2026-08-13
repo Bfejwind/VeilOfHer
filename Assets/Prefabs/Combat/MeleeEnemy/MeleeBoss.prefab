@@ -140,8 +140,7 @@ MonoBehaviour:
   enemyHealth: 0
   enemyHealthWidth: 0
   enemyHealthHeight: 0
-  enemyMaxHealth: 100
-  damageAmt: 10
+  enemyMaxHealth: 1500
   healthSlider: {fileID: 7468268481995494423}
   sliderFillDuration: 0.5
   shotAt: 0
@@ -176,6 +175,7 @@ MonoBehaviour:
   warningOrigin: {fileID: 649016098975005031}
   warningPrefab: {fileID: 447081935695077368, guid: 8482d9dd356263741a6cbd44e93dbcd3, type: 3}
   playerHP: {fileID: 0}
+  throneBlock: {fileID: 0}
   terrainLayer:
     serializedVersion: 2
     m_Bits: 64

@@ -13,6 +13,7 @@ public class ShortTutScript : MonoBehaviour
         playerController.canMove = false;
         playerShoot.readyToShoot = false;
         currentTutorial = 0;
+        GameManager.Instance.Playlevel123BGM();
     }
 
     // Update is called once per frame
