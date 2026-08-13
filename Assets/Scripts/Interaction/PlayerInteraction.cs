@@ -52,7 +52,7 @@ public class PlayerInteraction : MonoBehaviour
                     hitSomething = true;
                     interactionText.text = interactable.GetDescription();
 
-                    if (Input.GetKeyDown(KeyCode.E))
+                    if (Input.GetKeyDown(KeyCode.F))
                     {
                         interactable.Interact();
                     }
