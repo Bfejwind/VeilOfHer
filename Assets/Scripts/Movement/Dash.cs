@@ -219,4 +219,9 @@ public class Dash : MonoBehaviour
         float speed = Mathf.Abs(currentStamina - staminaSlider.value) / sliderFillDuration;
         staminaSlider.value = Mathf.MoveTowards(staminaSlider.value, currentStamina, speed * Time.deltaTime);
     }
+    private void RefillStamina()
+    {
+        currentStamina += maxStamina;
+        UpdateStaminaSlider();
+    }
 }

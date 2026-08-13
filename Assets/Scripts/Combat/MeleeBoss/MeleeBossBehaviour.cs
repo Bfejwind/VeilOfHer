@@ -12,6 +12,7 @@ public class MeleeBossBehaviour : MonoBehaviour
     private Rigidbody rb;
     [SerializeField] private PlayerHealth playerHP;
     private EnemyHP enemyHP;
+    [SerializeField] private GameObject throneBlock;
 
     [Header("Layers")]
     [SerializeField] private LayerMask terrainLayer;
@@ -308,5 +309,9 @@ public class MeleeBossBehaviour : MonoBehaviour
                 return;
             }
         }
+    }
+    private void OnDestroy()
+    {
+        throneBlock.SetActive(false);
     }
 }

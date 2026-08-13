@@ -20,7 +20,8 @@ public class PlayerHealth : MonoBehaviour
     public TextMeshProUGUI currentHealNumText;
     [SerializeField] private float healAmount = 30.0f;
     [SerializeField] private ParticleSystem healPartSys;
-    
+    [Header("Damaged Invulnerability")]
+    private bool isDamaged;
     [Header("DashInvulnerability")]
     //Dash Invulnerability
     public bool IsInvulnerable { get; private set; }
@@ -56,13 +57,20 @@ public class PlayerHealth : MonoBehaviour
     }
     public void TakeDamage(float amount)
     {
-        damagedPartSys.Play();
-        //CameraEffect();
-        CameraShakerHandler.Shake(playerHurtShake);
-        playerAudio.PlayerHurt();
-        playerHealth -= amount;
-        UpdateHealthSlider();
-        StartCoroutine(DashInvulnerability(0.5f));
+        if (isDamaged)
+        {
+            return;
+        }
+        else
+        {
+            damagedPartSys.Play();
+            //CameraEffect();
+            CameraShakerHandler.Shake(playerHurtShake);
+            playerAudio.PlayerHurt();
+            playerHealth -= amount;
+            UpdateHealthSlider();
+            StartCoroutine(DamagedInvuln(0.5f));
+        }
     }
     public void OnHeal()
     {
@@ -102,6 +110,13 @@ public class PlayerHealth : MonoBehaviour
 
         IsInvulnerable = false;
     }
+    private IEnumerator DamagedInvuln(float duration)
+    {
+        isDamaged = true;
+        yield return new WaitForSeconds(duration);
+        isDamaged = false;
+    }
+    
     private void UpdateHealthSlider()
     {
         playerHealth = Mathf.Clamp(playerHealth, 0f, playerMaxHealth);

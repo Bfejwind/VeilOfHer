@@ -14,6 +14,10 @@ public class HealingRefill : MonoBehaviour
             }
 
         }
+        if (other.TryGetComponent(out Dash stamina))
+        {
+            stamina.RefillStamina();
+        }
     }
     private IEnumerator RefillInterval(PlayerHealth playerHp)
     {
