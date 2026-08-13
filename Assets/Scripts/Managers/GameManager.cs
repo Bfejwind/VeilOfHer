@@ -33,6 +33,16 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(sceneName);
     }
+    public void GMEnterGame()
+    {
+        LoadScene("OutdoorsScene");
+        DisableMouse();
+    }
+    public void GMEnterArena()
+    {
+        LoadScene("Arena");
+        DisableMouse();
+    }
     public void PlayGeneralBGM()
     {
         audioSource.clip = generalBGM;
