@@ -24,7 +24,10 @@ public class Transition : MonoBehaviour
     [Header("Target Scene")]
     [SerializeField]
     public Scene targetScene;
+
     public static Transition Instance;
+
+    private bool isTransitioning = false;
 
     private void Awake()
     {
@@ -34,6 +37,8 @@ public class Transition : MonoBehaviour
             return;
         }
         Instance = this;
+
+        transform.SetParent(null); // ensure it's a root object before persisting
         DontDestroyOnLoad(gameObject);
         
         // Initial States
@@ -44,8 +49,13 @@ public class Transition : MonoBehaviour
 
     public void StartTransition(string targetScene)
     {
+        if (isTransitioning) return;
+        isTransitioning = true;
+
         transitionCanvas.SetActive(true);
+        Time.timeScale = 0f; // Pause the game during the transition
         StartCoroutine(TransitionSequence(targetScene));
+        Debug.Log("Transition started to scene: " + targetScene);
     }
 
     private IEnumerator TransitionSequence(string targetScene)
@@ -73,7 +83,8 @@ public class Transition : MonoBehaviour
         float timer = 0f;
         while (timer < minimumVideoPlayTime || asyncLoad.progress < 0.9f)
         {
-            timer += Time.deltaTime;
+            timer += Time.unscaledDeltaTime;
+            Debug.Log($"Transition timer: {timer}, Load progress: {asyncLoad.progress}");
             yield return null;
         }
 
@@ -93,6 +104,7 @@ public class Transition : MonoBehaviour
         yield return StartCoroutine(FadeCanvas(whiteScreenGroup, 1f, 0f, whiteFadeDuration));
 
         gameObject.SetActive(false);
+        Time.timeScale = 1f; // Resume the game
     }
 
     private IEnumerator FadeCanvas(CanvasGroup group, float startAlpha, float endAlpha, float duration)
@@ -100,7 +112,7 @@ public class Transition : MonoBehaviour
         float elapsedTime = 0f;
         while (elapsedTime < duration)
         {
-            elapsedTime += Time.deltaTime;
+            elapsedTime += Time.unscaledDeltaTime;
             group.alpha = Mathf.Lerp(startAlpha, endAlpha, elapsedTime / duration);
             yield return null;
         }

@@ -30,10 +30,19 @@ public class Lvl2VirtualObjectiveManager : MonoBehaviour
     [SerializeField] private float nextTaskDelay = 1.5f;
 
     private ObjectiveStage currentStage;
+    private GameManager gameManager;
 
     private void Start()
     {
         StartDoorToOutsideObjective();
+        if (gameManager.lvl2bComplete)
+        {
+            StartCoroutine(StartUpstairsAfterDelay());
+        }
+        else
+        {
+            return;
+        }
     }
 
     private void StartDoorToOutsideObjective()
@@ -46,7 +55,7 @@ public class Lvl2VirtualObjectiveManager : MonoBehaviour
             homeActive: false
         );
 
-        taskUI.ShowTask("Go through the door to find out more");
+        taskUI.ShowTask("Defeat the enemies and go through the door to find out more");
         waypointUI.SetTarget(doorTarget);
         waypointUI.ShowWaypoint();
     }
@@ -77,7 +86,7 @@ public class Lvl2VirtualObjectiveManager : MonoBehaviour
             homeActive: false
         );
 
-        taskUI.ShowTask("Go upstairs to go home");
+        taskUI.ShowTask("Go upstairs");
         waypointUI.SetTarget(stairsTarget);
         waypointUI.ShowWaypoint();
     }

@@ -9,13 +9,16 @@ public class ActivateDoor : MonoBehaviour, IInteractable
     [SerializeField]
     public string targetSceneName; // The name of the scene to load when the door is activated
 
+    public string transitionToLoad; // The name of the transition to load when the door is activated
+
     [Header("Interaction Description")]
     [Tooltip("Description of the interaction for UI purposes.")]
     [SerializeField]
     public string description;
 
     [Header("Door Events")]
-    [SerializeField] private UnityEvent completedTask;
+    [SerializeField] 
+    private UnityEvent completedTask;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -26,6 +29,7 @@ public class ActivateDoor : MonoBehaviour, IInteractable
     public void Interact()
     {
         Transition.Instance.StartTransition(targetSceneName);
+        
         completedTask?.Invoke();
     }
 

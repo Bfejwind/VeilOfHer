@@ -752,6 +752,7 @@ GameObject:
   - component: {fileID: 1011336338093602938}
   - component: {fileID: 6318586995270157257}
   - component: {fileID: 6796578905823494041}
+  - component: {fileID: 2475908606098840945}
   m_Layer: 7
   m_Name: PlayerCapsule
   m_TagString: Player
@@ -818,6 +819,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55919ac34a26952479f3fc91f777b2fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canMove: 1
   MoveSpeed: 8
   CrouchSpeed: 2
   SprintSpeed: 12
@@ -997,9 +999,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7c9defbbdbca204d848a4aaf4d15f14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Dash
+  maxStamina: 100
+  staminaCost: 25
+  staminaRefund: 15
+  staminaRegenRate: 10
+  staminaSlider: {fileID: 0}
+  sliderFillDuration: 0.5
+  staminaText: {fileID: 0}
+  dashThrough: 0
   dashSpeed: 16
   dashTime: 0.3
   dashCooldown: 1
+  reducedCD: 0.3
+  dashFXMaterial: {fileID: 0}
+  dashEffectFadeTime: 0.15
+  playerAudio: {fileID: 0}
 --- !u!114 &1398833561735612596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1062,9 +1076,6 @@ MonoBehaviour:
   bulletVelocity: 30
   bulletLifetime: 3
   baseDamage: 20
-  chargedBulletPrefab: {fileID: 2877888806307607821, guid: 41cee6bf7abe4ef478529488d5ec2fee, type: 3}
-  chargeSpeed: 0
-  chargeTime: 0
   reloadTime: 1.8
   magazineSize: 15
   bulletsLeft: 0
@@ -1088,11 +1099,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBehaviour
   shieldReady: 0
   shieldDeployed: 0
-  reflectProjectile: {fileID: 0}
   shieldObject: {fileID: 5479846622405780191}
   bulletDamageMultiplier: 1
   abilityDamageMultiplier: 1
   bulletDamageUpgrade: 0
+  hackIncrement: 10
+  hackBar: {fileID: 0}
+  hackSlider: {fileID: 0}
 --- !u!114 &7384569587076303724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1132,6 +1145,7 @@ MonoBehaviour:
   maxCharges: 2
   currentCharges: 0
   rechargeTime: 10
+  isRecharging: 0
   cdTracker: {fileID: 0}
   abilityLoaded: 0
   aoeDamageMod: 0
@@ -1148,6 +1162,7 @@ MonoBehaviour:
   indicatorLaunchForce: 20
   impactPoint: {x: 0, y: 0, z: 0}
   scuffedWeaponDelay: 0.5
+  playerHurtShake: {fileID: 0}
 --- !u!114 &92758658360049068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1165,14 +1180,19 @@ MonoBehaviour:
   playerHealthHeight: 0
   playerMaxHealth: 100
   healthSlider: {fileID: 0}
+  sliderFillDuration: 0.5
+  healthText: {fileID: 0}
   currentHealNum: 0
   currentRecharge: 0
+  maxRecharge: 100
   rechargeSlider: {fileID: 0}
   currentHealNumText: {fileID: 0}
   healAmount: 30
+  healPartSys: {fileID: 0}
   Shield: {fileID: 5479846622405780191}
-  screenShake: {fileID: 0}
   playerAudio: {fileID: 0}
+  damagedPartSys: {fileID: 0}
+  playerHurtShake: {fileID: 0}
 --- !u!114 &3579614788609669993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1334,6 +1354,26 @@ MonoBehaviour:
   healOrbPickUpSFX: {fileID: 0}
   healRechargedSFX: {fileID: 0}
   healSFX: {fileID: 0}
+  mutedSource: {fileID: 0}
+  dashSFX: {fileID: 0}
+  dashThroughSFX: {fileID: 0}
+--- !u!114 &2475908606098840945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8616685848737228372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 049f1a74941c2d04cb16ea8639888fb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInteraction
+  playerCamera: {fileID: 0}
+  interactionRange: 3
+  interactionPrompt: {fileID: 0}
+  interactionText: {fileID: 0}
+  mementoCanvas: {fileID: 0}
 --- !u!1001 &1378887108650660760
 PrefabInstance:
   m_ObjectHideFlags: 0
