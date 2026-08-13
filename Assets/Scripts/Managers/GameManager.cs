@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public bool lvl2bComplete;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip generalBGM;
-    [SerializeField] private AudioClip meleeBossBGM;
+    [SerializeField] private AudioClip level123BGM;
     [SerializeField] private AudioClip finalBossBGM;
 
 
@@ -30,6 +30,18 @@ public class GameManager : MonoBehaviour
     public void LoadScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
+    }
+    public void PlayGeneralBGM()
+    {
+        audioSource.clip = generalBGM;
+        audioSource.loop = true;
+        audioSource.Play();
+    }
+    public void Playlevel123BGM()
+    {
+        audioSource.clip = level123BGM;
+        audioSource.loop = true;
+        audioSource.Play();
     }
     public void PlayFinalBossBGM()
     {
