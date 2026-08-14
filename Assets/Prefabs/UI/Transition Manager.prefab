@@ -161,7 +161,7 @@ MonoBehaviour:
   videoPlayer: {fileID: 2867802277494802348}
   whiteFadeDuration: 1
   logoFadeDuration: 0.5
-  minimumVideoPlayTime: 5
+  minimumVideoPlayTime: 3
   targetScene: {}
 --- !u!1 &6230415225290628078
 GameObject:

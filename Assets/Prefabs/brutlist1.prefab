@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1073224248565753062}
   - component: {fileID: 3540242094351574077}
   - component: {fileID: 3217599372842486578}
+  - component: {fileID: 2431738889272318253}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -91,6 +92,27 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &2431738889272318253
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643671896012596304}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.0230545, y: 3.500302, z: 3.1979866}
+  m_Center: {x: -1.5053425, y: 1.750151, z: -1.445097}
 --- !u!1 &5038210465005879605
 GameObject:
   m_ObjectHideFlags: 0
@@ -102,6 +124,7 @@ GameObject:
   - component: {fileID: 8920033264362161390}
   - component: {fileID: 5008126556075543677}
   - component: {fileID: 2657583941647174661}
+  - component: {fileID: 1013753699583803854}
   m_Layer: 0
   m_Name: Cube.001
   m_TagString: Untagged
@@ -181,6 +204,27 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &1013753699583803854
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5038210465005879605}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.4896135, y: 2.497839, z: 2.407749}
+  m_Center: {x: 0.21289349, y: 1.2552443, z: -0.0073553566}
 --- !u!1 &7226292657063497332
 GameObject:
   m_ObjectHideFlags: 0
@@ -192,6 +236,7 @@ GameObject:
   - component: {fileID: 4480892971213428646}
   - component: {fileID: 163465017908837251}
   - component: {fileID: 1252063748475099509}
+  - component: {fileID: 5989230684448579087}
   m_Layer: 0
   m_Name: Wall-mounted air conditioner.002
   m_TagString: Untagged
@@ -271,6 +316,27 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &5989230684448579087
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7226292657063497332}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.119358, y: 0.78503895, z: 0.774551}
+  m_Center: {x: 0.03848946, y: 0.30481505, z: 0.38727525}
 --- !u!1 &7595773688464306793
 GameObject:
   m_ObjectHideFlags: 0
@@ -317,6 +383,7 @@ GameObject:
   - component: {fileID: 8820017514832563678}
   - component: {fileID: 3108884261622204312}
   - component: {fileID: 6960782122461095109}
+  - component: {fileID: 4190469800303128908}
   m_Layer: 0
   m_Name: Wall-mounted air conditioner.001
   m_TagString: Untagged
@@ -396,3 +463,24 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &4190469800303128908
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8424939926478039677}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.119358, y: 0.78503895, z: 0.774551}
+  m_Center: {x: 0.03849387, y: 0.30481505, z: 0.38726}

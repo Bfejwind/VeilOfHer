@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8113254576987309094}
   - component: {fileID: 3404953183184336610}
   - component: {fileID: 8084467675995923344}
+  - component: {fileID: 3429950202970215085}
   m_Layer: 0
   m_Name: electrical_substation
   m_TagString: Untagged
@@ -90,3 +91,24 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &3429950202970215085
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2301108162417108780}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 9.81559, y: 6.3204546, z: 4.4861736}
+  m_Center: {x: -4.907794, y: 2.6670768, z: 2.2430844}
