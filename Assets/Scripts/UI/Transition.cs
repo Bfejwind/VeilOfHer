@@ -23,7 +23,7 @@ public class Transition : MonoBehaviour
 
     [Header("Target Scene")]
     [SerializeField]
-    public Scene targetScene;
+    private Scene targetScene;
 
     public static Transition Instance;
 
@@ -49,7 +49,10 @@ public class Transition : MonoBehaviour
 
     public void StartTransition(string targetScene)
     {
-        if (isTransitioning) return;
+        if (isTransitioning) 
+        {
+            return;
+        }
         isTransitioning = true;
 
         transitionCanvas.SetActive(true);
@@ -102,7 +105,6 @@ public class Transition : MonoBehaviour
         // 7. Fade white screen back to clear revealing the new scene
         yield return StartCoroutine(FadeCanvas(whiteScreenGroup, 1f, 0f, whiteFadeDuration));
 
-        // gameObject.SetActive(false);
         isTransitioning = false;
         Time.timeScale = 1f; // Resume the game
     }
